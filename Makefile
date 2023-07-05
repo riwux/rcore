@@ -3,7 +3,7 @@
 .SUFFIXES:
 .SUFFIXES: .c
 
-include config.mk
+include config.mak
 
 POSIX_DIR   = posix
 INCLUDE_DIR = include
