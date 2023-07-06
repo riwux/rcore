@@ -4,7 +4,7 @@
 #include "util.h"
 
 void *
-emalloc(size_t size)
+xmalloc(size_t size)
 {
 	void *buf;
 
@@ -15,7 +15,7 @@ emalloc(size_t size)
 }
 
 void *
-erealloc(void *buf, size_t size)
+xrealloc(void *buf, size_t size)
 {
 	if (!(buf = realloc(buf, size)))
 		die("realloc:");

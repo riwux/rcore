@@ -16,7 +16,7 @@ get_line(int fd, Buf *buf)
 	while ((n = read(fd, &c, 1)) > 0) {
 		if ((ret += n) >= buf->size) {
 			buf->size *= 2;
-			buf->data = erealloc(buf->data, buf->size);
+			buf->data = xrealloc(buf->data, buf->size);
 		}
 
 		buf->data[i++] = c;

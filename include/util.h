@@ -20,8 +20,7 @@ void tell(char *);
 
 ssize_t get_line(int, Buf *);
 
-void *emalloc(size_t);
-void *erealloc(void *, size_t);
-
+void *xmalloc(size_t);
+void *xrealloc(void *, size_t);
 
 #endif /* UTIL_H_ */

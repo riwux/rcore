@@ -6,8 +6,8 @@ buf_create(size_t size)
 {
 	Buf *buf;
 
-	buf = emalloc(sizeof(*buf));
-	buf->data = emalloc(size);
+	buf = xmalloc(sizeof(*buf));
+	buf->data = xmalloc(size);
 	buf->size = size;
 
 	return buf;
