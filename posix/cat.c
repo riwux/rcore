@@ -53,7 +53,7 @@ main(int argc, char *argv[])
 		cat(fd);
 
 		/* avoid closing stdin, stdout & stderr */
-		if (fd >= 0 && fd <= 2)
+		if (fd > 2)
 			close(fd);
 	}
 }
