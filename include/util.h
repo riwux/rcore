@@ -7,6 +7,8 @@
 #define TOP_DOWN 0
 #define BOTTOM_UP 1
 
+#define BUFLEN 4096
+
 typedef struct Buf Buf;
 struct Buf {
 	char *data;
@@ -14,10 +16,13 @@ struct Buf {
 };
 
 Buf *buf_create(size_t);
+void buf_free(Buf *);
 
 void die(char *);
 void tell(char *);
 
+ssize_t write_all(int, void *, size_t);
+void xwrite_all(int, void *, size_t);
 ssize_t get_line(int, Buf *);
 
 void *xmalloc(size_t);
