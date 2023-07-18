@@ -1,8 +1,5 @@
 /* See LICENSE file for copyright and license details. */
 #include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
 
 #include "util.h"
@@ -16,11 +13,15 @@ usage(void)
 static void
 cat(int fd)
 {
-	Buf *buf = buf_create(BUFSIZ);
+	ssize_t n;
+	Buf *buf = buf_create(BUFLEN);
 
-	for (ssize_t n = get_line(fd, buf); n > 0; n = get_line(fd, buf)) {
-		fputs(buf->data, stdout);
-	}
+	while ((n = read(fd, buf->data, buf->size)) > 0)
+		xwrite_all(STDOUT_FILENO, buf->data, n);
+	if (n == -1)
+		die("read:");
+
+	buf_free(buf);
 }
 
 int
