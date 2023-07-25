@@ -18,7 +18,7 @@ struct Buf {
 Buf *buf_create(size_t);
 void buf_free(Buf *);
 
-void die(char *);
+void die(char *, ...);
 void tell(char *);
 
 ssize_t write_all(int, void *, size_t);
