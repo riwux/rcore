@@ -19,9 +19,3 @@ die(char *fmt, ...)
 
 	exit(1);
 }
-
-void
-tell(char *msg)
-{
-	fputs(msg, stderr);
-}
