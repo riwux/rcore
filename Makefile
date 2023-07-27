@@ -32,16 +32,16 @@ LIBUTIL   = $(LIBUTIL_DIR)/libutil.a
 all: lib posix $(HDR)
 
 # Libraries
-lib: libutil
+lib: $(LIBUTIL)
 
-libutil:
+$(LIBUTIL):
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $(LIBUTIL_SRC)
 	$(MV) *.o $(LIBUTIL_DIR)
 	$(AR) $(ARFLAGS) $(LIBUTIL) $(LIBUTIL_OBJ)
 
 
 # Binaries
-posix: libutil $(POSIX_BIN)
+posix: $(LIBUTIL) $(POSIX_BIN)
 
 .c:
 	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $< $(LIBUTIL)
@@ -49,4 +49,4 @@ posix: libutil $(POSIX_BIN)
 clean:
 	rm -f $(POSIX_BIN) $(LIBUTIL) $(LIBUTIL_OBJ)
 
-.PHONY: all posix lib libutil clean
+.PHONY: all posix lib clean
