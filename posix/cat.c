@@ -10,20 +10,6 @@ usage(void)
 	die("usage: cat [-u] [file...]\n");
 }
 
-static void
-cat(int fd)
-{
-	ssize_t n;
-	Buf *buf = buf_create(BUFLEN);
-
-	while ((n = read(fd, buf->data, buf->size)) > 0)
-		xwrite_all(STDOUT_FILENO, buf->data, n);
-	if (n == -1)
-		die("read:");
-
-	buf_free(buf);
-}
-
 int
 main(int argc, char *argv[])
 {
@@ -31,7 +17,8 @@ main(int argc, char *argv[])
 	char *arg;
 
 	if (argc == 1) {
-		cat(STDIN_FILENO);
+		if (output_file(STDIN_FILENO))
+			die("output_file:");
 		return 0;
 	}
 
@@ -51,7 +38,8 @@ main(int argc, char *argv[])
 		} else if ((fd = open(*argv, O_RDONLY)) < 0) {
 			die("open:");
 		}
-		cat(fd);
+		if (output_file(fd))
+			die("output_file:");
 
 		/* avoid closing stdin, stdout & stderr */
 		if (fd > 2)

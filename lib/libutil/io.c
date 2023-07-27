@@ -4,6 +4,19 @@
 
 #include "util.h"
 
+int
+output_file(int fd)
+{
+	ssize_t n;
+	Buf *buf = buf_create(BUFLEN);
+
+	while ((n = read(fd, buf->data, buf->size)) > 0)
+		xwrite_all(STDOUT_FILENO, buf->data, n);
+	buf_free(buf);
+
+	return (n < 0) ? 1 : 0;
+}
+
 ssize_t
 write_all(int fd, void *buf, size_t count)
 {

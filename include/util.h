@@ -20,6 +20,7 @@ void buf_free(Buf *);
 
 void die(char *, ...);
 
+int output_file(int);
 ssize_t write_all(int, void *, size_t);
 void xwrite_all(int, void *, size_t);
 ssize_t get_line(int, Buf *);
