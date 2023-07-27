@@ -14,6 +14,7 @@ HDR =\
      $(INCLUDE_DIR)/util.h
 
 POSIX_SRC =\
+           $(POSIX_DIR)/basename.c\
            $(POSIX_DIR)/cat.c
 
 LIBUTIL_SRC =\
