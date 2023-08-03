@@ -2,7 +2,7 @@
 CC       = cc
 CFLAGS   = -std=c99 -pedantic -Wall
 CPPFLAGS = -Iinclude/
-LDFLAGS  =
+LDFLAGS  = -s
 
 AR      = ar
 ARFLAGS = rcs

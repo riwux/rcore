@@ -44,7 +44,7 @@ $(LIBUTIL):
 posix: $(LIBUTIL) $(POSIX_BIN)
 
 .c:
-	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $< $(LIBUTIL)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $< $(LIBUTIL) $(LDFLAGS)
 
 clean:
 	rm -f $(POSIX_BIN) $(LIBUTIL) $(LIBUTIL_OBJ)
