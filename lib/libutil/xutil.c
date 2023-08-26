@@ -22,3 +22,10 @@ xrealloc(void *buf, size_t size)
 
 	return buf;
 }
+
+void
+xwrite_all(int fd, void *buf, size_t count)
+{
+	if (write_all(fd, buf, count) == -1)
+		die("write_all:");
+}

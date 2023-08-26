@@ -19,10 +19,9 @@ POSIX_SRC =\
            $(POSIX_DIR)/dirname.c
 
 LIBUTIL_SRC =\
-             $(LIBUTIL_DIR)/alloc.c\
              $(LIBUTIL_DIR)/buf.c\
-             $(LIBUTIL_DIR)/error.c\
-             $(LIBUTIL_DIR)/io.c
+             $(LIBUTIL_DIR)/util.c\
+             $(LIBUTIL_DIR)/xutil.c
 
 LIBUTIL_OBJ = $(LIBUTIL_SRC:.c=.o)
 
