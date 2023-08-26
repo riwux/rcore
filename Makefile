@@ -15,7 +15,8 @@ HDR =\
 
 POSIX_SRC =\
            $(POSIX_DIR)/basename.c\
-           $(POSIX_DIR)/cat.c
+           $(POSIX_DIR)/cat.c\
+           $(POSIX_DIR)/dirname.c
 
 LIBUTIL_SRC =\
              $(LIBUTIL_DIR)/alloc.c\
