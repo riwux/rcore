@@ -16,7 +16,8 @@ HDR =\
 POSIX_SRC =\
            $(POSIX_DIR)/basename.c\
            $(POSIX_DIR)/cat.c\
-           $(POSIX_DIR)/dirname.c
+           $(POSIX_DIR)/dirname.c\
+           $(POSIX_DIR)/tee.c
 
 LIBUTIL_SRC =\
              $(LIBUTIL_DIR)/buf.c\
