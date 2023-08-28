@@ -42,7 +42,8 @@ $(LIBUTIL):
 
 
 # Binaries
-posix: $(LIBUTIL) $(POSIX_BIN)
+posix: $(POSIX_BIN)
+$(POSIX_BIN): $(LIBUTIL)
 
 .c:
 	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $< $(LIBUTIL) $(LDFLAGS)
