@@ -15,9 +15,8 @@ usage(void)
 int
 main(int argc, char *argv[])
 {
-	int ret, opt, tmpfd;
-	int flags = O_WRONLY | O_CREAT;
-	int aflag = O_TRUNC;
+	int ret, opt;
+	int flags = O_WRONLY | O_CREAT | O_TRUNC;
 	int *fds;
 	ssize_t n;
 	Buf *buf = buf_create(BUFLEN);
@@ -25,7 +24,7 @@ main(int argc, char *argv[])
 	while ((opt = getopt(argc, argv, "ai")) != -1) {
 		switch (opt) {
 		case 'a':
-			aflag = O_APPEND;
+			flags = (flags & ~O_TRUNC) | O_APPEND;
 			break;
 		case 'i':
 			if (signal(SIGINT, SIG_IGN) == SIG_ERR)
@@ -41,13 +40,10 @@ main(int argc, char *argv[])
 	fds = xmalloc(argc+1);
 
 	for (int i = 0; i < argc; ++i) {
-		if ((tmpfd = open(argv[i], flags | aflag, 0666)) < 0) {
+		if ((fds[i] = open(argv[i], flags, 0666)) < 0) {
 			perror(argv[i]);
 			ret = 1;
-			fds[i] = -1;
-			continue;
 		}
-		fds[i] = tmpfd;
 	}
 	fds[argc] = STDOUT_FILENO;
 
