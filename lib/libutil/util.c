@@ -24,13 +24,13 @@ die(char *fmt, ...)
 }
 
 int
-output_file(int fd)
+copy_file(int out_fd, int in_fd)
 {
 	ssize_t n;
 	Buf *buf = buf_create(BUFLEN);
 
-	while ((n = read(fd, buf->data, buf->size)) > 0)
-		xwrite_all(STDOUT_FILENO, buf->data, n);
+	while ((n = read(in_fd, buf->data, buf->size)) > 0)
+		xwrite_all(out_fd, buf->data, n);
 	buf_free(buf);
 
 	return (n < 0) ? 1 : 0;

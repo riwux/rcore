@@ -17,8 +17,8 @@ main(int argc, char *argv[])
 	char *arg;
 
 	if (argc == 1) {
-		if (output_file(STDIN_FILENO))
-			die("output_file:");
+		if (copy_file(STDOUT_FILENO, STDIN_FILENO))
+			die("copy_file:");
 		return 0;
 	}
 
@@ -38,8 +38,8 @@ main(int argc, char *argv[])
 		} else if ((fd = open(*argv, O_RDONLY)) < 0) {
 			die("open:");
 		}
-		if (output_file(fd))
-			die("output_file:");
+		if (copy_file(STDOUT_FILENO, fd))
+			die("copy_file:");
 
 		/* avoid closing stdin, stdout & stderr */
 		if (fd > 2)
