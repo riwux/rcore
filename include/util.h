@@ -24,5 +24,6 @@ ssize_t get_line(int, Buf *);
 void *xmalloc(size_t);
 void *xrealloc(void *, size_t);
 void xwrite_all(int, void *, size_t);
+void xclose(int);
 
 #endif /* UTIL_H_ */

@@ -1,5 +1,6 @@
 /* See LICENSE file for copyright and license details. */
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "util.h"
 
@@ -28,4 +29,11 @@ xwrite_all(int fd, void *buf, size_t count)
 {
 	if (write_all(fd, buf, count) == -1)
 		die("write_all:");
+}
+
+void
+xclose(int fd)
+{
+	if (fd != -1 && close(fd) < 0)
+		die("close:");
 }

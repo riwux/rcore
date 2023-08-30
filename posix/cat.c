@@ -43,6 +43,6 @@ main(int argc, char *argv[])
 
 		/* avoid closing stdin, stdout & stderr */
 		if (fd > 2)
-			close(fd);
+			xclose(fd);
 	}
 }
