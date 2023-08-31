@@ -7,7 +7,7 @@
 static void
 usage(void)
 {
-	die("usage: cat [-u] [file...]\n");
+	die(FAILURE, "usage: cat [-u] [file...]");
 }
 
 int
@@ -18,7 +18,7 @@ main(int argc, char *argv[])
 
 	if (argc == 1) {
 		if (copy_file(STDOUT_FILENO, STDIN_FILENO))
-			die("copy_file:");
+			die(FAILURE, "copy_file:");
 		return 0;
 	}
 
@@ -36,10 +36,10 @@ main(int argc, char *argv[])
 				break;
 			}
 		} else if ((fd = open(*argv, O_RDONLY)) < 0) {
-			die("open:");
+			die(FAILURE, "open: %s:", *argv);
 		}
 		if (copy_file(STDOUT_FILENO, fd))
-			die("copy_file:");
+			die(FAILURE, "copy_file:");
 
 		/* avoid closing stdin, stdout & stderr */
 		if (fd > 2)

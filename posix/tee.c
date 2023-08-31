@@ -9,7 +9,7 @@
 static void
 usage(void)
 {
-	die("usage: tee [-ai] [file...]\n");
+	die(FAILURE, "usage: tee [-ai] [file...]");
 }
 
 int
@@ -28,7 +28,7 @@ main(int argc, char *argv[])
 			break;
 		case 'i':
 			if (signal(SIGINT, SIG_IGN) == SIG_ERR)
-				die("signal:");
+				die(FAILURE, "signal:");
 			break;
 		default:
 			usage();

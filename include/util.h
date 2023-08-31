@@ -4,6 +4,7 @@
 
 #include <sys/types.h> /* mode_t ; (s)size_t */
 
+#define FAILURE 1
 #define BUFLEN 4096
 
 typedef struct Buf Buf;
@@ -15,7 +16,7 @@ struct Buf {
 Buf *buf_create(size_t);
 void buf_free(Buf *);
 
-void die(char *, ...);
+void die(int, char *, ...);
 
 int copy_file(int, int);
 ssize_t write_all(int, void *, size_t);

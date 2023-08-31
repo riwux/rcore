@@ -8,7 +8,7 @@
 #include "util.h"
 
 void
-die(char *fmt, ...)
+die(int status, char *fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
@@ -16,11 +16,13 @@ die(char *fmt, ...)
 	va_end(args);
 
 	if (fmt[0] && fmt[strlen(fmt)-1] == ':') {
-		fprintf(stderr, "%s ", fmt);
+		fputc(' ', stderr);
 		perror(NULL);
+	} else {
+		fputc('\n', stderr);
 	}
 
-	exit(1);
+	exit(status);
 }
 
 int

@@ -8,7 +8,7 @@
 static void
 usage(void)
 {
-	die("usage: basename path [suffix]\n");
+	die(FAILURE, "usage: basename path [suffix]");
 }
 
 int

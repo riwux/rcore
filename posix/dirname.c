@@ -7,7 +7,7 @@
 static void
 usage(void)
 {
-	die("usage: dirname path\n");
+	die(FAILURE, "usage: dirname path");
 }
 
 int
