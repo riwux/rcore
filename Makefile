@@ -19,7 +19,8 @@ POSIX_SRC =\
            $(POSIX_DIR)/dirname.c\
            $(POSIX_DIR)/false.c\
            $(POSIX_DIR)/tee.c\
-           $(POSIX_DIR)/true.c
+           $(POSIX_DIR)/true.c\
+           $(POSIX_DIR)/tty.c
 
 LIBUTIL_SRC =\
              $(LIBUTIL_DIR)/buf.c\
