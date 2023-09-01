@@ -1,4 +1,8 @@
 # See LICENSE file for copyright and license details.
+PREFIX = /usr/local
+BINDIR = $(PREFIX)/bin
+MANDIR = $(PREFIX)/share/man/man1
+
 CC       = cc
 CFLAGS   = -std=c99 -pedantic -Wall
 CPPFLAGS = -Iinclude/
@@ -6,5 +10,3 @@ LDFLAGS  = -s
 
 AR      = ar
 ARFLAGS = rcs
-MV      = mv
-INSTALL = install

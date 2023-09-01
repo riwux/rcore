@@ -35,12 +35,20 @@ LIBUTIL   = $(LIBUTIL_DIR)/libutil.a
 
 all: lib posix $(HDR)
 
+install: all
+	@mkdir -p $(BINDIR)
+	cp -f $(POSIX_BIN) $(BINDIR)
+
+uninstall:
+	@printf "Removing $(POSIX_BIN)\n"
+	@for i in $(POSIX_BIN); do rm -f $(BINDIR)/$$(basename $$i); done
+
 # Libraries
 lib: $(LIBUTIL)
 
 $(LIBUTIL):
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $(LIBUTIL_SRC)
-	$(MV) *.o $(LIBUTIL_DIR)
+	mv *.o $(LIBUTIL_DIR)
 	$(AR) $(ARFLAGS) $(LIBUTIL) $(LIBUTIL_OBJ)
 
 
@@ -54,4 +62,4 @@ $(POSIX_BIN): $(LIBUTIL)
 clean:
 	rm -f $(POSIX_BIN) $(LIBUTIL) $(LIBUTIL_OBJ)
 
-.PHONY: all posix lib clean
+.PHONY: all install uninstall posix lib clean
