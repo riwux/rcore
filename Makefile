@@ -5,22 +5,24 @@
 
 include config.mak
 
-POSIX_DIR   = posix
-INCLUDE_DIR = include
-LIB_DIR     = lib
-LIBUTIL_DIR = $(LIB_DIR)/libutil
+POSIX_DIR     = posix
+POSIX_SRC_DIR = $(POSIX_DIR)/src
+POSIX_MAN_DIR = $(POSIX_DIR)/man
+INCLUDE_DIR   = include
+LIB_DIR       = lib
+LIBUTIL_DIR   = $(LIB_DIR)/libutil
 
 HDR =\
      $(INCLUDE_DIR)/util.h
 
 POSIX_SRC =\
-           $(POSIX_DIR)/basename.c\
-           $(POSIX_DIR)/cat.c\
-           $(POSIX_DIR)/dirname.c\
-           $(POSIX_DIR)/false.c\
-           $(POSIX_DIR)/tee.c\
-           $(POSIX_DIR)/true.c\
-           $(POSIX_DIR)/tty.c
+           $(POSIX_SRC_DIR)/basename.c\
+           $(POSIX_SRC_DIR)/cat.c\
+           $(POSIX_SRC_DIR)/dirname.c\
+           $(POSIX_SRC_DIR)/false.c\
+           $(POSIX_SRC_DIR)/tee.c\
+           $(POSIX_SRC_DIR)/true.c\
+           $(POSIX_SRC_DIR)/tty.c
 
 LIBUTIL_SRC =\
              $(LIBUTIL_DIR)/buf.c\
