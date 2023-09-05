@@ -20,5 +20,4 @@ buf_free(Buf *buf)
 {
 	free(buf->data);
 	free(buf);
-	buf = NULL;
 }
