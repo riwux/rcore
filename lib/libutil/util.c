@@ -29,7 +29,7 @@ int
 copy_file(int out_fd, int in_fd)
 {
 	ssize_t n;
-	Buf *buf = buf_create(BUFLEN);
+	struct Buf *buf = buf_create(BUFLEN);
 
 	while ((n = read(in_fd, buf->data, buf->size)) > 0)
 		xwrite_all(out_fd, buf->data, n);
@@ -56,7 +56,7 @@ write_all(int fd, void *buf, size_t count)
 
 /* FIXME: awfully inefficient */
 ssize_t
-get_line(int fd, Buf *buf)
+get_line(int fd, struct Buf *buf)
 {
 	ssize_t n;
 	ssize_t ret = 0;

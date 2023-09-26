@@ -9,7 +9,7 @@
 static void
 usage(void)
 {
-	die(FAILURE, "usage: tee [-ai] [file...]");
+	die(1, "usage: tee [-ai] [file...]");
 }
 
 int
@@ -19,7 +19,7 @@ main(int argc, char *argv[])
 	int flags = O_WRONLY | O_CREAT | O_TRUNC;
 	int *fds;
 	ssize_t n;
-	Buf *buf = buf_create(BUFLEN);
+	struct Buf *buf = buf_create(BUFLEN);
 
 	while ((opt = getopt(argc, argv, "ai")) != -1) {
 		switch (opt) {
@@ -28,7 +28,7 @@ main(int argc, char *argv[])
 			break;
 		case 'i':
 			if (signal(SIGINT, SIG_IGN) == SIG_ERR)
-				die(FAILURE, "signal:");
+				die(1, "signal:");
 			break;
 		default:
 			usage();

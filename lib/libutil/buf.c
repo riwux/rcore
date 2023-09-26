@@ -3,10 +3,10 @@
 
 #include "util.h"
 
-Buf *
+struct Buf *
 buf_create(size_t size)
 {
-	Buf *buf;
+	struct Buf *buf;
 
 	buf = xmalloc(sizeof(*buf));
 	buf->data = xmalloc(size);
@@ -16,7 +16,7 @@ buf_create(size_t size)
 }
 
 void
-buf_free(Buf *buf)
+buf_free(struct Buf *buf)
 {
 	free(buf->data);
 	free(buf);

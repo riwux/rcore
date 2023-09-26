@@ -10,7 +10,7 @@ xmalloc(size_t size)
 	void *buf;
 
 	if (!(buf = malloc(size)))
-		die(FAILURE, "malloc:");
+		die(1, "malloc:");
 
 	return buf;
 }
@@ -19,7 +19,7 @@ void *
 xrealloc(void *buf, size_t size)
 {
 	if (!(buf = realloc(buf, size)))
-		die(FAILURE, "realloc:");
+		die(1, "realloc:");
 
 	return buf;
 }
@@ -28,12 +28,12 @@ void
 xwrite_all(int fd, void *buf, size_t count)
 {
 	if (write_all(fd, buf, count) == -1)
-		die(FAILURE, "write_all:");
+		die(1, "write_all:");
 }
 
 void
 xclose(int fd)
 {
 	if (fd != -1 && close(fd) < 0)
-		die(FAILURE, "close:");
+		die(1, "close:");
 }
