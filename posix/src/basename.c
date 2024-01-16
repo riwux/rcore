@@ -2,6 +2,7 @@
 #include <libgen.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "util.h"
 
@@ -14,7 +15,16 @@ usage(void)
 int
 main(int argc, char *argv[])
 {
+	int opt;
 	char *base, *suffix;
+
+	while ((opt = getopt(argc, argv, "")) != -1) {
+		switch (opt) {
+		default:
+			usage();
+			break;
+		}
+	}
 
 	if (argc != 2 && argc != 3)
 		usage();
