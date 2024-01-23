@@ -16,7 +16,7 @@ int
 main(int argc, char *argv[])
 {
 	int ret, opt;
-	int flags = O_WRONLY | O_CREAT | O_TRUNC;
+	mode_t flags = O_WRONLY | O_CREAT | O_TRUNC;
 	int *fds;
 	ssize_t n;
 	struct Buf *buf = buf_create(BUFLEN);
