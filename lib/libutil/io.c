@@ -54,6 +54,20 @@ write_all(int fd, void *buf, size_t count)
 	return count;
 }
 
+void
+xwrite_all(int fd, void *buf, size_t count)
+{
+	if (write_all(fd, buf, count) == -1)
+		die(1, "write_all:");
+}
+
+void
+xclose(int fd)
+{
+	if (fd != -1 && close(fd) < 0)
+		die(1, "close:");
+}
+
 /* FIXME: awfully inefficient */
 ssize_t
 get_line(int fd, struct Buf *buf)
