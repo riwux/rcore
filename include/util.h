@@ -2,8 +2,10 @@
 #ifndef UTIL_H_
 #define UTIL_H_
 
-#include <sys/types.h> /* mode_t ; (s)size_t */
+#include <sys/types.h> /* provide */
+#include <stdint.h>   /* types   */
 
+/* buf.c */
 #define BUFLEN 4096
 
 struct Buf {
@@ -11,7 +13,6 @@ struct Buf {
 	size_t size;
 };
 
-/* buf.c */
 struct Buf *buf_create(size_t);
 void buf_free(struct Buf *);
 
@@ -29,5 +30,12 @@ ssize_t get_line(int, struct Buf *);
 /* mem.c */
 void *xmalloc(size_t);
 void *xrealloc(void *, size_t);
+
+
+/* num.c */
+#define IS_DIGIT(c) (c >= 0x30 && c <= 0x39)
+
+int_least64_t to_num(char *);
+uint_least64_t to_unum(char *);
 
 #endif /* UTIL_H_ */

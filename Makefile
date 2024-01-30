@@ -39,7 +39,8 @@ MISC_SRC =\
 LIBUTIL_SRC =\
              $(LIBUTIL_DIR)/buf.c\
              $(LIBUTIL_DIR)/io.c\
-             $(LIBUTIL_DIR)/mem.c
+             $(LIBUTIL_DIR)/mem.c\
+             $(LIBUTIL_DIR)/num.c
 
 LIBUTIL_OBJ = $(LIBUTIL_SRC:.c=.o)
 
