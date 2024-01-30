@@ -24,8 +24,8 @@ unescape(char *str)
 	};
 
 	while (*str) {
-		if (*str++ == '\\') {
-			switch (*str) {
+		if (*str == '\\') {
+			switch (*++str) {
 			case '\\': /* unescape <backslash> characters i.e. \\ becomes \ */
 			case 'a':
 			case 'b':
@@ -40,11 +40,11 @@ unescape(char *str)
 			case '0':
 				/* TODO: implement \0xxx escape sequences */
 			default:
+				--str;
 				break;
 			}
 		}
-		*p++ = *--str;
-		++str;
+		*p++ = *str++;
 	}
 	*p = '\0';
 
