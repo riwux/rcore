@@ -33,7 +33,8 @@ POSIX_SRC =\
            $(POSIX_SRC_DIR)/tty.c
 
 MISC_SRC =\
-          $(MISC_SRC_DIR)/clear.c
+          $(MISC_SRC_DIR)/clear.c\
+          $(MISC_SRC_DIR)/yes.c
 
 LIBUTIL_SRC =\
              $(LIBUTIL_DIR)/buf.c\
