@@ -29,8 +29,7 @@ print_val(char *val, _Bool flag)
 int
 main(int argc, char *argv[])
 {
-	_Bool mflag = 0, nflag = 0, rflag = 0, vflag = 0;
-	_Bool sflag = 1;
+	_Bool mflag = 0, nflag = 0, rflag = 0, sflag = 0, vflag = 0;
 	int opt;
 	struct utsname uts;
 
@@ -41,22 +40,18 @@ main(int argc, char *argv[])
 			break;
 		case 'm':
 			mflag = 1;
-			sflag = 0;
 			break;
 		case 'n':
 			nflag = 1;
-			sflag = 0;
 			break;
 		case 'r':
 			rflag = 1;
-			sflag = 0;
 			break;
 		case 's':
 			sflag = 1;
 			break;
 		case 'v':
 			vflag = 1;
-			sflag = 0;
 			break;
 		default:
 			usage();
@@ -65,6 +60,9 @@ main(int argc, char *argv[])
 	}
 	argc -= optind;
 	argv += optind;
+
+	if (!(mflag || nflag || rflag || sflag || vflag))
+		sflag = 1;
 
 	if (uname(&uts))
 		die(1, "uname");
