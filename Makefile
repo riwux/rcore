@@ -28,6 +28,7 @@ POSIX_SRC =\
            $(POSIX_SRC_DIR)/dirname.c\
            $(POSIX_SRC_DIR)/echo.c\
            $(POSIX_SRC_DIR)/false.c\
+           $(POSIX_SRC_DIR)/mesg.c\
            $(POSIX_SRC_DIR)/rmdir.c\
            $(POSIX_SRC_DIR)/sleep.c\
            $(POSIX_SRC_DIR)/tee.c\
