@@ -34,6 +34,7 @@ POSIX_SRC =\
            $(POSIX_SRC_DIR)/tee.c\
            $(POSIX_SRC_DIR)/true.c\
            $(POSIX_SRC_DIR)/tty.c\
+           $(POSIX_SRC_DIR)/uname.c\
            $(POSIX_SRC_DIR)/unlink.c
 
 MISC_SRC =\
