@@ -14,7 +14,7 @@ usage(void)
 int
 main(int argc, char *argv[])
 {
-	int opt, ret;
+	int opt;
 	mode_t mode;
 	char *tty;
 	struct stat st;
