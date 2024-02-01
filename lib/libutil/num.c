@@ -30,3 +30,16 @@ to_unum(char *str)
 
 	return ret;
 }
+
+int_least64_t
+to_num_base(char *str, int base)
+{
+	int_least64_t ret;
+
+	errno = 0;
+	ret = strtoll(str, NULL, base);
+	if (errno)
+		die(1, "strtoll:");
+
+	return ret;
+}

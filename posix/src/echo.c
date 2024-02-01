@@ -5,6 +5,20 @@
 
 #include "util.h"
 
+
+static size_t len;
+
+static inline int_least32_t
+count_digits(char *str)
+{
+	int_least32_t n = 0;
+
+	for (int i = 3; i && IS_DIGIT(*str); ++str, ++n, --i)
+		;
+
+	return n;
+}
+
 static char *
 unescape(char *str)
 {
@@ -38,7 +52,14 @@ unescape(char *str)
 				*p++ = escape[(unsigned char) *str++];
 				continue;
 			case '0':
-				/* TODO: implement \0xxx escape sequences */
+				++str;
+				if (!*str || (!IS_DIGIT(*str) && *str)) {
+					*p++ = '\0';
+					continue;
+				}
+				*p++ = (char) to_num_base(str, OCT);
+				str += count_digits(str);
+				continue;
 			default:
 				--str;
 				break;
@@ -46,7 +67,7 @@ unescape(char *str)
 		}
 		*p++ = *str++;
 	}
-	*p = '\0';
+	len = p - ret;
 
 	return ret;
 }
@@ -80,7 +101,9 @@ main(int argc, char *argv[])
 
 echo:
 	while (*argv) {
-		printf("%s", (eflag ? unescape(*argv) : *argv));
+		len = strlen(*argv);
+		arg = eflag ? unescape(*argv) : *argv;
+		fwrite(arg, sizeof(char), len, stdout);
 
 		if (*++argv)
 			putchar(' ');

@@ -33,9 +33,13 @@ void *xrealloc(void *, size_t);
 
 
 /* num.c */
+#define OCT 8
+#define DEC 10
+#define HEX 16
 #define IS_DIGIT(c) (c >= 0x30 && c <= 0x39)
 
 int_least64_t to_num(char *);
 uint_least64_t to_unum(char *);
+int_least64_t to_num_base(char *, int);
 
 #endif /* UTIL_H_ */
