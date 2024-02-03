@@ -26,8 +26,8 @@ main(int argc, char *argv[])
 	argc -= optind;
 	argv += optind;
 
-	if (argc != 2)
+	if (argc != 1)
 		usage();
 
-	puts(dirname(argv[1]));
+	puts(dirname(*argv));
 }
