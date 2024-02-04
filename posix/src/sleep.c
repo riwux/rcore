@@ -59,7 +59,6 @@ int
 main(int argc, char *argv[])
 {
 	int opt;
-	unsigned ret;
 	struct timespec time;
 
 	while ((opt = getopt(argc, argv, "")) != -1) {
@@ -78,6 +77,5 @@ main(int argc, char *argv[])
 	if (fill_timespec(&time, *argv))
 		die(2, "sleep: invalid number format");
 
-	ret = nanosleep(&time, NULL);
-	return ret;
+	return !!nanosleep(&time, NULL);
 }
