@@ -27,6 +27,7 @@ POSIX_SRC =\
            $(POSIX_SRC_DIR)/cat.c\
            $(POSIX_SRC_DIR)/dirname.c\
            $(POSIX_SRC_DIR)/echo.c\
+           $(POSIX_SRC_DIR)/env.c\
            $(POSIX_SRC_DIR)/false.c\
            $(POSIX_SRC_DIR)/mesg.c\
            $(POSIX_SRC_DIR)/rmdir.c\
