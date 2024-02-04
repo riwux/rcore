@@ -35,6 +35,10 @@ main(int argc, char *argv[])
 	while ((opt = getopt(argc, argv, "i")) != -1) {
 		switch (opt) {
 		case 'i':
+			/*
+			 * Trick putenv(3) into thinking that environ is empty thus
+			 * leading it into allocating a fresh new environment.
+			 */
 			*environ = NULL;
 			break;
 		default:
