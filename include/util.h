@@ -18,6 +18,7 @@ void buf_free(struct Buf *);
 
 
 /* io.c */
+void eprintf(char *, ...);
 void die(int, char *, ...);
 
 int copy_file(int, int);

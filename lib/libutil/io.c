@@ -8,6 +8,15 @@
 #include "util.h"
 
 void
+eprintf(char *fmt, ...)
+{
+	va_list args;
+	va_start(args, fmt);
+	vfprintf(stderr, fmt, args);
+	va_end(args);
+}
+
+void
 die(int status, char *fmt, ...)
 {
 	va_list args;

@@ -40,7 +40,7 @@ rmdir_path(char *path)
 
 	while ((p = get_pnc(path))) {
 		if (rmdir(p)) {
-			fprintf(stderr, "rmdir: '%s': ", p);
+			eprintf("rmdir: '%s': ", p);
 			perror(NULL);
 			ret = 1;
 		}
@@ -75,7 +75,7 @@ main(int argc, char *argv[])
 		if (pflag) {
 			ret = rmdir_path(*argv);
 		} else if (rmdir(*argv)) {
-			fprintf(stderr, "rmdir: '%s': ", *argv);
+			eprintf("rmdir: '%s': ", *argv);
 			perror(NULL);
 			ret = 1;
 		}
