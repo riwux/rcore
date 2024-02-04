@@ -5,13 +5,16 @@
 
 include config.mak
 
-POSIX_DIR     = posix
-MISC_DIR      = misc
+POSIX_DIR = posix
+LSB_DIR   = lsb
+MISC_DIR  = misc
 
 POSIX_SRC_DIR = $(POSIX_DIR)/src
+LSB_SRC_DIR   = $(LSB_DIR)/src
 MISC_SRC_DIR  = $(MISC_DIR)/src
 
 POSIX_MAN_DIR = $(POSIX_DIR)/man
+LSB_MAN_DIR   = $(LSB_DIR)/man
 MISC_MAN_DIR  = $(MISC_DIR)/man
 
 INCLUDE_DIR   = include
@@ -43,28 +46,31 @@ MISC_SRC =\
           $(MISC_SRC_DIR)/printenv.c\
           $(MISC_SRC_DIR)/yes.c
 
+LSB_SRC =\
+         $(LSB_SRC_DIR)/hostname.c
+
 LIBUTIL_SRC =\
              $(LIBUTIL_DIR)/buf.c\
              $(LIBUTIL_DIR)/io.c\
              $(LIBUTIL_DIR)/mem.c\
              $(LIBUTIL_DIR)/num.c
 
+LSB_BIN     = $(LSB_SRC:.c=)
+POSIX_BIN   = $(POSIX_SRC:.c=)
+MISC_BIN    = $(MISC_SRC:.c=)
+LIBUTIL     = $(LIBUTIL_DIR)/libutil.a
 LIBUTIL_OBJ = $(LIBUTIL_SRC:.c=.o)
 
-POSIX_BIN = $(POSIX_SRC:.c=)
-MISC_BIN  = $(MISC_SRC:.c=)
-LIBUTIL   = $(LIBUTIL_DIR)/libutil.a
 
-
-all: lib posix misc $(HDR)
+all: lib posix lsb misc $(HDR)
 
 install: all
 	@mkdir -p $(BINDIR)
-	cp -f $(POSIX_BIN) $(MISC_BIN) $(BINDIR)
+	cp -f $(POSIX_BIN) $(LSB_BIN) $(MISC_BIN) $(BINDIR)
 
 uninstall:
-	@printf "Removing $(POSIX_BIN) $(MISC_BIN)\n"
-	@for i in $(POSIX_BIN) $(MISC_BIN); do rm -f $(BINDIR)/$$(basename $$i); done
+	@printf "Removing $(POSIX_BIN) $(LSB_BIN) $(MISC_BIN)\n"
+	@for i in $(POSIX_BIN) $(LSB_BIN) $(MISC_BIN); do rm -f $(BINDIR)/$$(basename $$i); done
 
 # Libraries
 lib: $(LIBUTIL)
@@ -78,11 +84,12 @@ $(LIBUTIL):
 # Binaries
 posix: $(POSIX_BIN)
 misc: $(MISC_BIN)
+lsb: $(LSB_BIN)
 
 .c:
 	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $< $(LIBUTIL) $(LDFLAGS)
 
 clean:
-	rm -f $(POSIX_BIN) $(MISC_BIN) $(LIBUTIL) $(LIBUTIL_OBJ)
+	rm -f $(POSIX_BIN) $(LSB_BIN) $(MISC_BIN) $(LIBUTIL) $(LIBUTIL_OBJ)
 
 .PHONY: all install uninstall posix misc lib clean
