@@ -88,4 +88,4 @@ $(LIBUTIL):
 clean:
 	rm -f $(POSIX_BIN) $(LSB_BIN) $(MISC_BIN) $(LIBUTIL) $(LIBUTIL_OBJ)
 
-.PHONY: all install uninstall posix misc lib clean
+.PHONY: all install uninstall posix lsb misc lib clean
