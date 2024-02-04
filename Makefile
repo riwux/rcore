@@ -40,6 +40,7 @@ POSIX_SRC =\
 
 MISC_SRC =\
           $(MISC_SRC_DIR)/clear.c\
+          $(MISC_SRC_DIR)/printenv.c\
           $(MISC_SRC_DIR)/yes.c
 
 LIBUTIL_SRC =\
