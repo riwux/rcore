@@ -14,11 +14,10 @@ usage(void)
 }
 
 static char *
-get_pnc_rev(char *path)
+get_pnc(char *path)
 {
-	char *p;
 	static _Bool first = 1;
-	static size_t n = 0;
+	char *p;
 
 	/* dirname(3) would skip the last path name component */
 	if (first) {
@@ -26,23 +25,20 @@ get_pnc_rev(char *path)
 		return path;
 	}
 
-	path -= n;
 	p = dirname(path);
-	n = p - path;
-
-	if (!strcmp(p, "."))
+	if (!strcmp(p, "/") || !strcmp(p, "."))
 		p = NULL;
 
 	return p;
 }
 
 static _Bool
-rm_empty_path(char *path)
+rmdir_path(char *path)
 {
 	_Bool ret = 0;
 	char *p;
 
-	while ((p = get_pnc_rev(path))) {
+	while ((p = get_pnc(path))) {
 		if (rmdir(p)) {
 			fprintf(stderr, "rmdir: '%s': ", p);
 			perror(NULL);
@@ -77,7 +73,7 @@ main(int argc, char *argv[])
 
 	do {
 		if (pflag) {
-			ret = rm_empty_path(*argv);
+			ret = rmdir_path(*argv);
 		} else if (rmdir(*argv)) {
 			fprintf(stderr, "rmdir: '%s': ", *argv);
 			perror(NULL);
