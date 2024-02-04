@@ -30,15 +30,12 @@ is_valid_arg(char *arg)
 int
 main(int argc, char *argv[])
 {
-	_Bool iflag = 0;
 	int opt;
-	char **envp;
 
 	while ((opt = getopt(argc, argv, "i")) != -1) {
 		switch (opt) {
 		case 'i':
-			envp  = environ;
-			iflag = 1;
+			*environ = NULL;
 			break;
 		default:
 			usage();
@@ -50,18 +47,9 @@ main(int argc, char *argv[])
 
 	/* Take care of the variables. */
 	for (; *argv && is_valid_arg(*argv); ++argv, --argc) {
-		if (iflag) {
-			*envp = *argv;
-			++envp;
-		} else {
-			if (putenv(*argv))
-				die(1, "putenv:");
-		}
+		if (putenv(*argv))
+			die(1, "putenv:");
 	}
-
-	/* Make sure to "cut off" the old env. */
-	if (iflag)
-		*envp = NULL;
 
 	/* No utility was specified. */
 	if (argc == 0) {
@@ -71,6 +59,4 @@ main(int argc, char *argv[])
 		execvp(*argv, argv);
 		die((errno == ENOENT) ? 127 : 126, "execvp: '%s':", *argv);
 	}
-
-	return 0;
 }
