@@ -72,19 +72,15 @@ uninstall:
 	@printf "Removing $(POSIX_BIN) $(LSB_BIN) $(MISC_BIN)\n"
 	@for i in $(POSIX_BIN) $(LSB_BIN) $(MISC_BIN); do rm -f $(BINDIR)/$$(basename $$i); done
 
-# Libraries
 lib: $(LIBUTIL)
+posix: $(LIBUTIL) $(POSIX_BIN)
+misc: $(LIBUTIL) $(MISC_BIN)
+lsb: $(LIBUTIL) $(LSB_BIN)
 
 $(LIBUTIL):
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $(LIBUTIL_SRC)
 	mv *.o $(LIBUTIL_DIR)
 	$(AR) $(ARFLAGS) $(LIBUTIL) $(LIBUTIL_OBJ)
-
-
-# Binaries
-posix: $(POSIX_BIN)
-misc: $(MISC_BIN)
-lsb: $(LSB_BIN)
 
 .c:
 	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $< $(LIBUTIL) $(LDFLAGS)
