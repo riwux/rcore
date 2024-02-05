@@ -13,7 +13,7 @@ count_digits(char *str)
 {
 	int_least32_t n = 0;
 
-	for (int i = 3; i && IS_DIGIT(*str); ++str, ++n, --i)
+	for (int i = 3; i && is_digit(*str); ++str, ++n, --i)
 		;
 
 	return n;
@@ -53,7 +53,7 @@ unescape(char *str)
 				continue;
 			case '0':
 				++str;
-				if (!*str || (!IS_DIGIT(*str) && *str)) {
+				if (!*str || !is_digit(*str)) {
 					*p++ = '\0';
 					continue;
 				}

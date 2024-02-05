@@ -37,7 +37,16 @@ void *xrealloc(void *, size_t);
 #define OCT 8
 #define DEC 10
 #define HEX 16
-#define IS_DIGIT(c) (c >= 0x30 && c <= 0x39)
+
+static inline _Bool is_digit(char c)
+{
+	return (c >= 0x30 && c <= 0x39);
+}
+
+static inline _Bool is_space(char c)
+{
+	return (c == ' ');
+}
 
 int_least64_t to_num(char *);
 uint_least64_t to_unum(char *);

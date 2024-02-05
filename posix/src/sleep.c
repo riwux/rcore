@@ -38,7 +38,7 @@ fill_timespec(struct timespec *time, char *str)
 			++zeroes;
 
 		for (; *p; ++p) {
-			if (!IS_DIGIT(*p))
+			if (!is_digit(*p))
 				return 1;
 		}
 
