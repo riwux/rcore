@@ -27,5 +27,4 @@ main(int argc, char *argv[])
 		usage();
 
 	fputs("\x1b[2J\x1b[H", stdout);
-	fflush(stdout);
 }
