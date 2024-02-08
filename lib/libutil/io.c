@@ -89,7 +89,7 @@ get_line(int fd, struct Buf *buf)
 	while ((n = read(fd, &c, 1)) > 0) {
 		if ((ret += n) >= buf->size) {
 			buf->size *= 2;
-			buf->data = xrealloc(buf->data, buf->size);
+			buf->data = xrealloc(buf->data, buf->size, sizeof(char));
 		}
 
 		buf->data[i++] = c;

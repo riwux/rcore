@@ -37,7 +37,7 @@ main(int argc, char *argv[])
 	}
 	argc -= optind;
 	argv += optind;
-	fds = xmalloc(sizeof(*fds) * (argc+1));
+	fds = xmalloc(argc+1, sizeof(*fds));
 
 	for (int i = 0; i < argc; ++i) {
 		if ((fds[i] = open(argv[i], flags, 0666)) < 0) {

@@ -30,14 +30,19 @@ extern ssize_t get_line(int, struct Buf *);
 
 
 /* mem.c */
-extern void *xmalloc(size_t);
-extern void *xrealloc(void *, size_t);
+extern void *xmalloc(size_t, size_t);
+extern void *xrealloc(void *, size_t, size_t);
 
 
 /* num.c */
 #define OCT 8
 #define DEC 10
 #define HEX 16
+
+static inline _Bool overflow_mul(size_t a, size_t b)
+{
+	return (a > 0 && b > SIZE_MAX / a) ? 1 : 0;
+}
 
 static inline _Bool is_digit(char c)
 {

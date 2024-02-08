@@ -1,24 +1,35 @@
 /* See LICENSE file for copyright and license details. */
+#include <errno.h>
 #include <stdlib.h>
 
 #include "util.h"
 
 void *
-xmalloc(size_t size)
+xmalloc(size_t nmemb, size_t size)
 {
-	void *buf;
+	void *p;
 
-	if (!(buf = malloc(size)))
+	if (overflow_mul(nmemb, size)) {
+		errno = ENOMEM;
+		die(1, "malloc:");
+	}
+
+	if (!(p = malloc(size * nmemb)))
 		die(1, "malloc:");
 
-	return buf;
+	return p;
 }
 
 void *
-xrealloc(void *buf, size_t size)
+xrealloc(void *p, size_t nmemb, size_t size)
 {
-	if (!(buf = realloc(buf, size)))
+	if (overflow_mul(nmemb, size)) {
+		errno = ENOMEM;
+		die(1, "realloc:");
+	}
+
+	if (!(p = realloc(p, nmemb * size)))
 		die(1, "realloc:");
 
-	return buf;
+	return p;
 }

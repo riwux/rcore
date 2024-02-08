@@ -8,8 +8,8 @@ buf_create(size_t size)
 {
 	struct Buf *buf;
 
-	buf = xmalloc(sizeof(*buf));
-	buf->data = xmalloc(size);
+	buf = xmalloc(1, sizeof(*buf));
+	buf->data = xmalloc(size, sizeof(char));
 	buf->size = size;
 
 	return buf;
