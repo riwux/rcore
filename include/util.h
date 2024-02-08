@@ -44,6 +44,15 @@ static inline _Bool is_digit(char c)
 	return (c >= 0x30 && c <= 0x39);
 }
 
+static inline size_t count_digits(char *num)
+{
+	size_t n = 0;
+
+	for (; *num && is_digit(*num); ++num, ++n)
+		;
+	return n;
+}
+
 extern int_least64_t to_num(char *);
 extern uint_least64_t to_unum(char *);
 extern int_least64_t to_num_base(char *, int);

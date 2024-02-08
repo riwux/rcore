@@ -8,27 +8,16 @@
 
 static size_t len;
 
-static inline int_least32_t
-count_digits(char *str)
-{
-	int_least32_t n = 0;
-
-	for (int i = 3; i && is_digit(*str); ++str, ++n, --i)
-		;
-
-	return n;
-}
-
 static char *
 unescape(char *str)
 {
+	size_t digs;
 	char *p   = str;
 	char *ret = str;
 
 	char escape[] = {
 		['a'] = '\a',
 		['b'] = '\b',
-		['c'] = '\0',
 		['f'] = '\f',
 		['n'] = '\n',
 		['r'] = '\r',
@@ -43,7 +32,6 @@ unescape(char *str)
 			case '\\': /* unescape <backslash> characters i.e. \\ becomes \ */
 			case 'a':
 			case 'b':
-			case 'c':
 			case 'f':
 			case 'n':
 			case 'r':
@@ -51,6 +39,10 @@ unescape(char *str)
 			case 'v':
 				*p++ = escape[(unsigned char) *str++];
 				continue;
+			case 'c':
+				fwrite(ret, sizeof(char), p - ret, stdout);
+				exit(0);
+				break;
 			case '0':
 				++str;
 				if (!*str || !is_digit(*str)) {
@@ -58,7 +50,8 @@ unescape(char *str)
 					continue;
 				}
 				*p++ = (char) to_num_base(str, OCT);
-				str += count_digits(str);
+				digs = count_digits(str);
+				str += (digs < 3) ? digs : 3;
 				continue;
 			default:
 				--str;
