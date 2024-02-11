@@ -5,6 +5,8 @@
 #include <sys/types.h> /* provide */
 #include <stdint.h>   /* types   */
 
+typedef unsigned char uchar;
+
 
 /* buf.c */
 #define BUFLEN 4096

@@ -37,7 +37,7 @@ unescape(char *str)
 			case 'r':
 			case 't':
 			case 'v':
-				*p++ = escape[(unsigned char) *str++];
+				*p++ = escape[(uchar) *str++];
 				continue;
 			case 'c':
 				fwrite(ret, sizeof(char), p - ret, stdout);
