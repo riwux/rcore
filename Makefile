@@ -42,6 +42,7 @@ POSIX_SRC =\
            $(POSIX_SRC_DIR)/unlink.c
 
 MISC_SRC =\
+          $(MISC_SRC_DIR)/ascii.c\
           $(MISC_SRC_DIR)/clear.c\
           $(MISC_SRC_DIR)/printenv.c\
           $(MISC_SRC_DIR)/yes.c
