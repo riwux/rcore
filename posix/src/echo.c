@@ -11,7 +11,6 @@ static size_t len;
 static char *
 unescape(char *str)
 {
-	size_t digs;
 	char *p   = str;
 	char *ret = str;
 
@@ -50,8 +49,8 @@ unescape(char *str)
 					continue;
 				}
 				*p++ = (char) to_num_base(str, OCT);
-				digs = count_digits(str);
-				str += (digs < 3) ? digs : 3;
+				for (int i = 0; *str && i<3 && is_digit(*str); ++str, ++i)
+					;
 				continue;
 			default:
 				--str;
