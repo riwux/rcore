@@ -16,17 +16,6 @@ usage(void)
 	die(1, "usage: env [-i] [name=value]... [utility [arg...]]");
 }
 
-static inline _Bool
-is_valid_arg(char *arg)
-{
-	_Bool ret = 0;
-
-	if (arg[0] != '=' && strchr(arg, '='))
-		ret = 1;
-
-	return ret;
-}
-
 int
 main(int argc, char *argv[])
 {
@@ -35,10 +24,7 @@ main(int argc, char *argv[])
 	while ((opt = getopt(argc, argv, "i")) != -1) {
 		switch (opt) {
 		case 'i':
-			/*
-			 * Trick putenv(3) into thinking that environ is empty thus
-			 * leading it into allocating a fresh new environment.
-			 */
+			/* Trick putenv(3) into allocating a new environment. */
 			*environ = NULL;
 			break;
 		default:
@@ -49,14 +35,20 @@ main(int argc, char *argv[])
 	argc -= optind;
 	argv += optind;
 
+	/* Historically, '-' has the same effect as '-i'. */
+	if (*argv && !strcmp(*argv, "-")) {
+		*environ = NULL;
+		++argv;
+	}
+
 	/* Take care of the variables. */
-	for (; *argv && is_valid_arg(*argv); ++argv, --argc) {
+	for (; *argv && strchr(*argv, '='); ++argv) {
 		if (putenv(*argv))
 			die(1, "putenv:");
 	}
 
 	/* No utility was specified. */
-	if (argc == 0) {
+	if (!*argv) {
 		for (char **e = environ; *e; ++e)
 			puts(*e);
 	} else {
