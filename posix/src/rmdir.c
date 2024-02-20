@@ -1,4 +1,5 @@
 /* See LICENSE file for copyright and license details. */
+#include <errno.h>
 #include <libgen.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -13,38 +14,18 @@ usage(void)
 	die(1, "usage: rmdir [-p] dir...");
 }
 
-static char *
-get_pnc(char *path)
-{
-	static _Bool first = 1;
-	char *p;
-
-	/* dirname(3) would skip the last path name component */
-	if (first) {
-		first = 0;
-		return path;
-	}
-
-	p = dirname(path);
-	if (!strcmp(p, "/") || !strcmp(p, "."))
-		p = NULL;
-
-	return p;
-}
-
 static _Bool
 rmdir_path(char *path)
 {
 	_Bool ret = 0;
-	char *p;
 
-	while ((p = get_pnc(path))) {
-		if (rmdir(p)) {
-			eprintf("rmdir: '%s': ", p);
-			perror(NULL);
+	do {
+		if (rmdir(path)) {
+			eprintf("rmdir: cannot remove '%s': %s\n", path, strerror(errno));
 			ret = 1;
 		}
-	}
+		path = dirname(path);
+	} while (strcmp(path, "/") && strcmp(path, "."));
 
 	return ret;
 }
@@ -75,8 +56,7 @@ main(int argc, char *argv[])
 		if (pflag) {
 			ret = rmdir_path(*argv);
 		} else if (rmdir(*argv)) {
-			eprintf("rmdir: '%s': ", *argv);
-			perror(NULL);
+			eprintf("rmdir: cannot remove '%s': %s\n", *argv, strerror(errno));
 			ret = 1;
 		}
 	} while (*++argv);
