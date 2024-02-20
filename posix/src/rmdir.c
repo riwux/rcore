@@ -54,7 +54,8 @@ main(int argc, char *argv[])
 
 	do {
 		if (pflag) {
-			ret = rmdir_path(*argv);
+			if (rmdir_path(*argv))
+				ret = 1;
 		} else if (rmdir(*argv)) {
 			eprintf("rmdir: cannot remove '%s': %s\n", *argv, strerror(errno));
 			ret = 1;
