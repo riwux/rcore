@@ -34,7 +34,8 @@ int
 main(int argc, char *argv[])
 {
 	_Bool pflag = 0;
-	int opt, ret;
+	int opt;
+	int ret = 0;
 
 	while ((opt = getopt(argc, argv, "p")) != -1) {
 		switch (opt) {
