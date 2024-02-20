@@ -67,6 +67,8 @@ unescape(char *str)
 int
 main(int argc, char *argv[])
 {
+	(void) argc;
+
 	_Bool nflag = 0;
 	_Bool eflag = 0;
 	char *arg;
