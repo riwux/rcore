@@ -15,6 +15,9 @@ echo_unescape(char *str)
 
 	while ((c = *str)) {
 		if (*str == '\\' && str[1]) {
+			/* Make sure no digit hides inside the array. */
+			num[0] = num[1] = num[2] = num[3] = 0;
+
 			switch (*++str) {
 			case 'c':
 				exit(0);
@@ -41,9 +44,6 @@ echo_unescape(char *str)
 			++str;
 		}
 		putchar(c);
-
-		/* Make sure no digit hides inside the array. */
-		num[0] = num[1] = num[2] = num[3] = 0;
 	}
 }
 
