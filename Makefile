@@ -54,6 +54,7 @@ LSB_SRC =\
 LIBUTIL_SRC =\
              $(LIBUTIL_DIR)/buf.c\
              $(LIBUTIL_DIR)/io.c\
+             $(LIBUTIL_DIR)/lib.c\
              $(LIBUTIL_DIR)/mem.c\
              $(LIBUTIL_DIR)/num.c
 

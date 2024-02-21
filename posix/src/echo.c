@@ -6,62 +6,45 @@
 #include "util.h"
 
 
-static size_t len;
-
-static char *
-unescape(char *str)
+static void
+echo_unescape(char *str)
 {
-	char *p   = str;
-	char *ret = str;
+	char c;
+	int i;
+	char num[4];
 
-	char escape[] = {
-		['a'] = '\a',
-		['b'] = '\b',
-		['f'] = '\f',
-		['n'] = '\n',
-		['r'] = '\r',
-		['t'] = '\t',
-		['v'] = '\v',
-		['\\'] = '\\',
-	};
-
-	while (*str) {
-		if (*str == '\\') {
+	while ((c = *str)) {
+		if (*str == '\\' && str[1]) {
 			switch (*++str) {
-			case '\\': /* unescape <backslash> characters i.e. \\ becomes \ */
-			case 'a':
-			case 'b':
-			case 'f':
-			case 'n':
-			case 'r':
-			case 't':
-			case 'v':
-				*p++ = escape[(uchar) *str++];
-				continue;
 			case 'c':
-				fwrite(ret, sizeof(char), p - ret, stdout);
 				exit(0);
 				break;
-			case '0':
-				++str;
-				if (!*str || !is_digit(*str)) {
-					*p++ = '\0';
-					continue;
+			case 'x':
+				if (!is_hexdigit(*++str)) {
+					--str;
+					break;
 				}
-				*p++ = (char) to_num_base(str, OCT);
-				for (int i = 0; *str && i<3 && is_digit(*str); ++str, ++i)
-					;
-				continue;
+				for (i=0; i<2 && is_hexdigit(*str); ++i, ++str)
+					num[i] = *str;
+				c = to_num_base(num, HEX);
+				break;
+			case '0':
+				for (i=0; i<4 && is_octdigit(*str); ++i, ++str)
+					num[i] = *str;
+				c = to_num_base(num, OCT);
+				break;
 			default:
-				--str;
+				c = unescape(str++);
 				break;
 			}
+		} else {
+			++str;
 		}
-		*p++ = *str++;
-	}
-	len = p - ret;
+		putchar(c);
 
-	return ret;
+		/* Make sure no digit hides inside the array. */
+		num[0] = num[1] = num[2] = num[3] = 0;
+	}
 }
 
 int
@@ -95,9 +78,10 @@ main(int argc, char *argv[])
 
 echo:
 	while (*argv) {
-		len = strlen(*argv);
-		arg = eflag ? unescape(*argv) : *argv;
-		fwrite(arg, sizeof(char), len, stdout);
+		if (eflag)
+			echo_unescape(*argv);
+		else
+			fputs(*argv, stdout);
 
 		if (*++argv)
 			putchar(' ');

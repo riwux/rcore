@@ -43,16 +43,30 @@ extern void *xrealloc(void *, size_t, size_t);
 
 static inline _Bool overflow_mul(size_t a, size_t b)
 {
-	return (a > 0 && b > SIZE_MAX / a) ? 1 : 0;
+	return (a > 0 && b > SIZE_MAX / a);
 }
 
 static inline _Bool is_digit(char c)
 {
-	return (c >= 0x30 && c <= 0x39);
+	return (c >= '0' && c <= '9');
+}
+
+static inline _Bool is_hexdigit(char c)
+{
+	return (is_digit(c) || (c >= 'a' && c <= 'f'));
+}
+
+static inline _Bool is_octdigit(char c)
+{
+	return (c >= '0' && c <= '7');
 }
 
 extern int_least64_t to_num(char *);
 extern uint_least64_t to_unum(char *);
 extern int_least64_t to_num_base(char *, int);
+
+
+/* lib.c */
+extern char unescape(char *);
 
 #endif /* UTIL_H_ */
