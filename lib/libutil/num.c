@@ -43,3 +43,16 @@ to_num_base(char *str, int base)
 
 	return ret;
 }
+
+uint_least64_t
+to_unum_base(char *str, int base)
+{
+	uint_least64_t ret;
+
+	errno = 0;
+	ret = strtoull(str, NULL, base);
+	if (errno)
+		die(1, "strtoull:");
+
+	return ret;
+}
