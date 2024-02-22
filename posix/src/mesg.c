@@ -15,7 +15,7 @@ int
 main(int argc, char *argv[])
 {
 	int opt;
-	mode_t mode;
+	mode_t mode = 0;
 	char *tty;
 	struct stat st;
 
