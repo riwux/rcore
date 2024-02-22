@@ -1,0 +1,77 @@
+ Riwux baseutils
++================+
+
+The baseutils project aims to provide a minimal but complete commandline
+environment containing utilities found on most UNIX(-like) systems.
+It's goal is to be simple, portable and compliant while still being pleasant
+to use. Features and extensions are chosen carefully and only implemented if
+they are either (very) common or provide real value to the user.
+One of those features is UTF-8 compliance, which improves the usability by
+a lot.
+
+In its finished state, it should be possible to build and compile
+a (e.g Linux-) distribution with it.
+
+
+ Modules
++========+
+
+baseutils is split into several different sub-directories, each dedicated to
+a specific standard or group of tools.
+Below is a list of sub-directories and the corresponding tools that are
+already implemented. For details, check the man-page of the utility.
+
+posix/  -- POSIX.1-2017 utilities
+    * basename
+    * cat
+    * dirname
+    * echo
+    * env
+    * false
+    * link
+    * mesg
+    * rmdir
+    * sleep
+    * tee
+    * true
+    * tty
+    * uname
+    * unlink
+
+misc/   -- common non-standard utilities
+   * ascii
+   * clear
+   * printenv
+   * yes
+
+lsb/    -- LinuxStandardBase utilities
+   * hostname
+
+
+ Build
++======+
+
+Supported compilers:
+  - clang (out of the box)
+  - gcc   (out of the box)
+  - tcc   (out of the box)
+  - nwcc  (out of the box)
+  - pcc   (remove -s from $(LDFLAGS))
+  - lacc  (remove -s from $(LDFLAGS))
+
+To build baseutils, follow these instructions:
+
+    $ make            # build the whole project
+    $ make all        # same as above
+
+    $ make install    # install utilities
+    $ make uninstall  # uninstall utilities
+    $ make clean      # remove all binaries and build leftovers
+
+    $ make posix  # only build POSIX utilities
+    $ make misc   # only build miscellaneous utilities
+    $ make lsb    # only build LinuxStandardBase utilities
+    $ make lib    # only build libraries (in lib/)
+
+In case you want to customize your build process, change the corresponding
+values in config.mak or directly on the commandline.
