@@ -36,8 +36,18 @@ echo_unescape(char *str)
 					num[i] = *str;
 				c = to_num_base(num, OCT);
 				break;
-			default:
+			case 'a':
+			case 'b':
+			case 'f':
+			case 'n':
+			case 'r':
+			case 't':
+			case 'v':
+			case '\\':
 				c = unescape(str++);
+				break;
+			default:
+				c = '\\';
 				break;
 			}
 		} else {
