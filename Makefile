@@ -44,6 +44,7 @@ POSIX_SRC =\
 
 MISC_SRC =\
           $(MISC_SRC_DIR)/ascii.c\
+          $(MISC_SRC_DIR)/base64.c\
           $(MISC_SRC_DIR)/clear.c\
           $(MISC_SRC_DIR)/printenv.c\
           $(MISC_SRC_DIR)/yes.c
