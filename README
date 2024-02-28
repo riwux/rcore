@@ -16,36 +16,14 @@ a (e.g Linux-) distribution with it.
  Modules
 +========+
 
-baseutils is split into several different sub-directories, each dedicated to
-a specific standard or group of tools.
-Below is a list of sub-directories and the corresponding tools that are
+baseutils is split into several different subdirectories (i.e modules),
+each dedicated to a specific standard or group of tools.
+Below is a list of subdirectories and the corresponding tools that are
 already implemented. For details, check the man-page of the utility.
 
 posix/  -- POSIX.1-2017 utilities
-    * basename
-    * cat
-    * dirname
-    * echo
-    * env
-    * false
-    * link
-    * mesg
-    * rmdir
-    * sleep
-    * tee
-    * true
-    * tty
-    * uname
-    * unlink
-
 misc/   -- common non-standard utilities
-   * ascii
-   * clear
-   * printenv
-   * yes
-
 lsb/    -- LinuxStandardBase utilities
-   * hostname
 
 
  Build
