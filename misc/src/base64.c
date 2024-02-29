@@ -56,10 +56,10 @@ main(int argc, char *argv[])
 	}
 
 	while ((n = fread(&buf, sizeof(char), 3, fp)) > 0) {
-		for (i = 0, s = 16; i < n; ++i, s -= 8)
+		for (i = 0, s = 16; i < n; s -= 8, ++i)
 			val |= (uint_least32_t)buf[i] << s;
 		for (i = 0, s = 18; i <= n; s -= 6, ++i)
-			putchar(table[((val >> s) & 63)]);
+			putchar(table[((val >> s) & 63)]); /* 2^6-1=63 extract 6 bits. */
 		val = 0;
 	}
 	for (i=4-i%4; i!=4 && i>0; --i)
