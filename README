@@ -23,7 +23,6 @@ already implemented. For details, check the man-page of the utility.
 
 posix/  -- POSIX.1-2017 utilities
 misc/   -- common non-standard utilities
-lsb/    -- LinuxStandardBase utilities
 
 
  Build
@@ -48,7 +47,6 @@ To build baseutils, follow these instructions:
 
     $ make posix  # only build POSIX utilities
     $ make misc   # only build miscellaneous utilities
-    $ make lsb    # only build LinuxStandardBase utilities
     $ make lib    # only build libraries (in lib/)
 
 In case you want to customize your build process, change the corresponding
