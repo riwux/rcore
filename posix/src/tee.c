@@ -16,12 +16,12 @@ usage(void)
 int
 main(int argc, char *argv[])
 {
-	int ret, opt;
-	int flags;
+	int ret, opt, flags;
 	ssize_t n;
 	int *fds;
 	char *buf;
 
+	ret   = 0;
 	flags = O_WRONLY | O_CREAT | O_TRUNC;
 	buf   = xmalloc(BUFCAP, sizeof(char));
 
