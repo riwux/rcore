@@ -49,7 +49,6 @@ MISC_SRC =\
           $(MISC_SRC_DIR)/yes.c
 
 LIBUTIL_SRC =\
-             $(LIBUTIL_DIR)/buf.c\
              $(LIBUTIL_DIR)/io.c\
              $(LIBUTIL_DIR)/lib.c\
              $(LIBUTIL_DIR)/mem.c\

@@ -38,24 +38,25 @@ int
 copy_file(int out_fd, int in_fd)
 {
 	ssize_t n;
-	struct Buf *buf = buf_create(BUFLEN);
+	char *buf;
 
-	while ((n = read(in_fd, buf->data, buf->size)) > 0)
-		xwrite_all(out_fd, buf->data, n);
-	buf_free(buf);
+	buf = xmalloc(BUFCAP, sizeof(char));
+	while ((n = read(in_fd, buf, BUFCAP)) > 0)
+		xwrite_all(out_fd, buf, n);
+	free(buf);
 
 	return (n < 0) ? 1 : 0;
 }
 
 ssize_t
-write_all(int fd, void *buf, size_t count)
+write_all(int fd, char *buf, size_t count)
 {
 	ssize_t n = 0;
 	ssize_t i = n;
 
 	while (count) {
-		if ((n = write(fd, (char *)buf+i, count)) == -1)
-			return n;
+		if ((n = write(fd, buf+i, count)) == -1)
+			return -1;
 		count -= n;
 		i += n;
 	}
@@ -64,7 +65,7 @@ write_all(int fd, void *buf, size_t count)
 }
 
 void
-xwrite_all(int fd, void *buf, size_t count)
+xwrite_all(int fd, char *buf, size_t count)
 {
 	if (write_all(fd, buf, count) == -1)
 		die(1, "write_all:");
@@ -75,31 +76,4 @@ xclose(int fd)
 {
 	if (fd != -1 && close(fd) < 0)
 		die(1, "close:");
-}
-
-/* FIXME: awfully inefficient */
-ssize_t
-get_line(int fd, struct Buf *buf)
-{
-	ssize_t n;
-	ssize_t ret = 0;
-	size_t i = 0;
-	char c;
-
-	while ((n = read(fd, &c, 1)) > 0) {
-		if ((ret += n) >= buf->size) {
-			buf->size *= 2;
-			buf->data = xrealloc(buf->data, buf->size, sizeof(char));
-		}
-
-		buf->data[i++] = c;
-		if (c == '\n') {
-			buf->data[i] = '\0';
-			break;
-		}
-	}
-	if (n <= 0)
-		ret = n;
-
-	return ret;
 }
