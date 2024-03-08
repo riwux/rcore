@@ -29,7 +29,7 @@ main(int argc, char *argv[])
 	argc -= optind;
 	argv += optind;
 
-	tty = ttyname(STDIN_FILENO);
+	tty = ttyname(STDERR_FILENO);
 	if (!tty)
 		die(2, "ttyname:");
 	if (stat(tty, &st))
