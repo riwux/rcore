@@ -6,13 +6,13 @@
 include config.mak
 
 POSIX_DIR = posix
-MISC_DIR  = misc
+EXTRA_DIR = extra
 
 POSIX_SRC_DIR = $(POSIX_DIR)/src
-MISC_SRC_DIR  = $(MISC_DIR)/src
+EXTRA_SRC_DIR = $(EXTRA_DIR)/src
 
 POSIX_MAN_DIR = $(POSIX_DIR)/man
-MISC_MAN_DIR  = $(MISC_DIR)/man
+EXTRA_MAN_DIR = $(EXTRA_DIR)/man
 
 INCLUDE_DIR   = include
 LIB_DIR       = lib
@@ -39,14 +39,14 @@ POSIX_SRC =\
            $(POSIX_SRC_DIR)/uname.c\
            $(POSIX_SRC_DIR)/unlink.c
 
-MISC_SRC =\
-          $(MISC_SRC_DIR)/ascii.c\
-          $(MISC_SRC_DIR)/base32.c\
-          $(MISC_SRC_DIR)/base64.c\
-          $(MISC_SRC_DIR)/clear.c\
-          $(MISC_SRC_DIR)/hostname.c\
-          $(MISC_SRC_DIR)/printenv.c\
-          $(MISC_SRC_DIR)/yes.c
+EXTRA_SRC =\
+          $(EXTRA_SRC_DIR)/ascii.c\
+          $(EXTRA_SRC_DIR)/base32.c\
+          $(EXTRA_SRC_DIR)/base64.c\
+          $(EXTRA_SRC_DIR)/clear.c\
+          $(EXTRA_SRC_DIR)/hostname.c\
+          $(EXTRA_SRC_DIR)/printenv.c\
+          $(EXTRA_SRC_DIR)/yes.c
 
 LIBUTIL_SRC =\
              $(LIBUTIL_DIR)/io.c\
@@ -55,24 +55,24 @@ LIBUTIL_SRC =\
              $(LIBUTIL_DIR)/num.c
 
 POSIX_BIN   = $(POSIX_SRC:.c=)
-MISC_BIN    = $(MISC_SRC:.c=)
+EXTRA_BIN   = $(EXTRA_SRC:.c=)
 LIBUTIL     = $(LIBUTIL_DIR)/libutil.a
 LIBUTIL_OBJ = $(LIBUTIL_SRC:.c=.o)
 
 
-all: lib posix misc $(HDR)
+all: lib posix extra $(HDR)
 
 install: all
 	@mkdir -p $(BINDIR)
-	cp -f $(POSIX_BIN) $(MISC_BIN) $(BINDIR)
+	cp -f $(POSIX_BIN) $(EXTRA_BIN) $(BINDIR)
 
 uninstall:
-	@printf "Removing $(POSIX_BIN) $(MISC_BIN)\n"
-	@for i in $(POSIX_BIN) $(MISC_BIN); do rm -f $(BINDIR)/$$(basename $$i); done
+	@printf "Removing $(POSIX_BIN) $(EXTRA_BIN)\n"
+	@for i in $(POSIX_BIN) $(EXTRA_BIN); do rm -f $(BINDIR)/$$(basename $$i); done
 
 lib: $(LIBUTIL)
 posix: $(LIBUTIL) $(POSIX_BIN)
-misc: $(LIBUTIL) $(MISC_BIN)
+extra: $(LIBUTIL) $(EXTRA_BIN)
 
 $(LIBUTIL): $(LIBUTIL_SRC)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $(LIBUTIL_SRC)
@@ -83,6 +83,6 @@ $(LIBUTIL): $(LIBUTIL_SRC)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $< $(LIBUTIL) $(LDFLAGS)
 
 clean:
-	rm -f $(POSIX_BIN) $(MISC_BIN) $(LIBUTIL) $(LIBUTIL_OBJ)
+	rm -f $(POSIX_BIN) $(EXTRA_BIN) $(LIBUTIL) $(LIBUTIL_OBJ)
 
-.PHONY: all install uninstall posix misc lib clean
+.PHONY: all install uninstall posix extra lib clean
