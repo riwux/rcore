@@ -9,52 +9,22 @@
 static void
 echo_unescape(char *str)
 {
-	char c;
-	int i;
-	char num[4];
+	_Bool cesc;
+	size_t len;
 
-	while ((c = *str)) {
-		if (*str == '\\' && str[1]) {
-			/* Make sure no digit hides inside the array. */
-			num[0] = num[1] = num[2] = num[3] = 0;
+	cesc = 0;
+	len  = unescape_num(str);
 
-			switch (*++str) {
-			case 'c':
-				exit(0);
-				break;
-			case 'x':
-				if (!is_hexdigit(*++str)) {
-					--str;
-					break;
-				}
-				for (i=0; i<2 && is_hexdigit(*str); ++i, ++str)
-					num[i] = *str;
-				c = to_num(num, HEX);
-				break;
-			case '0':
-				for (i=0; i<4 && is_octdigit(*str); ++i, ++str)
-					num[i] = *str;
-				c = to_num(num, OCT);
-				break;
-			case 'a':
-			case 'b':
-			case 'f':
-			case 'n':
-			case 'r':
-			case 't':
-			case 'v':
-			case '\\':
-				c = unescape(str++);
-				break;
-			default:
-				c = '\\';
-				break;
-			}
-		} else {
-			++str;
+	for (size_t i = 0; i < len; ++i) {
+		if (str[i] == '\\' && str[i+1] == 'c') {
+			len = i;
+			cesc = 1;
 		}
-		putchar(c);
 	}
+	fwrite(str, len, sizeof(char), stdout);
+
+	if (cesc)
+		exit(0);
 }
 
 int
@@ -96,7 +66,6 @@ echo:
 		if (*++argv)
 			putchar(' ');
 	}
-
 	if (!nflag)
 		putchar('\n');
 }

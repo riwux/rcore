@@ -51,6 +51,7 @@ extern int_least64_t to_num(char *, int);
 extern uint_least64_t to_unum(char *, int);
 
 /* lib.c */
-extern char unescape(char *);
+extern char   unescape(char *);
+extern size_t unescape_num(char *);
 
 #endif /* UTIL_H_ */
