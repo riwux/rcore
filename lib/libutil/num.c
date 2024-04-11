@@ -6,33 +6,7 @@
 #include "util.h"
 
 int_least64_t
-to_num(char *str)
-{
-	int_least64_t ret;
-
-	errno = 0;
-	ret = strtoll(str, NULL, 10);
-	if (errno)
-		die(1, "strtoll:");
-
-	return ret;
-}
-
-uint_least64_t
-to_unum(char *str)
-{
-	uint_least64_t ret;
-
-	errno = 0;
-	ret = strtoull(str, NULL, 10);
-	if (errno)
-		die(1, "strtoull:");
-
-	return ret;
-}
-
-int_least64_t
-to_num_base(char *str, int base)
+to_num(char *str, int base)
 {
 	int_least64_t ret;
 
@@ -45,7 +19,7 @@ to_num_base(char *str, int base)
 }
 
 uint_least64_t
-to_unum_base(char *str, int base)
+to_unum(char *str, int base)
 {
 	uint_least64_t ret;
 

@@ -46,11 +46,11 @@ fill_timespec(struct timespec *time, char *str)
 		dot[len] = '\0'; /* stop at nanoseconds or earlier */
 		mul /= pow(10, zeroes + len-1);
 
-		time->tv_nsec = to_num(dot) * mul;
+		time->tv_nsec = to_num(dot, DEC) * mul;
 	}
 
 	if (!nosec)
-		time->tv_sec = to_num(str);
+		time->tv_sec = to_num(str, DEC);
 
 	return 0;
 }

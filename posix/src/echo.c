@@ -29,12 +29,12 @@ echo_unescape(char *str)
 				}
 				for (i=0; i<2 && is_hexdigit(*str); ++i, ++str)
 					num[i] = *str;
-				c = to_num_base(num, HEX);
+				c = to_num(num, HEX);
 				break;
 			case '0':
 				for (i=0; i<4 && is_octdigit(*str); ++i, ++str)
 					num[i] = *str;
-				c = to_num_base(num, OCT);
+				c = to_num(num, OCT);
 				break;
 			case 'a':
 			case 'b':

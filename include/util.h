@@ -47,10 +47,8 @@ static inline _Bool is_octdigit(char c)
 	return (c >= '0' && c <= '7');
 }
 
-extern int_least64_t to_num(char *);
-extern uint_least64_t to_unum(char *);
-extern int_least64_t to_num_base(char *, int);
-extern uint_least64_t to_unum_base(char *, int);
+extern int_least64_t to_num(char *, int);
+extern uint_least64_t to_unum(char *, int);
 
 /* lib.c */
 extern char unescape(char *);
