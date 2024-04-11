@@ -1,24 +1,24 @@
 /* See LICENSE file for copyright and license details. */
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "util.h"
 
-
 static void
 echo_unescape(char *str)
 {
-	_Bool cesc;
+	bool cesc;
 	size_t len;
 
-	cesc = 0;
+	cesc = false;
 	len  = unescape_num(str);
 
 	for (size_t i = 0; i < len; ++i) {
 		if (str[i] == '\\' && str[i+1] == 'c') {
 			len = i;
-			cesc = 1;
+			cesc = true;
 		}
 	}
 	fwrite(str, len, sizeof(char), stdout);
@@ -32,24 +32,24 @@ main(int argc, char *argv[])
 {
 	(void) argc;
 
-	_Bool nflag = 0;
-	_Bool eflag = 0;
+	bool nflag = false;
+	bool eflag = false;
 	char *arg;
 
 	while ((arg = *++argv) && *arg == '-') {
 		while (*++arg) {
 			switch (*arg) {
 			case 'n':
-				nflag = 1;
+				nflag = true;
 				break;
 			case 'e':
-				eflag = 1;
+				eflag = true;
 				break;
 			case 'E':
-				eflag = 0;
+				eflag = false;
 				break;
 			default:
-				nflag = eflag = 0;
+				nflag = eflag = false;
 				goto echo;
 				break;
 			}

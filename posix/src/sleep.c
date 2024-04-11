@@ -1,6 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 #include <limits.h>
 #include <math.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/time.h>
@@ -15,20 +16,19 @@ usage(void)
 	die(1, "usage: sleep time");
 }
 
-static _Bool
-fill_timespec(struct timespec *time, char *str)
+static int
+parse_time(struct timespec *time, char *str)
 {
-	_Bool nosec = 0;
-	uint_least8_t zeroes = 0;
-	uint_least64_t mul   = 100000000;
+	bool nosec = false;
+	int zeroes = 0;
+	uint_least64_t mul = 100000000;
 	size_t len;
 	char *p, *dot;
 
 	time->tv_sec = time->tv_nsec = 0;
-
 	dot = strchr(str, '.');
 	if (str == dot)
-		nosec = 1;
+		nosec = true;
 
 	if (dot && dot[1]) {
 		*dot++ = '\0';
@@ -36,19 +36,16 @@ fill_timespec(struct timespec *time, char *str)
 
 		for (; *dot == '0'; ++dot)
 			++zeroes;
-
 		for (; *p; ++p) {
 			if (!is_digit(*p))
 				return 1;
 		}
-
 		len = strnlen(dot, 9);
 		dot[len] = '\0'; /* stop at nanoseconds or earlier */
 		mul /= pow(10, zeroes + len-1);
 
 		time->tv_nsec = to_num(dot, DEC) * mul;
 	}
-
 	if (!nosec)
 		time->tv_sec = to_num(str, DEC);
 
@@ -74,7 +71,7 @@ main(int argc, char *argv[])
 	if (argc != 1)
 		usage();
 
-	if (fill_timespec(&time, *argv))
+	if (parse_time(&time, *argv))
 		die(2, "sleep: invalid number format");
 
 	return !!nanosleep(&time, NULL);

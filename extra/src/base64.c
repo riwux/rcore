@@ -1,4 +1,5 @@
 /* See LICENSE file for copyright and license details. */
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
@@ -15,14 +16,14 @@ usage(void)
 int
 main(int argc, char *argv[])
 {
-	_Bool dflag;
+	bool dflag;
 	int opt, n, i, s;
 	uint_least32_t val;
 	char buf[3];
 	FILE *fp;
 
 	val   = 0;
-	dflag = 0;
+	dflag = false;
 	const char *table = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	                    "abcdefghijklmnopqrstuvwxyz"
 	                    "0123456789+/";
@@ -30,7 +31,7 @@ main(int argc, char *argv[])
 	while ((opt = getopt(argc, argv, "d")) != -1) {
 		switch (opt) {
 		case 'd':
-			dflag = 1;
+			dflag = true;
 			break;
 		default:
 			usage();
@@ -53,6 +54,7 @@ main(int argc, char *argv[])
 
 	if (dflag) {
 		/* TODO: implement decoding */
+		return 1;
 	}
 
 	while ((n = fread(&buf, sizeof(char), 3, fp)) > 0) {

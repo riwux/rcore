@@ -2,6 +2,7 @@
 #ifndef UTIL_H_
 #define UTIL_H_
 
+#include <stdbool.h>
 #include <sys/types.h> /* provide */
 #include <stdint.h>   /* types   */
 
@@ -27,22 +28,22 @@ extern void *xrealloc(void *, size_t, size_t);
 #define DEC 10
 #define HEX 16
 
-static inline _Bool overflow_mul(size_t a, size_t b)
+static inline bool overflow_mul(size_t a, size_t b)
 {
 	return (a > 0 && b > SIZE_MAX / a);
 }
 
-static inline _Bool is_digit(char c)
+static inline bool is_digit(char c)
 {
 	return (c >= '0' && c <= '9');
 }
 
-static inline _Bool is_hexdigit(char c)
+static inline bool is_hexdigit(char c)
 {
 	return (is_digit(c) || (c >= 'a' && c <= 'f'));
 }
 
-static inline _Bool is_octdigit(char c)
+static inline bool is_octdigit(char c)
 {
 	return (c >= '0' && c <= '7');
 }

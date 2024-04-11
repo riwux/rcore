@@ -1,6 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 #include <errno.h>
 #include <libgen.h>
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <string.h>
@@ -14,10 +15,10 @@ usage(void)
 	die(1, "usage: rmdir [-p] dir...");
 }
 
-static _Bool
+static bool
 rmdir_path(char *path)
 {
-	_Bool ret = 0;
+	bool ret = false;
 
 	do {
 		if (rmdir(path)) {
@@ -33,14 +34,14 @@ rmdir_path(char *path)
 int
 main(int argc, char *argv[])
 {
-	_Bool pflag = 0;
+	bool pflag = false;
 	int opt;
 	int ret = 0;
 
 	while ((opt = getopt(argc, argv, "p")) != -1) {
 		switch (opt) {
 		case 'p':
-			pflag = 1;
+			pflag = true;
 			break;
 		default:
 			usage();

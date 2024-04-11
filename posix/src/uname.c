@@ -1,7 +1,8 @@
 /* See LICENSE file for copyright and license details. */
+#include <stdbool.h>
 #include <stdio.h>
-#include <sys/utsname.h>
 #include <unistd.h>
+#include <sys/utsname.h>
 
 #include "util.h"
 
@@ -12,16 +13,16 @@ usage(void)
 }
 
 static void
-print_val(char *val, _Bool flag)
+print_val(char *val, bool flag)
 {
-	static _Bool skip = 1;
+	static bool skip = true;
 
 	if (!flag)
 		return;
 
 	if (!skip)
 		putchar(' ');
-	skip = 0;
+	skip = false;
 
 	fputs(val, stdout);
 }
@@ -29,29 +30,32 @@ print_val(char *val, _Bool flag)
 int
 main(int argc, char *argv[])
 {
-	_Bool mflag = 0, nflag = 0, rflag = 0, sflag = 0, vflag = 0;
+	bool mflag, nflag, rflag, sflag, vflag;
 	int opt;
 	struct utsname uts;
+
+	mflag = nflag = false;
+	rflag = sflag = vflag = false;
 
 	while ((opt = getopt(argc, argv, "amnrsv")) != -1) {
 		switch (opt) {
 		case 'a':
-			mflag = nflag = rflag = sflag = vflag = 1;
+			mflag = nflag = rflag = sflag = vflag = true;
 			break;
 		case 'm':
-			mflag = 1;
+			mflag = true;
 			break;
 		case 'n':
-			nflag = 1;
+			nflag = true;
 			break;
 		case 'r':
-			rflag = 1;
+			rflag = true;
 			break;
 		case 's':
-			sflag = 1;
+			sflag = true;
 			break;
 		case 'v':
-			vflag = 1;
+			vflag = true;
 			break;
 		default:
 			usage();
@@ -62,7 +66,7 @@ main(int argc, char *argv[])
 	argv += optind;
 
 	if (!(mflag || nflag || rflag || sflag || vflag))
-		sflag = 1;
+		sflag = true;
 
 	if (uname(&uts))
 		die(1, "uname");
