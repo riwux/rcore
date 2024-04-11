@@ -58,6 +58,7 @@ main(int argc, char *argv[])
 			if (fds[i] != -1 && write_all(fds[i], buf, n) == -1) {
 				ret = 1;
 				fds[i] = -1;
+				perror(argv[i]);
 			}
 		}
 	}
