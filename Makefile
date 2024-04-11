@@ -46,6 +46,7 @@ EXTRA_SRC =\
           $(EXTRA_SRC_DIR)/clear.c\
           $(EXTRA_SRC_DIR)/hostname.c\
           $(EXTRA_SRC_DIR)/printenv.c\
+          $(EXTRA_SRC_DIR)/sync.c\
           $(EXTRA_SRC_DIR)/yes.c
 
 LIBUTIL_SRC =\
