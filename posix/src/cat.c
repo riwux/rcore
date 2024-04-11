@@ -35,7 +35,7 @@ main(int argc, char *argv[])
 		return 0;
 	}
 
-	do {
+	for (; *argv; ++argv) {
 		if (!strcmp(*argv, "-")) {
 			fd = STDIN_FILENO;
 		} else if ((fd = open(*argv, O_RDONLY)) < 0) {
@@ -47,5 +47,5 @@ main(int argc, char *argv[])
 		/* avoid closing stdin, stdout & stderr */
 		if (fd > 2)
 			xclose(fd);
-	} while (*++argv);
+	}
 }
