@@ -18,6 +18,7 @@ int
 main(int argc, char *argv[])
 {
 	int opt;
+	int ret = 0;
 	mode_t mode = S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH;
 
 	while ((opt = getopt(argc, argv, "m:")) != -1) {
@@ -34,8 +35,12 @@ main(int argc, char *argv[])
 	argv += optind;
 
 	for (; *argv; ++argv) {
-		if (mkfifo(*argv, mode))
+		if (mkfifo(*argv, mode)) {
 			eprintf("mkfifo: cannot create fifo '%s': %s\n", *argv, \
 			    strerror(errno));
+			ret = 1;
+		}
 	}
+
+	return ret;
 }
