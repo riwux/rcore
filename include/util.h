@@ -53,5 +53,6 @@ extern uint_least64_t to_unum(char *, int);
 
 /* lib.c */
 extern char   unescape(char *);
+extern mode_t parse_mode(char *);
 
 #endif /* UTIL_H_ */
