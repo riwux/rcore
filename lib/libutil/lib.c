@@ -1,4 +1,5 @@
 /* See LICENSE file for copyright and license details. */
+#include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
 
@@ -49,6 +50,16 @@ parse_mode(char *mode)
 	mode_t m, who;
 	mode_t perm = 0;
 	mode_t ret  = 0666;
+	long oct;
+	char *end;
+
+	/* 'mode' might already be an octal integer. */
+	oct = strtol(mode, &end, OCT);
+	if (*end == '\0') {
+		if (oct > 07777 || oct < 0)
+			die(1, "parse_mode: invalid mode '%s'", mode);
+		return oct;
+	}
 
 	umask(0);
 	do {
