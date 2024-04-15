@@ -8,7 +8,7 @@
 static void
 usage(void)
 {
-	die(1, "usage: dirname path");
+	die(1, "usage: dirname path...");
 }
 
 int
@@ -26,8 +26,10 @@ main(int argc, char *argv[])
 	argc -= optind;
 	argv += optind;
 
-	if (argc != 1)
+	if (argc == 0)
 		usage();
 
-	puts(dirname(*argv));
+	for (; *argv; ++argv) {
+		puts(dirname(*argv));
+	}
 }
