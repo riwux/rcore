@@ -53,6 +53,8 @@ parse_mode(char *mode)
 	long oct;
 	char *end;
 
+	umask(0);
+
 	/* 'mode' might already be an octal integer. */
 	oct = strtol(mode, &end, OCT);
 	if (*end == '\0') {
@@ -61,7 +63,6 @@ parse_mode(char *mode)
 		return oct;
 	}
 
-	umask(0);
 	do {
 		/* Each clause of a symbolic mode can have an optional wholist. */
 		for (who = 0; *mode && !strchr("+-=", *mode); ++mode) {
