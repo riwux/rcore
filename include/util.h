@@ -14,10 +14,10 @@ typedef unsigned char uchar;
 extern void eprintf(char *, ...);
 extern void die(int, char *, ...);
 
-extern int copy_file(int, int);
+extern int     copy_file(int, int);
 extern ssize_t write_all(int, char *, size_t);
-extern void xwrite_all(int, char *, size_t);
-extern void xclose(int);
+extern void    xwrite_all(int, char *, size_t);
+extern void    xclose(int);
 
 /* mem.c */
 extern void *xmalloc(size_t, size_t);
@@ -28,28 +28,32 @@ extern void *xrealloc(void *, size_t, size_t);
 #define DEC 10
 #define HEX 16
 
-static inline bool overflow_mul(size_t a, size_t b)
+extern int_least64_t  to_num(char *, int);
+extern uint_least64_t to_unum(char *, int);
+
+static inline bool
+overflow_mul(size_t a, size_t b)
 {
 	return (a > 0 && b > SIZE_MAX / a);
 }
 
-static inline bool is_digit(char c)
+static inline bool
+is_digit(char c)
 {
 	return (c >= '0' && c <= '9');
 }
 
-static inline bool is_hexdigit(char c)
+static inline bool
+is_hexdigit(char c)
 {
 	return (is_digit(c) || (c >= 'a' && c <= 'f'));
 }
 
-static inline bool is_octdigit(char c)
+static inline bool
+is_octdigit(char c)
 {
 	return (c >= '0' && c <= '7');
 }
-
-extern int_least64_t to_num(char *, int);
-extern uint_least64_t to_unum(char *, int);
 
 /* lib.c */
 extern char   unescape(char *);
