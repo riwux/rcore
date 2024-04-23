@@ -32,6 +32,7 @@ POSIX_SRC =\
            $(POSIX_SRC_DIR)/false.c\
            $(POSIX_SRC_DIR)/link.c\
            $(POSIX_SRC_DIR)/mesg.c\
+           $(POSIX_SRC_DIR)/mkdir.c\
            $(POSIX_SRC_DIR)/mkfifo.c\
            $(POSIX_SRC_DIR)/rmdir.c\
            $(POSIX_SRC_DIR)/sleep.c\
