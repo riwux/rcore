@@ -25,6 +25,7 @@ HDR =\
 POSIX_SRC =\
            $(POSIX_SRC_DIR)/basename.c\
            $(POSIX_SRC_DIR)/cat.c\
+           $(POSIX_SRC_DIR)/cmp.c\
            $(POSIX_SRC_DIR)/dirname.c\
            $(POSIX_SRC_DIR)/echo.c\
            $(POSIX_SRC_DIR)/env.c\
