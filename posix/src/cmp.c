@@ -17,13 +17,12 @@ main(int argc, char *argv[])
 {
 	bool lflag = false;
 	bool sflag = false;
-	bool eof   = false;
-	int ret    = 0;
 	int opt;
-	size_t n, ln;
-	int c[2];
-	char *fn[2];
-	FILE *fp[2];
+	size_t n  = 1;
+	size_t ln = 1;
+	int c[2]    = {-2, -2};
+	char *fn[3] = {NULL, NULL, NULL};
+	FILE *fp[2] = {NULL, NULL};
 
 	while ((opt = getopt(argc, argv, "ls")) != -1) {
 		switch (opt) {
@@ -52,37 +51,37 @@ main(int argc, char *argv[])
 		if (!fp[i])
 			die(2, "fopen: '%s':", fn[i]);
 	}
-
 	/* Is the file compared to itself? */
 	if (!strcmp(fn[0], fn[1]))
 		return 0;
 
-	for (n = ln = 1;; ++n) {
-		c[0] = fgetc(fp[0]);
-		c[1] = fgetc(fp[1]);
-
-		if (feof(fp[0]) || feof(fp[1])) {
-			eof = true;
+	for (int i = 0; ; i=!i, n+=!i) {
+		c[i] = fgetc(fp[i]);
+		if (c[i] == EOF) {
+			if (c[!i] != EOF && fgetc(fp[!i]) != EOF)
+				fn[2] = fn[i];
 			break;
 		}
-		if (c[0] == '\n')
+		if (c[!i] == -2)
+			continue;
+		if (c[i] == '\n' && c[!i] == '\n')
 			++ln;
-		if (c[0] != c[1]) {
-			ret = 1;
+		if (c[i] != c[!i]) {
 			if (sflag) {
 				break;
 			} else if (lflag) {
-				printf("%zu %o %o\n", n, c[0], c[1]);
+				printf("%zu %o %o\n", n, c[!i], c[i]);
 			} else {
 				printf("%s %s differ: byte %zu, line %zu\n", \
-				        fn[0], fn[1], n, ln);
+				        fn[!i], fn[i], n, ln);
 				break;
 			}
 		}
+		c[i] = c[!i] = -2;
 	}
-	if (eof) {
+	if (fn[2]) {
 		eprintf("cmp: EOF on %s after byte %zu\n", \
-		         fn[1], n-1);
+		         fn[2], n-1);
 	}
-	return ret;
+	return (c[0] != c[1]);
 }
