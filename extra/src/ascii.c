@@ -12,37 +12,27 @@ usage(void)
 }
 
 static void
-print_table(int base)
+print_chart(char base)
 {
-	char *fmt, *escfmt;
+	char fmt[] = {'|', '%', '.', (base == 'x' ? '2' : '3'), base, ' ', ' ', \
+	    '%', 'c', ' ', '\0'};
+	char escfmt[] = {'|', '%', '.', (base == 'x' ? '2' : '3'), base, ' ', '%', \
+	    '-', '3', 's', '\0'};
 	char *ascii[] = {
 		"nul", "soh", "stx", "etx", "eot", "enq", "ack", "bel",
 		"bs",  "ht",  "nl",  "vt",  "np",  "cr",  "so",  "si",
 		"dle", "dc1", "dc2", "dc3", "dc4", "nak", "syn", "etb",
-		"can", "em",  "sub", "esc", "fs",  "gs",  "rs",  "us", "sp",
-		[127] = "del"
+		"can", "em",  "sub", "esc", "fs",  "gs",  "rs",  "us",
+		"sp", "del"
 	};
-
-	switch (base) {
-	case DEC:
-		fmt = "|%.3d  %c ";
-		escfmt = "|%.3d %-3s";
-		break;
-	case OCT:
-		fmt = "|%.3o  %c ";
-		escfmt = "|%.3o %-3s";
-		break;
-	case HEX:
-		fmt = "|%.2x  %c ";
-		escfmt = "|%.2x %-3s";
-		break;
-	}
 
 	for (uchar c = 0; c < 128; ++c) {
 		if (c != 0 && c % 8 == 0)
 			printf("|\n");
-		if (c < 33 || c == 127)
+		if (c < 33)
 			printf(escfmt, c, ascii[c]);
+		else if (c == 127)
+			printf(escfmt, c, ascii[33]);
 		else
 			printf(fmt, c, c);
 	}
@@ -50,44 +40,26 @@ print_table(int base)
 }
 
 static void
-convert(char *argv[], int base)
+print_ascii_code(char *arg, char base)
 {
-	char *fmt;
+	char fmt[] = {'%', base, '\n', '\0'};
 
-	switch (base) {
-	case DEC:
-		fmt = "%d\n";
-		break;
-	case OCT:
-		fmt = "%o\n";
-		break;
-	case HEX:
-		fmt = "%x\n";
-		break;
-	}
-
-	for (; *argv; ++argv) {
-		for (; **argv; ++(*argv))
-			printf(fmt, **argv);
-	}
+	for (; *arg; ++arg)
+		printf(fmt, *arg);
 }
 
 int
 main(int argc, char *argv[])
 {
+	char base = 'x';
 	int opt;
-	int base  = HEX;
 
 	while ((opt = getopt(argc, argv, "xdo")) != -1) {
 		switch (opt) {
 		case 'x':
-			base = HEX;
-			break;
 		case 'd':
-			base = DEC;
-			break;
 		case 'o':
-			base = OCT;
+			base = opt;
 			break;
 		default:
 			usage();
@@ -97,9 +69,11 @@ main(int argc, char *argv[])
 	argc -= optind;
 	argv += optind;
 
-	if (argc == 0)
-		print_table(base);
-	else
-		convert(argv, base);
+	if (argc == 0) {
+		print_chart(base);
+	} else {
+		for (; *argv; ++argv)
+			print_ascii_code(*argv, base);
+	}
 
 }
