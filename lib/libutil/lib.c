@@ -176,3 +176,11 @@ parse_mode(char *mode)
 	/* Make sure only necessary bits are returned. */
 	return (ret & ~S_IFMT);
 }
+
+mode_t
+get_umask(void)
+{
+	mode_t ret = umask(0);
+	umask(ret);
+	return ret;
+}
