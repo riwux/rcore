@@ -13,29 +13,28 @@ usage(void)
 }
 
 static void
-print_val(char *val, bool flag)
+print_info(char *val, bool flag)
 {
 	static bool skip = true;
 
 	if (!flag)
 		return;
-
 	if (!skip)
 		putchar(' ');
 	skip = false;
-
 	fputs(val, stdout);
 }
 
 int
 main(int argc, char *argv[])
 {
-	bool mflag, nflag, rflag, sflag, vflag;
+	bool mflag = false;
+	bool nflag = false;
+	bool rflag = false;
+	bool sflag = false;
+	bool vflag = false;
 	int opt;
 	struct utsname uts;
-
-	mflag = nflag = false;
-	rflag = sflag = vflag = false;
 
 	while ((opt = getopt(argc, argv, "amnrsv")) != -1) {
 		switch (opt) {
@@ -67,14 +66,13 @@ main(int argc, char *argv[])
 
 	if (!(mflag || nflag || rflag || sflag || vflag))
 		sflag = true;
-
 	if (uname(&uts))
 		die(1, "uname");
 
-	print_val(uts.sysname, sflag);
-	print_val(uts.nodename, nflag);
-	print_val(uts.release, rflag);
-	print_val(uts.version, vflag);
-	print_val(uts.machine, mflag);
+	print_info(uts.sysname,  sflag);
+	print_info(uts.nodename, nflag);
+	print_info(uts.release,  rflag);
+	print_info(uts.version,  vflag);
+	print_info(uts.machine,  mflag);
 	putchar('\n');
 }
