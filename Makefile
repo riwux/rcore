@@ -30,6 +30,7 @@ POSIX_SRC =\
            $(POSIX_SRC_DIR)/echo.c\
            $(POSIX_SRC_DIR)/env.c\
            $(POSIX_SRC_DIR)/false.c\
+           $(POSIX_SRC_DIR)/head.c\
            $(POSIX_SRC_DIR)/link.c\
            $(POSIX_SRC_DIR)/mesg.c\
            $(POSIX_SRC_DIR)/mkdir.c\
