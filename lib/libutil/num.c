@@ -5,10 +5,10 @@
 
 #include "util.h"
 
-int_least64_t
+int64_t
 to_num(char *str, int base)
 {
-	int_least64_t ret;
+	int64_t ret;
 
 	errno = 0;
 	ret = strtoll(str, NULL, base);
@@ -18,10 +18,10 @@ to_num(char *str, int base)
 	return ret;
 }
 
-uint_least64_t
+uint64_t
 to_unum(char *str, int base)
 {
-	uint_least64_t ret;
+	uint64_t ret;
 
 	errno = 0;
 	ret = strtoull(str, NULL, base);

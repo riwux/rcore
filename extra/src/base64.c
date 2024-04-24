@@ -16,14 +16,12 @@ usage(void)
 int
 main(int argc, char *argv[])
 {
-	bool dflag;
+	bool dflag = false;
 	int opt, n, i, s;
-	uint_least32_t val;
+	uint32_t val = 0;
 	char buf[3];
 	FILE *fp;
 
-	val   = 0;
-	dflag = false;
 	const char *table = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	                    "abcdefghijklmnopqrstuvwxyz"
 	                    "0123456789+/";
@@ -59,7 +57,7 @@ main(int argc, char *argv[])
 
 	while ((n = fread(&buf, sizeof(char), 3, fp)) > 0) {
 		for (i = 0, s = 16; i < n; s -= 8, ++i)
-			val |= (uint_least32_t)buf[i] << s;
+			val |= (uint32_t)buf[i] << s;
 		for (i = 0, s = 18; i <= n; s -= 6, ++i)
 			putchar(table[((val >> s) & 63)]); /* 2^6-1=63 extract 6 bits. */
 		val = 0;

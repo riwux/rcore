@@ -28,8 +28,8 @@ extern void *xrealloc(void *, size_t, size_t);
 #define DEC 10
 #define HEX 16
 
-extern int_least64_t  to_num(char *, int);
-extern uint_least64_t to_unum(char *, int);
+extern int64_t  to_num(char *, int);
+extern uint64_t to_unum(char *, int);
 
 static inline bool
 overflow_mul(size_t a, size_t b)

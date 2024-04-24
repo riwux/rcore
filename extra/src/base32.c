@@ -1,5 +1,6 @@
 /* See LICENSE file for copyright and license details. */
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -17,7 +18,7 @@ main(int argc, char *argv[])
 {
 	bool dflag;
 	int opt, n, i, s;
-	uint_least64_t val;
+	uint64_t val;
 	char buf[5];
 	FILE *fp;
 
@@ -56,7 +57,7 @@ main(int argc, char *argv[])
 
 	while ((n = fread(&buf, sizeof(char), 5, fp)) > 0) {
 		for (i = 0, s = 32; i < n; s -= 8, ++i)
-			val |= (uint_least64_t)buf[i] << s;
+			val |= (uint64_t)buf[i] << s;
 		n = (n<4 ? n+2 : n+3);
 		for (i = 0, s = 35; i < n; s -= 5, ++i)
 			putchar(table[((val >> s) & 31)]); /* 2^5-1=31 extract 5 bits */
