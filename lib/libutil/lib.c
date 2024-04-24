@@ -5,10 +5,6 @@
 
 #include "util.h"
 
-/*
- * Local support functions.
- */
-
 static mode_t
 apply_mode(char op, mode_t old, mode_t who, mode_t perm)
 {
@@ -28,11 +24,6 @@ apply_mode(char op, mode_t old, mode_t who, mode_t perm)
 	return old;
 }
 
-
-/*
- * Public interface.
- */
-
 char
 unescape(char *arg)
 {
@@ -44,12 +35,12 @@ unescape(char *arg)
 }
 
 mode_t
-parse_mode(char *mode)
+parse_mode(char *mode, mode_t init)
 {
 	char op = 0;
 	mode_t m, who;
 	mode_t perm = 0;
-	mode_t ret  = 0666;
+	mode_t ret  = init;
 	long oct;
 	char *end;
 

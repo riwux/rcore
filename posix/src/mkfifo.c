@@ -24,7 +24,7 @@ main(int argc, char *argv[])
 	while ((opt = getopt(argc, argv, "m:")) != -1) {
 		switch (opt) {
 		case 'm':
-			mode = parse_mode(optarg);
+			mode = parse_mode(optarg, mode);
 			break;
 		default:
 			usage();

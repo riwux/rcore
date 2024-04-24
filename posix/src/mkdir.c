@@ -82,7 +82,7 @@ main(int argc, char *argv[])
 			pflag = true;
 			break;
 		case 'm':
-			mode = parse_mode(optarg);
+			mode = parse_mode(optarg, (S_IRWXU | S_IRWXG | S_IRWXO));
 			break;
 		default:
 			usage();

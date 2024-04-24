@@ -57,7 +57,7 @@ is_octdigit(char c)
 
 /* lib.c */
 extern char   unescape(char *);
-extern mode_t parse_mode(char *);
+extern mode_t parse_mode(char *, mode_t);
 extern mode_t get_umask(void);
 
 #endif /* UTIL_H_ */
