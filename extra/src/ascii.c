@@ -16,7 +16,7 @@ print_chart(char base)
 {
 	char fmt[] = {'|', '%', '.', (base == 'x' ? '2' : '3'), base, ' ', ' ', \
 	    '%', 'c', ' ', '\0'};
-	char escfmt[] = {'|', '%', '.', (base == 'x' ? '2' : '3'), base, ' ', '%', \
+	char ctlfmt[] = {'|', '%', '.', (base == 'x' ? '2' : '3'), base, ' ', '%', \
 	    '-', '3', 's', '\0'};
 	char *ascii[] = {
 		"nul", "soh", "stx", "etx", "eot", "enq", "ack", "bel",
@@ -30,9 +30,9 @@ print_chart(char base)
 		if (c != 0 && c % 8 == 0)
 			printf("|\n");
 		if (c < 33)
-			printf(escfmt, c, ascii[c]);
+			printf(ctlfmt, c, ascii[c]);
 		else if (c == 127)
-			printf(escfmt, c, ascii[33]);
+			printf(ctlfmt, c, ascii[33]);
 		else
 			printf(fmt, c, c);
 	}
