@@ -23,8 +23,8 @@ check_path(char const *pathname, bool pflag, bool Pflag)
 	size_t maxpath = (pflag ? _POSIX_PATH_MAX : PATH_MAX);
 	size_t maxname = (pflag ? _POSIX_NAME_MAX : NAME_MAX);
 	char const *start;
-	char const *charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	                      "abcdefghijklmnopqrstuvwxyz0123456789._-";
+	char const *const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	                            "abcdefghijklmnopqrstuvwxyz0123456789._-";
 	char path[PATH_MAX + 2];
 	struct stat st;
 

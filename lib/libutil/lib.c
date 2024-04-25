@@ -28,7 +28,7 @@ char
 unescape(char const *arg)
 {
 	char *p;
-	char const *escape = "a\ab\bf\fn\nr\rt\tv\v\\\\";
+	char const *const escape = "a\ab\bf\fn\nr\rt\tv\v\\\\";
 
 	p = strchr(escape, *arg);
 	return (!p ? *arg : p[1]);

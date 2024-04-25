@@ -21,10 +21,9 @@ main(int argc, char *argv[])
 	uint32_t val = 0;
 	char buf[3];
 	FILE *fp;
-
-	char const *table = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	                    "abcdefghijklmnopqrstuvwxyz"
-	                    "0123456789+/";
+	char const *const table = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	                          "abcdefghijklmnopqrstuvwxyz"
+	                          "0123456789+/";
 
 	while ((opt = getopt(argc, argv, "d")) != -1) {
 		switch (opt) {

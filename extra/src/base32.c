@@ -16,20 +16,17 @@ usage(void)
 int
 main(int argc, char *argv[])
 {
-	bool dflag;
+	bool dflag = false;
 	int opt, n, i, s;
-	uint64_t val;
+	uint64_t val = 0;
 	char buf[5];
+	char const *const table = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
 	FILE *fp;
-
-	val   = 0;
-	dflag = false;
-	char const *table = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
 
 	while ((opt = getopt(argc, argv, "d")) != -1) {
 		switch(opt) {
 		case 'd':
-			dflag = 1;
+			dflag = true;
 			break;
 		default:
 			usage();
