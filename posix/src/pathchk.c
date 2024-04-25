@@ -15,15 +15,15 @@ usage(void)
 }
 
 static int
-check_path(const char *pathname, bool pflag, bool Pflag)
+check_path(char const *pathname, bool pflag, bool Pflag)
 {
 	int ret     = 0;
 	size_t clen = 0;
 	size_t plen = strlen(pathname);
 	size_t maxpath = (pflag ? _POSIX_PATH_MAX : PATH_MAX);
 	size_t maxname = (pflag ? _POSIX_NAME_MAX : NAME_MAX);
-	const char *start;
-	const char *charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	char const *start;
+	char const *charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	                      "abcdefghijklmnopqrstuvwxyz0123456789._-";
 	char path[PATH_MAX + 2];
 	struct stat st;
@@ -68,7 +68,7 @@ check_path(const char *pathname, bool pflag, bool Pflag)
 			ret = -1;
 		}
 		if (pflag) {
-			for (const char *np = start; np < p; ++np) {
+			for (char const *np = start; np < p; ++np) {
 				if (!strchr(charset, *np)) {
 					eprintf("pathchk: pathname component contains " \
 					    "non-portable character '%c': '%s'\n", *np, start);

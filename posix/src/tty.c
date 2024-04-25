@@ -14,7 +14,7 @@ int
 main(int argc, char *argv[])
 {
 	int opt;
-	char *tname;
+	char const *tname;
 
 	while ((opt = getopt(argc, argv, "")) != -1) {
 		switch (opt) {

@@ -14,11 +14,11 @@ usage(void)
 static void
 print_chart(char base)
 {
-	char fmt[] = {'|', '%', '.', (base == 'x' ? '2' : '3'), base, ' ', ' ', \
-	    '%', 'c', ' ', '\0'};
-	char ctlfmt[] = {'|', '%', '.', (base == 'x' ? '2' : '3'), base, ' ', '%', \
-	    '-', '3', 's', '\0'};
-	char *ascii[] = {
+	char const fmt[] = {'|', '%', '.', (base == 'x' ? '2' : '3'), base, \
+	' ', ' ', '%', 'c', ' ', '\0'};
+	char const ctlfmt[] = {'|', '%', '.', (base == 'x' ? '2' : '3'), base, \
+	' ', '%', '-', '3', 's', '\0'};
+	char const *ascii[] = {
 		"nul", "soh", "stx", "etx", "eot", "enq", "ack", "bel",
 		"bs",  "ht",  "nl",  "vt",  "np",  "cr",  "so",  "si",
 		"dle", "dc1", "dc2", "dc3", "dc4", "nak", "syn", "etb",
@@ -40,7 +40,7 @@ print_chart(char base)
 }
 
 static void
-print_ascii_code(char *arg, char base)
+print_ascii_code(char const *arg, char base)
 {
 	char fmt[] = {'%', base, '\n', '\0'};
 

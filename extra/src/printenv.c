@@ -19,8 +19,7 @@ main(int argc, char *argv[])
 {
 	int opt;
 	int ret = 0;
-	char *var;
-
+	char const *var;
 
 	while ((opt = getopt(argc, argv, "")) != -1) {
 		switch (opt) {

@@ -17,13 +17,14 @@ usage(void)
 }
 
 static int
-parse_time(struct timespec *time, char *str)
+parse_time(struct timespec *time, char const *str)
 {
 	bool nosec   = false;
 	int zeroes   = 0;
 	uint64_t mul = 100000000;
 	size_t len;
-	char *p, *dot;
+	char *dot;
+	char const *p;
 
 	time->tv_sec = time->tv_nsec = 0;
 	dot = strchr(str, '.');
@@ -46,6 +47,7 @@ parse_time(struct timespec *time, char *str)
 	}
 	if (!nosec)
 		time->tv_sec = to_num(str, DEC);
+
 	return 0;
 }
 

@@ -6,7 +6,7 @@
 #include "util.h"
 
 int64_t
-to_num(char *str, int base)
+to_num(char const *str, int base)
 {
 	int64_t ret;
 
@@ -19,7 +19,7 @@ to_num(char *str, int base)
 }
 
 uint64_t
-to_unum(char *str, int base)
+to_unum(char const *str, int base)
 {
 	uint64_t ret;
 

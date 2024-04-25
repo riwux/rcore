@@ -7,7 +7,7 @@
 #include "util.h"
 
 static void
-echo_unescape(char *str)
+echo_unescape(char const *str)
 {
 	char c;
 	int i;

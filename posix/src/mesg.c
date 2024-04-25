@@ -16,7 +16,7 @@ main(int argc, char *argv[])
 {
 	int opt;
 	mode_t mode = 0;
-	char *tty;
+	char const *tty;
 	struct stat st;
 
 	while ((opt = getopt(argc, argv, "")) != -1) {

@@ -25,17 +25,17 @@ apply_mode(char op, mode_t old, mode_t who, mode_t perm)
 }
 
 char
-unescape(char *arg)
+unescape(char const *arg)
 {
 	char *p;
-	const char *escape = "a\ab\bf\fn\nr\rt\tv\v\\\\";
+	char const *escape = "a\ab\bf\fn\nr\rt\tv\v\\\\";
 
 	p = strchr(escape, *arg);
 	return (!p ? *arg : p[1]);
 }
 
 mode_t
-parse_mode(char *mode, mode_t init)
+parse_mode(char const *mode, mode_t init)
 {
 	char op = 0;
 	mode_t m, who;

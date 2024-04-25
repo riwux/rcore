@@ -17,8 +17,8 @@ static int
 mkpath(char *path)
 {
 	int ret = 0;
-	char *s = path;
 	char *p = path;
+	char *s = path;
 	char *last;
 	struct stat st;
 
@@ -112,5 +112,6 @@ main(int argc, char *argv[])
 			    strerror(errno));
 		}
 	}
+
 	return ret;
 }

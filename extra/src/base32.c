@@ -24,7 +24,7 @@ main(int argc, char *argv[])
 
 	val   = 0;
 	dflag = false;
-	const char *table = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+	char const *table = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
 
 	while ((opt = getopt(argc, argv, "d")) != -1) {
 		switch(opt) {

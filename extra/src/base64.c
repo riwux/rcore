@@ -22,7 +22,7 @@ main(int argc, char *argv[])
 	char buf[3];
 	FILE *fp;
 
-	const char *table = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	char const *table = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	                    "abcdefghijklmnopqrstuvwxyz"
 	                    "0123456789+/";
 

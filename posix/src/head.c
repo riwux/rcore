@@ -15,7 +15,7 @@ usage(void)
 }
 
 static int
-head(FILE *fp, char *file, int64_t num)
+head(FILE *fp, char const *file, int64_t num)
 {
 	size_t len = 0;
 	char *line = NULL;

@@ -8,7 +8,7 @@
 #include "util.h"
 
 void
-eprintf(char *fmt, ...)
+eprintf(char const *fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
@@ -17,7 +17,7 @@ eprintf(char *fmt, ...)
 }
 
 void
-die(int status, char *fmt, ...)
+die(int status, char const *fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
@@ -49,7 +49,7 @@ copy_file(int out_fd, int in_fd)
 }
 
 ssize_t
-write_all(int fd, char *buf, size_t count)
+write_all(int fd, char const *buf, size_t count)
 {
 	ssize_t n = 0;
 	ssize_t i = n;
@@ -65,7 +65,7 @@ write_all(int fd, char *buf, size_t count)
 }
 
 void
-xwrite_all(int fd, char *buf, size_t count)
+xwrite_all(int fd, char const *buf, size_t count)
 {
 	if (write_all(fd, buf, count) == -1)
 		die(1, "write_all:");
