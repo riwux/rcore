@@ -13,7 +13,7 @@ extern char **environ;
 static void
 usage(void)
 {
-	die(1, "usage: env [-i] [name=value]... [utility [arg...]]");
+	die(1, "usage: env [-] [-i] [name=value]... [utility [arg...]]");
 }
 
 int
