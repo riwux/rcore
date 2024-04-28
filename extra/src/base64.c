@@ -54,7 +54,7 @@ main(int argc, char *argv[])
 		return 1;
 	}
 
-	while ((n = fread(&buf, sizeof char, 3, fp)) > 0) {
+	while ((n = fread(&buf, sizeof (char), 3, fp)) > 0) {
 		for (i = 0, s = 16; i < n; s -= 8, ++i)
 			val |= (uint32_t)buf[i] << s;
 		for (i = 0, s = 18; i <= n; s -= 6, ++i)

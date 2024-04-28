@@ -23,7 +23,7 @@ main(int argc, char *argv[])
 
 	ret   = 0;
 	flags = O_WRONLY | O_CREAT | O_TRUNC;
-	buf   = xmalloc(BUFCAP, sizeof char);
+	buf   = xmalloc(BUFCAP, sizeof (char));
 
 	while ((opt = getopt(argc, argv, "ai")) != -1) {
 		switch (opt) {
