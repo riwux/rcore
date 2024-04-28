@@ -52,7 +52,7 @@ main(int argc, char *argv[])
 		return 1;
 	}
 
-	while ((n = fread(&buf, sizeof(char), 5, fp)) > 0) {
+	while ((n = fread(&buf, sizeof char, 5, fp)) > 0) {
 		for (i = 0, s = 32; i < n; s -= 8, ++i)
 			val |= (uint64_t)buf[i] << s;
 		n = (n<4 ? n+2 : n+3);

@@ -40,7 +40,7 @@ copy_file(int out_fd, int in_fd)
 	ssize_t n;
 	char *buf;
 
-	buf = xmalloc(BUFCAP, sizeof(char));
+	buf = xmalloc(BUFCAP, sizeof char);
 	while ((n = read(in_fd, buf, BUFCAP)) > 0)
 		xwrite_all(out_fd, buf, n);
 	free(buf);

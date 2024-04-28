@@ -23,7 +23,7 @@ main(int argc, char *argv[])
 
 	ret   = 0;
 	flags = O_WRONLY | O_CREAT | O_TRUNC;
-	buf   = xmalloc(BUFCAP, sizeof(char));
+	buf   = xmalloc(BUFCAP, sizeof char);
 
 	while ((opt = getopt(argc, argv, "ai")) != -1) {
 		switch (opt) {
@@ -41,7 +41,7 @@ main(int argc, char *argv[])
 	}
 	argc -= optind;
 	argv += optind;
-	fds = xmalloc(argc+1, sizeof(*fds));
+	fds = xmalloc(argc+1, sizeof *fds);
 
 	for (int i = 0; i < argc; ++i) {
 		fds[i] = open(argv[i], flags, 0666);
