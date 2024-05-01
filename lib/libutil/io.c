@@ -88,7 +88,7 @@ x_fopen(char const *path, char const *mode)
 	FILE *fp;
 
 	if (!(fp = fopen(path, mode)))
-		die(1, "fopen:");
+		die(1, "fopen: cannot open '%s':", path);
 
 	return fp;
 }

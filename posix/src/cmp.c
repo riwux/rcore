@@ -81,9 +81,7 @@ main(int argc, char *argv[])
 
 	for (int i = 0; i < 2; ++i) {
 		fn[i] = argv[i];
-		fp[i] = (!strcmp(fn[i], "-")) ? stdin : fopen(fn[i], "r");
-		if (!fp[i])
-			die(2, "cmp: fopen: '%s':", fn[i]);
+		fp[i] = (!strcmp(fn[i], "-")) ? stdin : x_fopen(fn[i], "r");
 	}
 
 	/* Is the file compared to itself? */
