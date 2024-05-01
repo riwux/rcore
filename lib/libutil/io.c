@@ -53,9 +53,13 @@ copy_file(int out_fd, int in_fd)
 	ssize_t n;
 	char *buf;
 
-	buf = xmalloc(BUFCAP, sizeof (char));
-	while ((n = read(in_fd, buf, BUFCAP)) > 0)
-		xwrite_all(out_fd, buf, n);
+	buf = x_malloc(BUFCAP, sizeof (char));
+	while ((n = read(in_fd, buf, BUFCAP)) > 0) {
+		if (write_all(out_fd, buf, n) == -1) {
+			n = -1;
+			break;
+		}
+	}
 	free(buf);
 
 	return (n < 0) ? 1 : 0;
@@ -78,14 +82,7 @@ write_all(int fd, char const *buf, size_t count)
 }
 
 void
-xwrite_all(int fd, char const *buf, size_t count)
-{
-	if (write_all(fd, buf, count) == -1)
-		die(1, "write_all:");
-}
-
-void
-xclose(int fd)
+x_close(int fd)
 {
 	if (fd != -1 && close(fd) < 0)
 		die(1, "close:");

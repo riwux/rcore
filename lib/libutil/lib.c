@@ -35,7 +35,7 @@ unescape(char const *arg)
 }
 
 mode_t
-parse_mode(char const *mode, mode_t init)
+x_parsemode(char const *mode, mode_t init)
 {
 	char op = 0;
 	mode_t m, who;

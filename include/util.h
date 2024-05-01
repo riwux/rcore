@@ -16,20 +16,19 @@ extern void die(int, char const *, ...);
 
 extern int     copy_file(int, int);
 extern ssize_t write_all(int, char const *, size_t);
-extern void    xwrite_all(int, char const *, size_t);
-extern void    xclose(int);
+extern void    x_close(int);
 
 /* mem.c */
-extern void *xmalloc(size_t, size_t);
-extern void *xrealloc(void *, size_t, size_t);
+extern void *x_malloc(size_t, size_t);
+extern void *x_realloc(void *, size_t, size_t);
 
 /* num.c */
 #define OCT 8
 #define DEC 10
 #define HEX 16
 
-extern int64_t  to_num(char const *, int);
-extern uint64_t to_unum(char const *, int);
+extern int64_t  x_to_num(char const *, int);
+extern uint64_t x_to_unum(char const *, int);
 
 static inline bool
 overflow_mul(size_t a, size_t b)
@@ -57,7 +56,7 @@ is_octdigit(char c)
 
 /* lib.c */
 extern char   unescape(char const *);
-extern mode_t parse_mode(char const *, mode_t);
+extern mode_t x_parsemode(char const *, mode_t);
 extern mode_t get_umask(void);
 
 #endif /* UTIL_H_ */

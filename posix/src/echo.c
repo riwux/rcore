@@ -27,12 +27,12 @@ echo_unescape(char const *str)
 				}
 				for (i=0; i<2 && is_hexdigit(*str); ++i, ++str)
 					num[i] = *str;
-				c = to_num(num, HEX);
+				c = x_to_num(num, HEX);
 				break;
 			case '0':
 				for (i=0; i<4 && is_octdigit(*str); ++i, ++str)
 					num[i] = *str;
-				c = to_num(num, OCT);
+				c = x_to_num(num, OCT);
 				break;
 			case 'a': case 'b': case 'f': case 'n':
 			case 'r': case 't': case 'v': case '\\':

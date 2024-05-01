@@ -5,7 +5,7 @@
 #include "util.h"
 
 void *
-xmalloc(size_t nmemb, size_t size)
+x_malloc(size_t nmemb, size_t size)
 {
 	void *p;
 
@@ -21,7 +21,7 @@ xmalloc(size_t nmemb, size_t size)
 }
 
 void *
-xrealloc(void *p, size_t nmemb, size_t size)
+x_realloc(void *p, size_t nmemb, size_t size)
 {
 	if (overflow_mul(nmemb, size)) {
 		errno = ENOMEM;

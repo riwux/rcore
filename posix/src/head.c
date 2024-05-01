@@ -42,7 +42,7 @@ main(int argc, char *argv[])
 	while ((opt = getopt(argc, argv, "n:")) != -1) {
 		switch (opt) {
 		case 'n':
-			num = to_num(optarg, DEC);
+			num = x_to_num(optarg, DEC);
 			if (num < 0)
 				die(1, "head: '%lld': argument has to be positive", num);
 			break;

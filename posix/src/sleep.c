@@ -43,10 +43,10 @@ parse_time(struct timespec *time, char const *str)
 		len = strnlen(dot, 9);
 		dot[len] = '\0'; /* stop at nanoseconds or earlier */
 		mul /= pow(10, zeroes + len-1);
-		time->tv_nsec = to_num(dot, DEC) * mul;
+		time->tv_nsec = x_to_num(dot, DEC) * mul;
 	}
 	if (!nosec)
-		time->tv_sec = to_num(str, DEC);
+		time->tv_sec = x_to_num(str, DEC);
 
 	return 0;
 }
