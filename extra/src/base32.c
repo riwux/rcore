@@ -38,7 +38,11 @@ main(int argc, char *argv[])
 
 	if (argc > 1)
 		usage();
-	fp = (!strcmp(*argv, "-") || argc == 0) ? stdin : x_fopen(*argv, "r");
+
+	if (argc == 0 || !strcmp(*argv, "-"))
+		fp = stdin;
+	else
+		fp = x_fopen(*argv, "r");
 
 	if (dflag) {
 		/* TODO: implement decoding */
