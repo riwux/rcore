@@ -48,14 +48,14 @@ die(int status, char const *fmt, ...)
 }
 
 int
-copy_file(int out_fd, int in_fd)
+fcopy(FILE *out_fp, FILE *in_fp, size_t bsize)
 {
 	ssize_t n;
 	char *buf;
 
-	buf = x_malloc(BUFCAP, sizeof (char));
-	while ((n = read(in_fd, buf, BUFCAP)) > 0) {
-		if (write_all(out_fd, buf, n) == -1) {
+	buf = x_malloc(bsize, sizeof (char));
+	while ((n = fread(buf, sizeof (char), bsize, in_fp)) > 0) {
+		if (fwrite_all(out_fp, buf, n) == -1) {
 			n = -1;
 			break;
 		}
@@ -66,24 +66,36 @@ copy_file(int out_fd, int in_fd)
 }
 
 ssize_t
-write_all(int fd, char const *buf, size_t count)
+fwrite_all(FILE *fp, char const *buf, size_t count)
 {
-	ssize_t n = 0;
-	ssize_t i = n;
+	size_t n = 0;
+	size_t i = n;
 
 	while (count) {
-		if ((n = write(fd, buf+i, count)) == -1)
+		n = fwrite(buf + i, 1, count, fp);
+		if (ferror(fp))
 			return -1;
+		i     += n;
 		count -= n;
-		i += n;
 	}
 
 	return count;
 }
 
-void
-x_close(int fd)
+FILE *
+x_fopen(char const *path, char const *mode)
 {
-	if (fd != -1 && close(fd) < 0)
-		die(1, "close:");
+	FILE *fp;
+
+	if (!(fp = fopen(path, mode)))
+		die(1, "fopen:");
+
+	return fp;
+}
+
+void
+x_fclose(FILE *fp)
+{
+	if (fp != NULL && fclose(fp) == EOF)
+		die(1, "fclose:");
 }

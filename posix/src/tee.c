@@ -7,6 +7,8 @@
 
 #include "util.h"
 
+#define SKIP NULL
+
 static void
 usage(void)
 {
@@ -16,19 +18,17 @@ usage(void)
 int
 main(int argc, char *argv[])
 {
-	int ret, opt, flags;
-	ssize_t n;
-	int *fds;
-	char *buf;
-
-	ret   = 0;
-	flags = O_WRONLY | O_CREAT | O_TRUNC;
-	buf   = x_malloc(BUFCAP, sizeof (char));
+	char flags = 'w';
+	int ret    = 0;
+	int opt;
+	size_t n;
+	char *buf  = x_malloc(BUFSIZ, sizeof (char));
+	FILE **fps;
 
 	while ((opt = getopt(argc, argv, "ai")) != -1) {
 		switch (opt) {
 		case 'a':
-			flags = (flags & ~O_TRUNC) | O_APPEND;
+			flags = 'a';
 			break;
 		case 'i':
 			if (signal(SIGINT, SIG_IGN) == SIG_ERR)
@@ -41,29 +41,29 @@ main(int argc, char *argv[])
 	}
 	argc -= optind;
 	argv += optind;
-	fds = x_malloc(argc+1, sizeof *fds);
+	fps = x_malloc(argc+1, sizeof *fps);
 
 	for (int i = 0; i < argc; ++i) {
-		fds[i] = open(argv[i], flags, 0666);
-		if (fds[i] < 0) {
-			perror(argv[i]);
+		if (!(fps[i] = fopen(argv[i], &flags))) {
 			ret = 1;
+			perror(argv[i]);
 		}
 	}
-	fds[argc]  = STDOUT_FILENO;
+	fps[argc]  = stdout;
 	argv[argc] = "stdout";
 
-	while ((n = read(STDIN_FILENO, buf, BUFCAP)) > 0) {
+	while (!ferror(stdin) && !feof(stdin)) {
+		n = fread(buf, sizeof (char), 1, stdin);
 		for (int i = 0; i <= argc; ++i) {
-			if (fds[i] != -1 && write_all(fds[i], buf, n) == -1) {
-				ret = 1;
-				fds[i] = -1;
+			if (fps[i] != SKIP && fwrite_all(fps[i], buf, n) == -1) {
+				fps[i] = SKIP;
 				perror(argv[i]);
+				ret = 1;
 			}
 		}
 	}
 	free(buf);
-	free(fds);
+	free(fps);
 
 	return ret;
 }
