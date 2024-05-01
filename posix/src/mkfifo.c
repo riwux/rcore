@@ -36,8 +36,7 @@ main(int argc, char *argv[])
 
 	for (; *argv; ++argv) {
 		if (mkfifo(*argv, mode)) {
-			eprintf("mkfifo: cannot create fifo '%s': %s\n", *argv, \
-			    strerror(errno));
+			warn("mkfifo: cannot create fifo '%s':", *argv);
 			ret = 1;
 		}
 	}

@@ -29,12 +29,12 @@ check_path(char const *pathname, bool pflag, bool Pflag)
 	struct stat st;
 
 	if (Pflag && plen == 0) {
-		eprintf("pathchk: pathname is empty\n");
+		warn("pathchk: pathname is empty");
 		return -1;
 	}
 	if (plen > maxpath) {
-		eprintf("pathchk: limit '%zu' exceeded by length " \
-		    "'%zu' of pathname '%s'\n", maxpath, plen, pathname);
+		warn("pathchk: limit '%zu' exceeded by length " \
+		    "'%zu' of pathname '%s'", maxpath, plen, pathname);
 		return -1;
 	}
 
@@ -51,8 +51,8 @@ check_path(char const *pathname, bool pflag, bool Pflag)
 		*p   = '\0';
 		clen = p - start;
 		if (clen > maxname) {
-			eprintf("pathchk: limit '%zu' exceeded by length '%zu' " \
-			    "of pathname component '%s'\n", maxname, clen, start);
+			warn("pathchk: limit '%zu' exceeded by length '%zu' " \
+			    "of pathname component '%s'", maxname, clen, start);
 			return -1;
 		}
 		/*
@@ -63,23 +63,23 @@ check_path(char const *pathname, bool pflag, bool Pflag)
 		 */
 		errno = 0;
 		if (lstat(start, &st) && errno != ENOENT) {
-			eprintf("pathchk: pathname component doesn't have search " \
-			    "permissions: %s\n", strerror(errno), start);
+			warn("pathchk: pathname component doesn't have search " \
+			    "permissions: '%s'", start);
 			ret = -1;
 		}
 		if (pflag) {
 			for (char const *np = start; np < p; ++np) {
 				if (!strchr(charset, *np)) {
-					eprintf("pathchk: pathname component contains " \
-					    "non-portable character '%c': '%s'\n", *np, start);
+					warn("pathchk: pathname component contains " \
+					    "non-portable character '%c': '%s'", *np, start);
 					ret = -1;
 					break;
 				}
 			}
 		}
 		if (Pflag && start[0] == '-') {
-			eprintf("pathchk: pathname component starts with <hyphen-minus>: " \
-			    "'%s'\n", start);
+			warn("pathchk: pathname component starts with <hyphen-minus>: " \
+			    "'%s'", start);
 			ret = -1;
 		}
 		*p = '/';
@@ -102,8 +102,8 @@ main(int argc, char *argv[])
 		case 'p':
 			/*
 			 * Are the Pathname and its components..
-			 * ..not longer than _POSIX_PATH_MAX?
-			 * ..not longer than _POSIX_NAME_MAX?
+			 * ..longer than _POSIX_PATH_MAX?
+			 * ..longer than _POSIX_NAME_MAX?
 			 * ..characters part of the "portable filename character set"?
 			 */
 			pflag = true;

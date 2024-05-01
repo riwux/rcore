@@ -7,22 +7,12 @@
 
 #include "util.h"
 
-void
-eprintf(char const *fmt, ...)
+static int
+vwarn(char const *fmt, va_list args)
 {
-	va_list args;
-	va_start(args, fmt);
+	if (!fmt)
+		return -1;
 	vfprintf(stderr, fmt, args);
-	va_end(args);
-}
-
-void
-die(int status, char const *fmt, ...)
-{
-	va_list args;
-	va_start(args, fmt);
-	vfprintf(stderr, fmt, args);
-	va_end(args);
 
 	if (fmt[0] && fmt[strlen(fmt)-1] == ':') {
 		fputc(' ', stderr);
@@ -30,6 +20,29 @@ die(int status, char const *fmt, ...)
 	} else {
 		fputc('\n', stderr);
 	}
+
+	return 0;
+}
+
+void
+warn(char const *fmt, ...)
+{
+	va_list args;
+	va_start(args, fmt);
+	if (vwarn(fmt, args))
+		return;
+	va_end(args);
+}
+
+void
+die(int status, char const *fmt, ...)
+{
+
+	va_list args;
+	va_start(args, fmt);
+	if (vwarn(fmt, args))
+		return;
+	va_end(args);
 
 	exit(status);
 }

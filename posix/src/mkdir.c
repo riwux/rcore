@@ -36,27 +36,24 @@ mkpath(char *path)
 		s  = p+1;
 		errno = 0;
 		if (mkdir(path, 0) && errno != EEXIST) {
-			eprintf("mkdir: cannot create directory '%s': %s\n", path, \
-			    strerror(errno));
+			warn("mkdir: cannot create directory '%s':", path);
 			ret = -1;
 			goto reset;
 		}
 		/* Already existing pathname components keep their mode. */
 		if (errno != EEXIST &&
 		    chmod(path, (S_IWUSR | S_IXUSR | ~get_umask()) & 0777)) {
-			eprintf("chmod: cannot change permissions of '%s': %s\n", path, \
-			    strerror(errno));
+			warn("mkdir: chmod: cannot change permissions of '%s':", path);
 			ret = -1;
 			goto reset;
 		}
 		if (stat(path, &st)) {
-			eprintf("stat: '%s': %s\n", path, strerror(errno));
+			warn("mkdir: stat: '%s':", path);
 			ret = -1;
 			goto reset;
 		}
 		if (!S_ISDIR(st.st_mode)) {
-			eprintf("mkdir: cannot create directory '%s': Not a directory\n", \
-			    path);
+			warn("mkdir: cannot create directory '%s': Not a directory", path);
 			ret = -1;
 			goto reset;
 		}
@@ -100,17 +97,13 @@ main(int argc, char *argv[])
 			if (mkpath(*argv))
 				ret = 1;
 			continue;
-		}
-		if (mkdir(*argv, mode)) {
-			eprintf("mkdir: cannot create directory '%s': %s\n", *argv, \
-			    strerror(errno));
+		} else if (mkdir(*argv, mode)) {
+			warn("mkdir: cannot create directory '%s':", *argv);
 			ret = 1;
 			continue;
 		}
-		if (chmod(*argv, mode)) {
-			eprintf("chmod: cannot change permission of '%s': %s\n", *argv, \
-			    strerror(errno));
-		}
+		if (chmod(*argv, mode))
+			warn("chmod: cannot change permission of '%s':", *argv);
 	}
 
 	return ret;

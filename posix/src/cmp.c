@@ -43,10 +43,8 @@ compare_files(char *fn[], FILE *fp[], bool lflag, bool sflag)
 		}
 		c[i] = c[!i] = -2;
 	}
-	if (fn[2]) {
-		eprintf("cmp: EOF on %s after byte %zu\n", \
-		         fn[2], n-1);
-	}
+	if (fn[2])
+		warn("cmp: EOF on %s after byte %zu", fn[2], n-1);
 
 	return (c[0] != c[1]);
 }
@@ -85,7 +83,7 @@ main(int argc, char *argv[])
 		fn[i] = argv[i];
 		fp[i] = (!strcmp(fn[i], "-")) ? stdin : fopen(fn[i], "r");
 		if (!fp[i])
-			die(2, "fopen: '%s':", fn[i]);
+			die(2, "cmp: fopen: '%s':", fn[i]);
 	}
 
 	/* Is the file compared to itself? */

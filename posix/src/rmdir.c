@@ -22,7 +22,7 @@ rmdir_path(char *path)
 
 	do {
 		if (rmdir(path)) {
-			eprintf("rmdir: cannot remove '%s': %s\n", path, strerror(errno));
+			warn("rmdir: cannot remove '%s':", path);
 			ret = 1;
 		}
 		path = dirname(path);
@@ -59,7 +59,7 @@ main(int argc, char *argv[])
 			if (rmdir_path(*argv))
 				ret = 1;
 		} else if (rmdir(*argv)) {
-			eprintf("rmdir: cannot remove '%s': %s\n", *argv, strerror(errno));
+			warn("rmdir: cannot remove '%s':", *argv);
 			ret = 1;
 		}
 	}

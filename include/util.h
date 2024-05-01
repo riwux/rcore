@@ -11,7 +11,7 @@
 typedef unsigned char uchar;
 
 /* io.c */
-extern void eprintf(char const *, ...);
+extern void warn(char const *, ...);
 extern void die(int, char const *, ...);
 
 extern int     copy_file(int, int);
