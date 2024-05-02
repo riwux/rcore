@@ -13,10 +13,9 @@ typedef unsigned char uchar;
 extern void warn(char const *, ...);
 extern void die(int, char const *, ...);
 
-extern ssize_t fwrite_all(FILE *, char const *, size_t);
-extern int     fcopy(FILE *, FILE *, size_t);
-extern FILE   *x_fopen(char const *, char const *);
-extern void    x_fclose(FILE *);
+extern int   fcopy(FILE *, FILE *, size_t);
+extern FILE *x_fopen(char const *, char const *);
+extern void  x_fclose(FILE *);
 
 /* mem.c */
 extern void *x_malloc(size_t, size_t);

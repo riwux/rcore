@@ -50,12 +50,14 @@ die(int status, char const *fmt, ...)
 int
 fcopy(FILE *out_fp, FILE *in_fp, size_t bsize)
 {
-	ssize_t n;
+	ssize_t n = -1;
 	char *buf;
 
 	buf = x_malloc(bsize, sizeof (char));
-	while ((n = fread(buf, sizeof (char), bsize, in_fp)) > 0) {
-		if (fwrite_all(out_fp, buf, n) == -1) {
+	while (!feof(in_fp)) {
+		n = fread(buf, sizeof (char), bsize, in_fp);
+		fwrite(buf, sizeof (char), n, out_fp);
+		if (ferror(out_fp) || ferror(in_fp)) {
 			n = -1;
 			break;
 		}
@@ -63,23 +65,6 @@ fcopy(FILE *out_fp, FILE *in_fp, size_t bsize)
 	free(buf);
 
 	return (n < 0) ? 1 : 0;
-}
-
-ssize_t
-fwrite_all(FILE *fp, char const *buf, size_t count)
-{
-	size_t n = 0;
-	size_t i = n;
-
-	while (count) {
-		n = fwrite(buf + i, 1, count, fp);
-		if (ferror(fp))
-			return -1;
-		i     += n;
-		count -= n;
-	}
-
-	return count;
 }
 
 FILE *

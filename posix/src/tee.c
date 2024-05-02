@@ -52,13 +52,16 @@ main(int argc, char *argv[])
 	fps[argc]  = stdout;
 	argv[argc] = "stdout";
 
-	while (!ferror(stdin) && !feof(stdin)) {
+	while (!feof(stdin)) {
 		n = fread(buf, sizeof (char), 1, stdin);
 		for (int i = 0; i <= argc; ++i) {
-			if (fps[i] != SKIP && fwrite_all(fps[i], buf, n) == -1) {
-				fps[i] = SKIP;
-				perror(argv[i]);
-				ret = 1;
+			if (fps[i] != SKIP) {
+				fwrite(buf, sizeof (char), n, fps[i]);
+				if (ferror(fps[i])) {
+					fps[i] = SKIP;
+					perror(argv[i]);
+					ret = 1;
+				}
 			}
 		}
 	}

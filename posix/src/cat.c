@@ -22,7 +22,6 @@ main(int argc, char *argv[])
 		switch (opt) {
 		case 'u':
 			bs = 1;
-			setvbuf(stdout, NULL, _IONBF, 0);
 			break;
 		default:
 			usage();
