@@ -52,8 +52,7 @@ main(int argc, char *argv[])
 	fps[argc]  = stdout;
 	argv[argc] = "stdout";
 
-	while (!feof(stdin)) {
-		n = fread(buf, sizeof (char), 1, stdin);
+	while ((n = fread_nb(buf, BUFSIZ, stdin)) > 0) {
 		for (int i = 0; i <= argc; ++i) {
 			if (fps[i] != SKIP) {
 				fwrite(buf, sizeof (char), n, fps[i]);
