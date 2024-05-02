@@ -47,16 +47,18 @@ die(int status, char const *fmt, ...)
 }
 
 int
-fcopy(FILE *out_fp, FILE *in_fp, size_t bsize)
+fcopy(FILE *out_fp, FILE *in_fp)
 {
-	ssize_t n = -1;
-	char *buf;
+	int in_fd  = fileno(in_fp);
+	int out_fd = fileno(out_fp);
+	ssize_t n  = -1;
+	char *buf  = x_malloc(BUFSIZ, sizeof (char));
 
-	buf = x_malloc(bsize, sizeof (char));
-	while (!feof(in_fp)) {
-		n = fread(buf, sizeof (char), bsize, in_fp);
-		fwrite(buf, sizeof (char), n, out_fp);
-		if (ferror(out_fp) || ferror(in_fp)) {
+	if (in_fd == -1 || out_fd == -1)
+		return -1;
+
+	while ((n = read(in_fd, buf, BUFSIZ)) > 0) {
+		if (write(out_fd, buf, n) == -1) {
 			n = -1;
 			break;
 		}

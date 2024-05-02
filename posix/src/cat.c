@@ -15,13 +15,12 @@ int
 main(int argc, char *argv[])
 {
 	int opt;
-	size_t bs = BUFSIZ;
 	FILE *fp;
 
 	while ((opt = getopt(argc, argv, "u")) != -1) {
 		switch (opt) {
 		case 'u':
-			bs = 1;
+			/* Default behavior. */
 			break;
 		default:
 			usage();
@@ -32,14 +31,14 @@ main(int argc, char *argv[])
 	argv += optind;
 
 	if (argc == 0) {
-		if (fcopy(stdout, stdin, bs))
+		if (fcopy(stdout, stdin))
 			die(1, "cat: fcopy:");
 		return 0;
 	}
 
 	for (; *argv; ++argv) {
 		fp = (!strcmp(*argv, "-")) ? stdin : x_fopen(*argv, "r");
-		if (fcopy(stdout, fp, bs))
+		if (fcopy(stdout, fp))
 			die(1, "cat: fcopy:");
 		if (fp != stdin && fp != stdout && fp != stderr)
 			x_fclose(fp);

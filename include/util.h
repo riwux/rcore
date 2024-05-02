@@ -13,7 +13,7 @@ typedef unsigned char uchar;
 extern void warn(char const *, ...);
 extern void die(int, char const *, ...);
 
-extern int   fcopy(FILE *, FILE *, size_t);
+extern int   fcopy(FILE *, FILE *);
 extern FILE *x_fopen(char const *, char const *);
 extern void  x_fclose(FILE *);
 
