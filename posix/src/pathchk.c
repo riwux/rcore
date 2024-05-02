@@ -20,12 +20,12 @@ check_path(char const *pathname, bool pflag, bool Pflag)
 	int ret     = 0;
 	size_t clen = 0;
 	size_t plen = strlen(pathname);
-	size_t maxpath = (pflag ? _POSIX_PATH_MAX : PATH_MAX);
-	size_t maxname = (pflag ? _POSIX_NAME_MAX : NAME_MAX);
+	size_t const maxpath = (pflag ? _POSIX_PATH_MAX : PATH_MAX);
+	size_t const maxname = (pflag ? _POSIX_NAME_MAX : NAME_MAX);
 	char const *start;
 	char const *const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	                            "abcdefghijklmnopqrstuvwxyz0123456789._-";
-	char path[PATH_MAX + 2];
+	char path[PATH_MAX + 2] = {0};
 	struct stat st;
 
 	if (Pflag && plen == 0) {
@@ -39,11 +39,9 @@ check_path(char const *pathname, bool pflag, bool Pflag)
 	}
 
 	/* Make sure every path ends in a trailing <slash>. */
-	plen = (plen >= maxpath) ? maxpath : plen;
 	memcpy(path, pathname, plen);
-	path[plen]     = (path[plen - 1] != '/') ? '/' : path[plen];
-	path[plen + 1] = '\0';
-	start = path;
+	path[plen] = (path[plen - 1] != '/') ? '/' : path[plen];
+	start      = path;
 
 	for (char *p = path; ret != -1 && p < &path[plen + 1]; ++p) {
 		if (*p != '/')
