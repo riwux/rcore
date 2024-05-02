@@ -7,21 +7,19 @@
 
 #include "util.h"
 
-static int
+static void
 vwarn(char const *fmt, va_list args)
 {
 	if (!fmt)
-		return -1;
-	vfprintf(stderr, fmt, args);
+		return;
 
+	vfprintf(stderr, fmt, args);
 	if (fmt[0] && fmt[strlen(fmt)-1] == ':') {
 		fputc(' ', stderr);
 		perror(NULL);
 	} else {
 		fputc('\n', stderr);
 	}
-
-	return 0;
 }
 
 void
@@ -29,8 +27,7 @@ warn(char const *fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
-	if (vwarn(fmt, args))
-		return;
+	vwarn(fmt, args);
 	va_end(args);
 }
 
@@ -42,7 +39,6 @@ die(int status, char const *fmt, ...)
 	va_start(args, fmt);
 	vwarn(fmt, args);
 	va_end(args);
-
 	exit(status);
 }
 
@@ -62,8 +58,8 @@ fread_nb(char *buf, size_t bsize, FILE *fp)
 int
 fcopy(FILE *out_fp, FILE *in_fp)
 {
-	int in_fd  = fileno(in_fp);
-	int out_fd = fileno(out_fp);
+	int in_fd;
+	int out_fd;
 	ssize_t n;
 	char *buf  = x_malloc(BUFSIZ, sizeof (char));
 
