@@ -47,15 +47,9 @@ mkpath(char *path)
 			ret = -1;
 			goto reset;
 		}
-		if (stat(path, &st)) {
-			warn("mkdir: stat: '%s':", path);
+		if (!stat(path, &st) && !S_ISDIR(st.st_mode)) {
+			warn("mkdir: cannot create '%s': Not a directory", path);
 			ret = -1;
-			goto reset;
-		}
-		if (!S_ISDIR(st.st_mode)) {
-			warn("mkdir: cannot create directory '%s': Not a directory", path);
-			ret = -1;
-			goto reset;
 		}
 reset:
 		*p = '/';
