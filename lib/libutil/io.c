@@ -43,31 +43,24 @@ die(int status, char const *fmt, ...)
 }
 
 ssize_t
-fread_nb(char *buf, size_t bsize, FILE *fp)
+non_block_fread(char *buf, size_t bsize, FILE *fp)
 {
 	int fd;
-	ssize_t n;
 
 	if ((fd = fileno(fp)) == -1)
 		return -1;
-
-	n = read(fd, buf, bsize);
-	return n;
+	return read(fd, buf, bsize);
 }
 
 int
 fcopy(FILE *out_fp, FILE *in_fp)
 {
-	int in_fd;
-	int out_fd;
 	ssize_t n;
 	char *buf  = x_malloc(BUFSIZ, sizeof (char));
 
-	if ((in_fd = fileno(in_fp)) == -1 || (out_fd = fileno(out_fp)) == -1)
-		return -1;
-
-	while ((n = read(in_fd, buf, BUFSIZ)) > 0) {
-		if (write(out_fd, buf, n) == -1) {
+	while ((n = non_block_fread(buf, BUFSIZ, in_fp)) > 0) {
+		fwrite(buf, sizeof (char), n, out_fp);
+		if (ferror(out_fp)) {
 			n = -1;
 			break;
 		}
