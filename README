@@ -1,7 +1,7 @@
-  Riwux baseutils
-+=================+
+  Riwux core
++============+
 
-The baseutils project aims to provide a minimal but complete commandline
+The rcore project aims to provide a minimal but complete commandline
 environment containing utilities found on most UNIX(-like) systems.
 It's goal is to be simple, portable and compliant while still being pleasant
 to use. Features and extensions are chosen carefully and only implemented if
@@ -16,7 +16,7 @@ a (e.g Linux-) distribution with it.
   Modules
 +=========+
 
-baseutils is split into several different subdirectories (i.e modules),
+rcore is split into several different subdirectories (i.e modules),
 each dedicated to a specific standard or group of tools.
 Below is a list of subdirectories and a description of their purpose.
 
@@ -35,7 +35,7 @@ Supported compilers:
   - pcc   (remove -s from $(LDFLAGS))
   - lacc  (remove -s from $(LDFLAGS))
 
-To build baseutils, follow these instructions:
+To build rcore, follow these instructions:
 
     $ make            # build the whole project
     $ make all        # same as above
