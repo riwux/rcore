@@ -7,6 +7,8 @@
 #include <sys/types.h> /* provide */
 #include <stdint.h>   /* types   */
 
+#define NELEM(a) (sizeof (a) / sizeof *(a))
+
 typedef unsigned char uchar;
 
 /* io.c */

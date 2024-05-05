@@ -50,6 +50,7 @@ EXTRA_SRC =\
           $(EXTRA_SRC_DIR)/base32.c\
           $(EXTRA_SRC_DIR)/base64.c\
           $(EXTRA_SRC_DIR)/clear.c\
+          $(EXTRA_SRC_DIR)/errno.c\
           $(EXTRA_SRC_DIR)/hostname.c\
           $(EXTRA_SRC_DIR)/printenv.c\
           $(EXTRA_SRC_DIR)/sync.c\
