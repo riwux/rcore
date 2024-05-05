@@ -21,7 +21,7 @@ each dedicated to a specific standard or group of tools.
 Below is a list of subdirectories and a description of their purpose.
 
 posix/  -- POSIX.1-2017 utilities
-extra/  -- common non-standard utilities
+more/   -- common non-standard utilities
 
 
   Build
@@ -45,7 +45,7 @@ To build rcore, follow these instructions:
     $ make clean      # remove all binaries and build leftovers
 
     $ make posix      # only build POSIX utilities
-    $ make extra      # only build non-standard / extra utilities
+    $ make more       # only build non-standard / more utilities
     $ make lib        # only build libraries (in lib/)
 
 In case you want to customize your build process, change the corresponding
