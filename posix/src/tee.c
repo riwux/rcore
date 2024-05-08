@@ -22,7 +22,7 @@ main(int argc, char *argv[])
 	int ret    = 0;
 	int opt;
 	size_t n;
-	char *buf  = x_malloc(BUFSIZ, sizeof (char));
+	char *buf;
 	FILE **fps;
 
 	while ((opt = getopt(argc, argv, "ai")) != -1) {
@@ -32,7 +32,7 @@ main(int argc, char *argv[])
 			break;
 		case 'i':
 			if (signal(SIGINT, SIG_IGN) == SIG_ERR)
-				die(1, "signal:");
+				die(1, "tee: signal:");
 			break;
 		default:
 			usage();
@@ -41,7 +41,8 @@ main(int argc, char *argv[])
 	}
 	argc -= optind;
 	argv += optind;
-	fps = x_malloc(argc+1, sizeof *fps);
+	buf = x_malloc(BUFSIZ, sizeof (char));
+	fps = x_malloc(argc + 1, sizeof *fps);
 
 	for (int i = 0; i < argc; ++i) {
 		if (!(fps[i] = fopen(argv[i], &flags))) {

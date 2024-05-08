@@ -31,9 +31,9 @@ main(int argc, char *argv[])
 
 	tty = ttyname(STDERR_FILENO);
 	if (!tty)
-		die(2, "ttyname:");
+		die(2, "mesg: ttyname:");
 	if (stat(tty, &st))
-		die(2, "stat:");
+		die(2, "mesg: stat:");
 
 	switch (argc) {
 	case 0:
@@ -51,7 +51,7 @@ main(int argc, char *argv[])
 			die(2, "mesg: invalid argument '%c'", **argv);
 
 		if (chmod(tty, mode))
-			die(2, "chmod:");
+			die(2, "mesg: chmod:");
 		break;
 	default:
 		usage();

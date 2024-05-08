@@ -9,11 +9,9 @@
 static void
 echo_unescape(char const *str)
 {
-	char c;
-	int i;
 	char num[4];
 
-	while ((c = *str)) {
+	for (char c; (c = *str);) {
 		if (*str == '\\' && str[1]) {
 			num[0] = num[1] = num[2] = num[3] = 0;
 			switch (*++str) {
@@ -25,12 +23,12 @@ echo_unescape(char const *str)
 					--str;
 					break;
 				}
-				for (i=0; i<2 && is_hexdigit(*str); ++i, ++str)
+				for (int i = 0; i < 2 && is_hexdigit(*str); ++i, ++str)
 					num[i] = *str;
 				c = x_to_num(num, HEX);
 				break;
 			case '0':
-				for (i=0; i<4 && is_octdigit(*str); ++i, ++str)
+				for (int i = 0; i < 4 && is_octdigit(*str); ++i, ++str)
 					num[i] = *str;
 				c = x_to_num(num, OCT);
 				break;
@@ -52,7 +50,7 @@ echo_unescape(char const *str)
 int
 main(int argc, char *argv[])
 {
-	(void) argc;
+	(void)argc;
 
 	bool nflag = false;
 	bool eflag = false;

@@ -29,7 +29,6 @@ main(int argc, char *argv[])
 	if (argc == 0)
 		usage();
 
-	for (; *argv; ++argv) {
+	for (; *argv; ++argv)
 		puts(dirname(*argv));
-	}
 }

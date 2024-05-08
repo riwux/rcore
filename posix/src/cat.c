@@ -37,7 +37,10 @@ main(int argc, char *argv[])
 	}
 
 	for (; *argv; ++argv) {
-		fp = (!strcmp(*argv, "-")) ? stdin : x_fopen(*argv, "r");
+		if (!(fp = !strcmp(*argv, "-") ? stdin : fopen(*argv, "r"))) {
+			warn("cat: fopen '%s':", *argv);
+			continue;
+		}
 		if (fcopy(stdout, fp))
 			die(1, "cat: fcopy:");
 		if (fp != stdin && fp != stdout && fp != stderr)

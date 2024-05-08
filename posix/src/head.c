@@ -26,7 +26,7 @@ head(FILE *fp, char const *file, int64_t num)
 	free(line);
 
 	if (ferror(fp)) {
-		warn("head: getline: cannot read '%s':", file);
+		warn("head: getline '%s':", file);
 		return -1;
 	}
 
@@ -64,7 +64,7 @@ main(int argc, char *argv[])
 			fp = stdin;
 		} else {
 			if (!(fp = fopen(argv[i], "r"))) {
-				warn("head: fopen: cannot open '%s':", argv[i]);
+				warn("head: fopen '%s':", argv[i]);
 				ret = 1;
 				continue;
 			}

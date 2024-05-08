@@ -6,7 +6,7 @@
 static void
 usage(void)
 {
-	die(1, "usage: link file1 file2");
+	die(1, "usage: link old new");
 }
 
 int

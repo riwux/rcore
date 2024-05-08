@@ -33,17 +33,17 @@ mkpath(char *path)
 
 	while (ret != -1 && s < last && (p = strchr(s, '/'))) {
 		*p = '\0';
-		s  = p+1;
+		s  = p + 1;
 		errno = 0;
 		if (mkdir(path, 0) && errno != EEXIST) {
-			warn("mkdir: cannot create directory '%s':", path);
+			warn("mkdir: cannot create '%s':", path);
 			ret = -1;
 			goto reset;
 		}
 		/* Already existing pathname components keep their mode. */
 		if (errno != EEXIST &&
 		    chmod(path, (S_IWUSR | S_IXUSR | ~get_umask()) & 0777)) {
-			warn("mkdir: chmod: cannot change permissions of '%s':", path);
+			warn("mkdir: chmod: cannot change permission of '%s':", path);
 			ret = -1;
 			goto reset;
 		}
@@ -88,16 +88,17 @@ main(int argc, char *argv[])
 
 	for (; *argv; ++argv) {
 		if (pflag) {
-			if (mkpath(*argv))
+			if (mkpath(*argv)) {
 				ret = 1;
-			continue;
+				continue;
+			}
 		} else if (mkdir(*argv, mode)) {
-			warn("mkdir: cannot create directory '%s':", *argv);
+			warn("mkdir: cannot create '%s':", *argv);
 			ret = 1;
 			continue;
 		}
 		if (chmod(*argv, mode))
-			warn("chmod: cannot change permission of '%s':", *argv);
+			warn("mkdir: chmod: cannot change permission of '%s':", *argv);
 	}
 
 	return ret;

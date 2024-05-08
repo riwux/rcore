@@ -67,7 +67,7 @@ main(int argc, char *argv[])
 	if (!(mflag || nflag || rflag || sflag || vflag))
 		sflag = true;
 	if (uname(&uts))
-		die(1, "uname");
+		die(1, "uname:");
 
 	print_info(uts.sysname,  sflag);
 	print_info(uts.nodename, nflag);
