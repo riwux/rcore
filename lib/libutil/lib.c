@@ -44,8 +44,6 @@ x_parsemode(char const *mode, mode_t init)
 	long oct;
 	char *end;
 
-	umask(0);
-
 	/* 'mode' might already be an octal integer. */
 	oct = strtol(mode, &end, OCT);
 	if (*end == '\0') {
