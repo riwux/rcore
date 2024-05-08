@@ -17,17 +17,19 @@ usage(void)
 static int
 head(FILE *fp, char const *file, int64_t num)
 {
+	ssize_t n;
 	size_t len = 0;
 	char *line = NULL;
 
-	for (int64_t i = 0; i < num && getline(&line, &len, fp) != -1; ++i)
-		fputs(line, stdout);
+	for (int64_t i = 0; i < num && (n = getline(&line, &len, fp)) != -1; ++i)
+		fwrite(line, n, 1, stdout);
 	free(line);
 
 	if (ferror(fp)) {
 		warn("head: getline: cannot read '%s':", file);
 		return -1;
 	}
+
 	return 0;
 }
 
@@ -44,7 +46,7 @@ main(int argc, char *argv[])
 		case 'n':
 			num = x_to_num(optarg, DEC);
 			if (num < 0)
-				die(1, "head: '%lld': argument has to be positive", num);
+				die(1, "head: '%lld': argument is negative", num);
 			break;
 		default:
 			usage();
@@ -54,12 +56,15 @@ main(int argc, char *argv[])
 	argc -= optind;
 	argv += optind;
 
+	if (argc == 0)
+		return !!head(stdin, "stdin", num);
+
 	for (int i = 0; i < argc; ++i) {
 		if (!strcmp(argv[i], "-")) {
 			fp = stdin;
 		} else {
 			if (!(fp = fopen(argv[i], "r"))) {
-				warn("head: fopen: cannot open '%s' for reading:", argv[i]);
+				warn("head: fopen: cannot open '%s':", argv[i]);
 				ret = 1;
 				continue;
 			}
@@ -74,5 +79,6 @@ main(int argc, char *argv[])
 		if (fp != stdin)
 			fclose(fp);
 	}
+
 	return ret;
 }
