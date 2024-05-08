@@ -59,7 +59,7 @@ fcopy(FILE *out_fp, FILE *in_fp)
 	char *buf  = x_malloc(BUFSIZ, sizeof (char));
 
 	while ((n = non_block_fread(buf, BUFSIZ, in_fp)) > 0) {
-		fwrite(buf, sizeof (char), n, out_fp);
+		fwrite(buf, n, 1, out_fp);
 		if (ferror(out_fp)) {
 			n = -1;
 			break;
