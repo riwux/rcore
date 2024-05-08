@@ -20,13 +20,12 @@ static int
 parse_time(struct timespec *time, char const *str)
 {
 	bool nosec   = false;
-	int zeroes   = 0;
-	uint64_t mul = 100000000;
-	size_t len;
+	uint64_t mul = 1000000000;
 	char *dot;
 	char const *p;
 
-	time->tv_sec = time->tv_nsec = 0;
+	time->tv_sec  = 0;
+	time->tv_nsec = 0;
 	dot = strchr(str, '.');
 	if (str == dot)
 		nosec = true;
@@ -34,16 +33,14 @@ parse_time(struct timespec *time, char const *str)
 	if (dot && dot[1]) {
 		*dot++ = '\0';
 		p = dot;
-		for (; *dot == '0'; ++dot)
-			++zeroes;
-		for (; *p; ++p) {
-			if (!is_digit(*p))
-				return 1;
+		for (size_t i = 0; p[i]; ++i) {
+			if (!is_digit(p[i]))
+				return -1;
+			else if (i < 9 && *dot++)
+				mul /= 10;
 		}
-		len = strnlen(dot, 9);
-		dot[len] = '\0'; /* stop at nanoseconds or earlier */
-		mul /= pow(10, zeroes + len-1);
-		time->tv_nsec = x_to_num(dot, DEC) * mul;
+		*dot = '\0';
+		time->tv_nsec = x_to_num(p, DEC) * mul;
 	}
 	if (!nosec)
 		time->tv_sec = x_to_num(str, DEC);
