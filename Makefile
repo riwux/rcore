@@ -6,12 +6,15 @@
 include config.mak
 
 POSIX_DIR = posix
+LINUX_DIR = linux
 MORE_DIR  = more
 
 POSIX_SRC_DIR = $(POSIX_DIR)/src
+LINUX_SRC_DIR = $(LINUX_DIR)/src
 MORE_SRC_DIR  = $(MORE_DIR)/src
 
 POSIX_MAN_DIR = $(POSIX_DIR)/man
+LINUX_MAN_DIR = $(LINUX_DIR)/man
 MORE_MAN_DIR  = $(MORE_DIR)/man
 
 INCLUDE_DIR   = include
@@ -44,6 +47,9 @@ POSIX_SRC =\
            $(POSIX_SRC_DIR)/uname.c\
            $(POSIX_SRC_DIR)/unlink.c
 
+LINUX_SRC =\
+           $(LINUX_SRC_DIR)/ctrlaltdel.c
+
 MORE_SRC =\
           $(MORE_SRC_DIR)/ascii.c\
           $(MORE_SRC_DIR)/base32.c\
@@ -62,22 +68,26 @@ LIBUTIL_SRC =\
              $(LIBUTIL_DIR)/num.c
 
 POSIX_BIN   = $(POSIX_SRC:.c=)
+LINUX_BIN   = $(LINUX_SRC:.c=)
 MORE_BIN    = $(MORE_SRC:.c=)
 LIBUTIL     = $(LIBUTIL_DIR)/libutil.a
 LIBUTIL_OBJ = $(LIBUTIL_SRC:.c=.o)
 
-all: lib posix more $(HDR)
+all: lib posix linux more $(HDR)
 
 install: all
 	@mkdir -p $(BINDIR)
-	cp -f $(POSIX_BIN) $(MORE_BIN) $(BINDIR)
+	cp -f $(POSIX_BIN) $(LINUX_BIN) $(MORE_BIN) $(BINDIR)
 
 uninstall:
-	@printf "Removing $(POSIX_BIN) $(MORE_BIN)\n"
-	@for i in $(POSIX_BIN) $(MORE_BIN); do rm -f $(BINDIR)/$$(basename $$i); done
+	@printf "Removing $(POSIX_BIN) $(LINUX_BIN) $(MORE_BIN)\n"
+	@for i in $(POSIX_BIN) $(LINUX_BIN) $(MORE_BIN); do \
+	    rm -f $(BINDIR)/$$(basename $$i);               \
+	done
 
 lib: $(LIBUTIL)
 posix: lib $(POSIX_BIN)
+linux: lib $(LINUX_BIN)
 more: lib $(MORE_BIN)
 
 $(LIBUTIL): $(LIBUTIL_SRC)
@@ -89,6 +99,6 @@ $(LIBUTIL): $(LIBUTIL_SRC)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $< $(LIBUTIL) $(LDFLAGS)
 
 clean:
-	rm -f $(POSIX_BIN) $(MORE_BIN) $(LIBUTIL) $(LIBUTIL_OBJ)
+	rm -f $(POSIX_BIN) $(LINUX_BIN) $(MORE_BIN) $(LIBUTIL) $(LIBUTIL_OBJ)
 
-.PHONY: all install uninstall posix more lib clean
+.PHONY: all install uninstall posix linux more lib clean
