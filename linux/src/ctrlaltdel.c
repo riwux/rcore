@@ -1,10 +1,10 @@
 /* See LICENSE file for copyright and license details. */
 #define _BSD_SOURCE /* syscall(2) */
 
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include <sys/reboot.h>
 #include <sys/syscall.h>
 #include <linux/reboot.h>
 
