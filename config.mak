@@ -4,8 +4,8 @@ BINDIR = $(PREFIX)/bin
 MANDIR = $(PREFIX)/share/man/man1
 
 CC       = cc
+CPPFLAGS = -Iinclude -D_XOPEN_SOURCE=700
 CFLAGS   = -std=c99 -pedantic -Wall -Wextra -Werror
-CPPFLAGS = -Iinclude -D_POSIX_C_SOURCE=200809L -D_XOPEN_SOURCE=700
 LDFLAGS  = -Llib/libutil -lutil -s
 
 AR      = ar
