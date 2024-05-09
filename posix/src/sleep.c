@@ -1,12 +1,11 @@
 /* See LICENSE file for copyright and license details. */
 #include <limits.h>
-#include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
-#include <sys/time.h>
 #include <time.h>
 #include <unistd.h>
+#include <sys/time.h>
 
 #include "util.h"
 
