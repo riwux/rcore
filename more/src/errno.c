@@ -170,7 +170,7 @@ list_errno(void)
 		print_errno(i);
 }
 
-static bool
+static int
 find_errno(char *noc)
 {
 	unsigned idx;
@@ -180,22 +180,22 @@ find_errno(char *noc)
 		for (unsigned i = 0; i < NELEM(errno_table); ++i) {
 			if (errno_table[i].code == idx) {
 				print_errno(i);
-				return true;
+				return 0;
 			}
 		}
 	} else { /* A name is provided. */
 		for (unsigned i = 0; i < NELEM(errno_table); ++i) {
 			if (!strcasecmp(errno_table[i].name, noc)) {
 				print_errno(i);
-				return true;
+				return 0;
 			}
 		}
 	}
 
-	return false;
+	return -1;
 }
 
-static bool
+static int
 match_errno_desc(char *keys[])
 {
 	bool found = false;
@@ -213,7 +213,7 @@ match_errno_desc(char *keys[])
 			print_errno(i);
 	}
 
-	return found;
+	return found ? 0 : -1;
 }
 
 int
@@ -248,11 +248,11 @@ main(int argc, char *argv[])
 	if (lflag) {
 		list_errno();
 	} else if (sflag) {
-		if (!match_errno_desc(--argv))
+		if (match_errno_desc(--argv))
 			ret = 1;
 	} else {
 		for (; *argv; ++argv) {
-			if (!find_errno(*argv))
+			if (find_errno(*argv))
 				ret = 1;
 		}
 	}
