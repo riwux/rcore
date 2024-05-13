@@ -11,11 +11,11 @@
 static void
 usage(void)
 {
-	die(1, "usage: head [-n num] [file...]");
+	die(1, "usage: head [-n num] [-num] [file...]");
 }
 
 static int
-head(FILE *fp, char const *file, int64_t num)
+head(char const *file, FILE *fp, int64_t num)
 {
 	ssize_t n;
 	size_t len = 0;
@@ -37,44 +37,48 @@ int
 main(int argc, char *argv[])
 {
 	int opt;
+	int bsdopt  = 0;
 	int ret     = 0;
 	int64_t num = 10;
 	FILE *fp;
 
-	while ((opt = getopt(argc, argv, "n:")) != -1) {
+	while ((opt = getopt(argc, argv, "n:0123456789")) != -1) {
 		switch (opt) {
+		/* Support legacy BSD style -num options. */
+		case '0': case '1': case '2': case '3': case '4':
+		case '5': case '6': case '7': case '8': case '9':
+			bsdopt = optind;
+			break;
 		case 'n':
-			num = x_to_num(optarg, DEC);
-			if (num < 0)
+			if ((num = x_to_num(optarg, DEC)) < 0)
 				die(1, "head: '%lld': argument is negative", num);
+			bsdopt = 0;
 			break;
 		default:
 			usage();
 			break;
 		}
 	}
+	if (bsdopt != 0)
+		num = x_to_num(argv[bsdopt - 1] + 1, DEC);
 	argc -= optind;
 	argv += optind;
 
 	if (argc == 0)
-		return !!head(stdin, "stdin", num);
+		return !!head("stdin", stdin, num);
 
 	for (int i = 0; i < argc; ++i) {
-		if (!strcmp(argv[i], "-")) {
-			fp = stdin;
-		} else {
-			if (!(fp = fopen(argv[i], "r"))) {
-				warn("head: fopen '%s':", argv[i]);
-				ret = 1;
-				continue;
-			}
+		if (!(fp = !strcmp(argv[i], "-") ? stdin : fopen(argv[i], "r"))) {
+			warn("head: fopen '%s':", argv[i]);
+			ret = 1;
+			continue;
 		}
 		if (argc > 1) {
 			if (i > 1)
 				fputc('\n', stdout);
-			printf("==> %s <==\n", (fp == stdin ? "stdin" : argv[i]));
+			printf("==> %s <==\n", (fp == stdin) ? "stdin" : argv[i]);
 		}
-		if (head(fp, argv[i], num))
+		if (head(argv[i], fp, num))
 			ret = 1;
 		if (fp != stdin)
 			fclose(fp);
