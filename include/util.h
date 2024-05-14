@@ -47,7 +47,7 @@ is_digit(char c)
 static inline bool
 is_hexdigit(char c)
 {
-	return (is_digit(c) || (c >= 'a' && c <= 'f'));
+	return (is_digit(c) || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F'));
 }
 
 static inline bool
