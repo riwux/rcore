@@ -56,7 +56,7 @@ int
 fcopy(FILE *out_fp, FILE *in_fp)
 {
 	ssize_t n;
-	char *buf  = x_malloc(BUFSIZ, sizeof (char));
+	char buf[BUFSIZ];
 
 	while ((n = non_block_fread(buf, BUFSIZ, in_fp)) > 0) {
 		fwrite(buf, n, 1, out_fp);
@@ -65,7 +65,6 @@ fcopy(FILE *out_fp, FILE *in_fp)
 			break;
 		}
 	}
-	free(buf);
 
 	return (n < 0) ? 1 : 0;
 }
