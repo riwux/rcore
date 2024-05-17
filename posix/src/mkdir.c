@@ -28,7 +28,7 @@ mkpath(char *path)
 
 	/* The path has to always be terminated by a trailing <slash>. */
 	last = &path[strlen(path)];
-	if (*(last-1) != '/')
+	if (*(last - 1) != '/')
 		*last = '/';
 
 	while (ret != -1 && s < last && (p = strchr(s, '/'))) {
@@ -36,22 +36,17 @@ mkpath(char *path)
 		s  = p + 1;
 		errno = 0;
 		if (mkdir(path, 0) && errno != EEXIST) {
-			warn("mkdir: cannot create '%s':", path);
+			warn("mkdir: mkdir '%s':", path);
 			ret = -1;
-			goto reset;
-		}
 		/* Already existing pathname components keep their mode. */
-		if (errno != EEXIST &&
+		} else if (errno != EEXIST &&
 		    chmod(path, (S_IWUSR | S_IXUSR | ~get_umask()) & 0777)) {
-			warn("mkdir: chmod: cannot change permission of '%s':", path);
+			warn("mkdir: chmod '%s':", path);
 			ret = -1;
-			goto reset;
-		}
-		if (!stat(path, &st) && !S_ISDIR(st.st_mode)) {
-			warn("mkdir: cannot create '%s': Not a directory", path);
+		} else if (!stat(path, &st) && !S_ISDIR(st.st_mode)) {
+			warn("mkdir: mkdir '%s': File exists but is not a directory", path);
 			ret = -1;
 		}
-reset:
 		*p = '/';
 	}
 	*last = '\0';
@@ -93,12 +88,17 @@ main(int argc, char *argv[])
 				continue;
 			}
 		} else if (mkdir(*argv, mode)) {
-			warn("mkdir: cannot create '%s':", *argv);
+			warn("mkdir: mkdir '%s':", *argv);
 			ret = 1;
 			continue;
 		}
+		/*
+		 * POSIX mkdir(2) only guarantees to handle the &0777 bits and might
+		 * ignore those with a higher value (e.g. SUID, SGID, sticky...).
+		 * Thus, calling chmod(2) guarantees the mode to always be correct.
+		 */
 		if (chmod(*argv, mode))
-			warn("mkdir: chmod: cannot change permission of '%s':", *argv);
+			warn("mkdir: chmod '%s':", *argv);
 	}
 
 	return ret;
