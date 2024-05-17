@@ -8,6 +8,9 @@
 
 #include "util.h"
 
+static bool pflag = false;
+static bool Pflag = false;
+
 static void
 usage(void)
 {
@@ -15,7 +18,7 @@ usage(void)
 }
 
 static int
-check_path(char const *pathname, bool pflag, bool Pflag)
+check_path(char const *pathname)
 {
 	int ret     = 0;
 	size_t clen = 0;
@@ -90,8 +93,6 @@ check_path(char const *pathname, bool pflag, bool Pflag)
 int
 main(int argc, char *argv[])
 {
-	bool pflag = false;
-	bool Pflag = false;
 	int ret    = 0;
 	int opt;
 
@@ -125,7 +126,7 @@ main(int argc, char *argv[])
 		usage();
 
 	for (; *argv; ++argv) {
-		if (check_path(*argv, pflag, Pflag))
+		if (check_path(*argv))
 			ret = 1;
 	}
 

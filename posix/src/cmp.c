@@ -6,6 +6,9 @@
 
 #include "util.h"
 
+static bool lflag = false;
+static bool sflag = false;
+
 static void
 usage(void)
 {
@@ -13,7 +16,7 @@ usage(void)
 }
 
 static bool
-compare_files(char *fn[], FILE *fp[], bool lflag, bool sflag)
+compare_files(char *fn[], FILE *fp[])
 {
 	size_t n  = 1;
 	size_t ln = 1;
@@ -52,8 +55,6 @@ compare_files(char *fn[], FILE *fp[], bool lflag, bool sflag)
 int
 main(int argc, char *argv[])
 {
-	bool lflag = false;
-	bool sflag = false;
 	int opt;
 	char *fn[3] = {NULL, NULL, NULL};
 	FILE *fp[2] = {NULL, NULL};
@@ -88,5 +89,5 @@ main(int argc, char *argv[])
 	if (!strcmp(fn[0], fn[1]))
 		return 0;
 
-	return compare_files(fn, fp, lflag, sflag);
+	return compare_files(fn, fp);
 }
