@@ -18,8 +18,8 @@ usage(void)
 int
 main(int argc, char *argv[])
 {
-	char flags = 'w';
-	int ret    = 0;
+	char const *flags = "w";
+	int ret = 0;
 	int opt;
 	size_t n;
 	char *buf;
@@ -28,7 +28,7 @@ main(int argc, char *argv[])
 	while ((opt = getopt(argc, argv, "ai")) != -1) {
 		switch (opt) {
 		case 'a':
-			flags = 'a';
+			flags = "a";
 			break;
 		case 'i':
 			if (signal(SIGINT, SIG_IGN) == SIG_ERR)
@@ -45,7 +45,7 @@ main(int argc, char *argv[])
 	fps = x_malloc(argc + 1, sizeof *fps);
 
 	for (int i = 0; i < argc; ++i) {
-		if (!(fps[i] = fopen(argv[i], &flags))) {
+		if (!(fps[i] = fopen(argv[i], flags))) {
 			ret = 1;
 			perror(argv[i]);
 		}
