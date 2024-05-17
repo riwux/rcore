@@ -54,7 +54,7 @@ main(int argc, char *argv[])
 
 	bool nflag = false;
 	bool eflag = false;
-	char *arg;
+	char const *arg;
 
 	while ((arg = *++argv) && *arg == '-') {
 		while (*++arg) {
@@ -69,7 +69,6 @@ main(int argc, char *argv[])
 				eflag = false;
 				break;
 			default:
-				nflag = eflag = false;
 				goto echo;
 				break;
 			}
