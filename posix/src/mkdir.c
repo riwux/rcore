@@ -1,4 +1,32 @@
-/* See LICENSE file for copyright and license details. */
+/*
+ * Copyright 2023-2024 Tom Schwindl <schwindl@posteo.de>
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS
+ * IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ * mkdir - create directoies
+ * ref: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/mkdir.html
+ */
 #include <errno.h>
 #include <stdbool.h>
 #include <string.h>
@@ -14,26 +42,22 @@ usage(void)
 }
 
 static int
-mkpath(char *path)
+mkpath(char *path, mode_t mode)
 {
 	int ret = 0;
-	char *p = path;
-	char *s = path;
+	char *p = (path[0] == '/') ? path + 1 : path; /* Skip root directory. */
 	char *last;
 	struct stat st;
 
-	/* Skip the initial <slash> of an absolute path. */
-	if (path[0] == '/')
-		++s;
-
-	/* The path has to always be terminated by a trailing <slash>. */
+	/* Make sure all trailing <slash>'es are stripped. */
 	last = &path[strlen(path)];
-	if (*(last - 1) != '/')
-		*last = '/';
+	while (last > p && *--last == '/')
+		*last = '\0';
 
-	while (ret != -1 && s < last && (p = strchr(s, '/'))) {
+	for (; ret != -1 && *p; ++p) {
+		if (*p != '/')
+			continue;
 		*p = '\0';
-		s  = p + 1;
 		errno = 0;
 		if (mkdir(path, 0) && errno != EEXIST) {
 			warn("mkdir: mkdir '%s':", path);
@@ -49,7 +73,16 @@ mkpath(char *path)
 		}
 		*p = '/';
 	}
-	*last = '\0';
+	/*
+	 * POSIX requires that in case a custom mode is provided, the new
+	 * directory is not allowed to have a less restrictive mode than that
+	 * at any point in time. Thus, the above call to mkdir(2) with a mode
+	 * of zero and subsequent adjustments with chmod(2) wouldn't be compliant.
+	 */
+	 if (ret != -1 && mkdir(path, mode) && errno != EEXIST) {
+		warn("mkdir: mkdir '%s':", path);
+		ret = -1;
+	}
 
 	return ret;
 }
@@ -57,10 +90,10 @@ mkpath(char *path)
 int
 main(int argc, char *argv[])
 {
-	bool pflag = false;
+	bool pflag  = false;
 	int opt;
-	int ret = 0;
-	mode_t mode = (S_IRWXU | S_IRWXG | S_IRWXO) & ~get_umask();
+	int ret     = 0;
+	mode_t mode = ((S_IRWXU | S_IRWXG | S_IRWXO) & ~get_umask()) & 0777;
 
 	while ((opt = getopt(argc, argv, "pm:")) != -1) {
 		switch (opt) {
@@ -83,7 +116,7 @@ main(int argc, char *argv[])
 
 	for (; *argv; ++argv) {
 		if (pflag) {
-			if (mkpath(*argv)) {
+			if (mkpath(*argv, mode)) {
 				ret = 1;
 				continue;
 			}
@@ -93,11 +126,11 @@ main(int argc, char *argv[])
 			continue;
 		}
 		/*
-		 * POSIX mkdir(2) only guarantees to handle the &0777 bits and might
-		 * ignore those with a higher value (e.g. SUID, SGID, sticky...).
-		 * Thus, calling chmod(2) guarantees the mode to always be correct.
+		 * POSIX mkdir(2) only guarantees to handle the file permission bits and
+		 * might ignore bits with a higher value (e.g. SUID, SGID, sticky...).
+		 * Calling chmod(2) guarantees that all bits are applied correctly.
 		 */
-		if (chmod(*argv, mode))
+		if (errno != EEXIST && chmod(*argv, mode))
 			warn("mkdir: chmod '%s':", *argv);
 	}
 
