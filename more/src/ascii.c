@@ -1,4 +1,31 @@
-/* See LICENSE file for copyright and license details. */
+/*
+ * Copyright 2023-2024 Tom Schwindl <schwindl@posteo.de>
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS
+ * IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ * ascii - print ASCII table or obtain ASCII value of input characters
+ */
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -14,11 +41,11 @@ usage(void)
 static void
 print_chart(char base)
 {
-	char const fmt[]    = {'|', '%', '.', (base == 'x' ? '2' : '3'), base, \
+	char const fmt[]    = {'|', '%', '.', (base == 'x') ? '2' : '3', base, \
 	    ' ', ' ', '%', 'c', ' ', '\0'};
-	char const ctlfmt[] = {'|', '%', '.', (base == 'x' ? '2' : '3'), base, \
+	char const ctlfmt[] = {'|', '%', '.', (base == 'x') ? '2' : '3', base, \
 	    ' ', '%', '-', '3', 's', '\0'};
-	char const *const ascii[] = {
+	char const *const ctrl[] = {
 		"nul", "soh", "stx", "etx", "eot", "enq", "ack", "bel",
 		"bs",  "ht",  "nl",  "vt",  "np",  "cr",  "so",  "si",
 		"dle", "dc1", "dc2", "dc3", "dc4", "nak", "syn", "etb",
@@ -30,9 +57,9 @@ print_chart(char base)
 		if (c != 0 && c % 8 == 0)
 			printf("|\n");
 		if (c < 33)
-			printf(ctlfmt, c, ascii[c]);
+			printf(ctlfmt, c, ctrl[c]);
 		else if (c == 127)
-			printf(ctlfmt, c, ascii[33]);
+			printf(ctlfmt, c, ctrl[33]);
 		else
 			printf(fmt, c, c);
 	}
