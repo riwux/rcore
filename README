@@ -44,7 +44,10 @@ To build rcore, follow these instructions:
     $ make posix      # only build POSIX utilities
     $ make more       # only build non-standard / more utilities
     $ make linux      # only build Linux specific utilities
-    $ make lib        # only build libraries (in lib/)
+
+    $ make lib           # only build libraries (in lib/)
+    $ make posix/src/cat # only build utility specified by the path (i.e. cat).
+                         # it might be necessary to build lib/ first
 
 In case you want to customize your build process, change the corresponding
 values in config.mak or directly on the commandline.
