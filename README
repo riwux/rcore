@@ -6,22 +6,19 @@ environment containing utilities found on most UNIX(-like) systems.
 It's goal is to be simple, portable and compliant while still being pleasant
 to use. Features and extensions are chosen carefully and only implemented if
 they are either (very) common or provide real value to the user.
-One of those features is UTF-8 compliance, which improves the usability by
-a lot.
-
-In its finished state, it should be possible to build and compile
-a (e.g Linux-) distribution with it.
 
 
   Modules
 +=========+
 
 rcore is split into several different subdirectories (i.e modules),
-each dedicated to a specific standard or group of tools.
-Below is a list of subdirectories and a description of their purpose.
+each dedicated to a specific standard or group of utilities.
+This adds the possibility to exclude certain tools (e.g. linux/ on BSD systems)
+or only select a small subset to be replaced on an already existing system.
 
-posix/  -- POSIX.1-2017 utilities
-more/   -- common non-standard utilities
+posix/ -- POSIX.1-2017 utilities
+more/  -- common non-standard utilities
+linux/ -- non-portable Linux specific utilities
 
 
   Build
@@ -46,7 +43,29 @@ To build rcore, follow these instructions:
 
     $ make posix      # only build POSIX utilities
     $ make more       # only build non-standard / more utilities
+    $ make linux      # only build Linux specific utilities
     $ make lib        # only build libraries (in lib/)
 
 In case you want to customize your build process, change the corresponding
 values in config.mak or directly on the commandline.
+
+
+  Conventions
++=============+
+
+It's important that error messages are consistent across all utilities
+since they form the base of a system and should feel coherent.
+The format is simple but does not hide any information. It should be
+possible to look at an error message and immediately know what happened.
+The format is specified as follows:
+
+
+   <utility>: [<function>] '[argument]'[:] [message]\n
+
+
+utility  : The name of the program.
+function : The function that reports the error.
+argument : In case the function operates on an argument this argument is also
+           provided for context (e.g. fopen(3) takes a filename as input).
+message  : If there is useful information to report (e.g. errno) it's
+           printed after a colon.
