@@ -96,7 +96,7 @@ $(LIBUTIL): $(LIBUTIL_SRC)
 	$(AR) $(ARFLAGS) $(LIBUTIL) $(LIBUTIL_OBJ)
 
 .c:
-	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $< $(LIBUTIL) $(LDFLAGS)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $< $(LDFLAGS)
 
 clean:
 	rm -f $(POSIX_BIN) $(LINUX_BIN) $(MORE_BIN) $(LIBUTIL) $(LIBUTIL_OBJ)
