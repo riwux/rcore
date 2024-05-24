@@ -7,7 +7,8 @@
 #include <sys/types.h> /* provide */
 #include <stdint.h>   /* types   */
 
-#define NELEM(a) (sizeof (a) / sizeof *(a))
+#define MIN(a, b) (((a) < (b)) ? (a) : (b))
+#define NELEM(a)  (sizeof (a) / sizeof *(a))
 
 typedef unsigned char uchar;
 

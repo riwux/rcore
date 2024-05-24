@@ -44,47 +44,55 @@ usage(void)
 }
 
 static int
-compare_files(char *fn[], FILE *fp[])
+compare_files(char const *const fn[static 2], FILE *const fp[static 2])
 {
-	size_t n  = 1;
-	size_t ln = 1;
-	int c[2]  = {-2, -2};
+	size_t bytes = 1;
+	size_t ln    = 1;
+	size_t i     = 0;
+	size_t n[2];
+	char b1[BUFSIZ] = {0};
+	char b2[BUFSIZ] = {0};
 
-	for (int i = 0; ; i=!i, n+=!i) {
-		c[i] = fgetc(fp[i]);
-		if (c[i] == EOF) {
-			if (c[!i] != EOF && fgetc(fp[!i]) != EOF)
-				fn[2] = fn[i];
+	while (!feof(fp[0]) && !feof(fp[1])) {
+		n[0] = fread(b1, sizeof (char), BUFSIZ, fp[0]);
+		n[1] = fread(b2, sizeof (char), BUFSIZ, fp[1]);
+		if (ferror(fp[0]) || ferror(fp[1])) {
+			warn("cmp: fread '%s':", ferror(fp[0]) ? fn[0] : fn[1]);
 			break;
 		}
-		if (c[!i] == -2)
-			continue;
-		if (c[i] == '\n' && c[!i] == '\n')
-			++ln;
-		if (c[i] != c[!i]) {
-			if (sflag) {
-				break;
-			} else if (lflag) {
-				printf("%zu %o %o\n", n, c[!i], c[i]);
-			} else {
-				printf("%s %s differ: byte %zu, line %zu\n", \
-				        fn[!i], fn[i], n, ln);
-				break;
+
+		for (i = 0; i < MIN(n[0], n[1]); ++i, ++bytes) {
+			if (b1[i] == '\n')
+				++ln;
+			if (b1[i] != b2[i]) {
+				if (sflag) {
+					goto leave;
+				} else if (lflag) {
+					printf("%zu %o %o\n", bytes, b1[i], b2[i]);
+				} else {
+					printf("%s %s differ: byte %zu, line %zu\n", \
+					        fn[0], fn[1], bytes, ln);
+					goto leave;
+				}
 			}
 		}
-		c[i] = c[!i] = -2;
-	}
-	if (fn[2])
-		warn("cmp: EOF on %s after byte %zu", fn[2], n-1);
 
-	return (c[0] != c[1]);
+		if (n[0] != n[1]) {
+			warn("cmp: EOF on %s after byte %zu", \
+			    (n[0] < n[1]) ? fn[0] : fn[1], bytes - 1);
+			break;
+		}
+	}
+
+leave:
+	return (b1[i] != b2[i]);
 }
 
 int
 main(int argc, char *argv[])
 {
 	int opt;
-	char *fn[3] = {NULL};
+	char const *fn[2];
 	FILE *fp[2];
 
 	while ((opt = getopt(argc, argv, "ls")) != -1) {
