@@ -39,11 +39,11 @@ usage(void)
 }
 
 static void
-print_chart(char base)
+print_chart(char const base)
 {
 	char const fmt[]    = {'|', '%', '.', (base == 'x') ? '2' : '3', base, \
 	    ' ', ' ', '%', 'c', ' ', '\0'};
-	char const ctlfmt[] = {'|', '%', '.', (base == 'x') ? '2' : '3', base, \
+	char const ctrlfmt[] = {'|', '%', '.', (base == 'x') ? '2' : '3', base, \
 	    ' ', '%', '-', '3', 's', '\0'};
 	char const *const ctrl[] = {
 		"nul", "soh", "stx", "etx", "eot", "enq", "ack", "bel",
@@ -57,9 +57,9 @@ print_chart(char base)
 		if (c != 0 && c % 8 == 0)
 			printf("|\n");
 		if (c < 33)
-			printf(ctlfmt, c, ctrl[c]);
+			printf(ctrlfmt, c, ctrl[c]);
 		else if (c == 127)
-			printf(ctlfmt, c, ctrl[33]);
+			printf(ctrlfmt, c, ctrl[33]);
 		else
 			printf(fmt, c, c);
 	}
@@ -67,9 +67,9 @@ print_chart(char base)
 }
 
 static void
-print_ascii_code(char const *arg, char base)
+print_ascii_code(char const *arg, char const base)
 {
-	char fmt[] = {'%', base, '\n', '\0'};
+	char const fmt[] = {'%', base, '\n', '\0'};
 
 	for (; *arg; ++arg)
 		printf(fmt, *arg);

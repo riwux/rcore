@@ -37,7 +37,7 @@ main(int argc, char *argv[])
 	} else {
 		for (;;) {
 			for (int i = 1; i < argc; ++i)
-				printf("%s%c", argv[i], (i == argc-1) ? '\n' : ' ');
+				printf("%s%c", argv[i], (i == argc - 1) ? '\n' : ' ');
 		}
 	}
 }

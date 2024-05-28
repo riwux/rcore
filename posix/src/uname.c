@@ -41,7 +41,7 @@ usage(void)
 }
 
 static void
-print_info(char const *val, bool flag)
+print_info(char const *const val, bool const flag)
 {
 	static bool skip = true;
 

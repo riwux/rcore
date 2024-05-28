@@ -35,8 +35,8 @@
 
 #include "util.h"
 
-struct Errno {
-	char const *name;
+static struct {
+	char const *const name;
 	unsigned const code;
 } errno_table[] = {
 	{.name = "EPERM",           .code = EPERM          },

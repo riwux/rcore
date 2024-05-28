@@ -70,7 +70,7 @@ main(int argc, char *argv[])
 
 	for (; *argv; ++argv) {
 		if (mkfifo(*argv, mode)) {
-			warn("mkfifo: cannot create fifo '%s':", *argv);
+			warn("mkfifo: mkfifo '%s':", *argv);
 			ret = 1;
 		}
 	}

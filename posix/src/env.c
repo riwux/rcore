@@ -71,7 +71,7 @@ main(int argc, char *argv[])
 	/* Manipulate the environment. */
 	for (; *argv && strchr(*argv, '='); ++argv) {
 		if (putenv(*argv))
-			die(1, "env: putenv:");
+			die(1, "env: putenv '%s':");
 	}
 
 	/* No utility was specified, display current environment. */

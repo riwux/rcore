@@ -44,7 +44,7 @@ usage(void)
 }
 
 static int
-parse_time(struct timespec *time, char const *str)
+parse_time(struct timespec *const time, char *const str)
 {
 	bool nosec   = false;
 	uint64_t mul = 1000000000;
@@ -54,9 +54,9 @@ parse_time(struct timespec *time, char const *str)
 	time->tv_sec  = 0;
 	time->tv_nsec = 0;
 	dot = strchr(str, '.');
+
 	if (str == dot)
 		nosec = true;
-
 	if (dot && dot[1]) {
 		*dot++ = '\0';
 		p = dot;

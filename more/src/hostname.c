@@ -65,7 +65,7 @@ main(int argc, char *argv[])
 		break;
 	case 1:
 		if (sethostname(*argv, strlen(*argv)))
-			die(1, "sethostname:");
+			die(1, "sethostname '%s':", *argv);
 		break;
 	default:
 		usage();

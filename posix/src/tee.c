@@ -35,8 +35,6 @@
 
 #include "util.h"
 
-#define SKIP NULL
-
 static void
 usage(void)
 {
@@ -83,12 +81,12 @@ main(int argc, char *argv[])
 
 	while ((n = non_block_fread(buf, BUFSIZ, stdin)) > 0) {
 		for (int i = 0; i <= argc; ++i) {
-			if (fps[i] != SKIP) {
+			if (fps[i]) {
 				fwrite(buf, n, 1, fps[i]);
 				if (ferror(fps[i])) {
-					fps[i] = SKIP;
-					perror(argv[i]);
 					ret = 1;
+					fps[i] = NULL;
+					perror(argv[i]);
 				}
 			}
 		}

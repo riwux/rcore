@@ -24,7 +24,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  *
- * rmdir - remove empty directoies
+ * rmdir - remove empty directories
  * ref: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/rmdir.html
  */
 #include <errno.h>
@@ -43,15 +43,15 @@ usage(void)
 	die(1, "usage: rmdir [-p] dir...");
 }
 
-static bool
+static int
 rmdir_path(char *path)
 {
-	bool ret = false;
+	int ret = 0;
 
 	do {
 		if (rmdir(path)) {
-			warn("rmdir: cannot remove '%s':", path);
-			ret = 1;
+			warn("rmdir: rmdir '%s':", path);
+			ret = -1;
 		}
 		path = dirname(path);
 	} while (strcmp(path, "/") && strcmp(path, "."));
@@ -63,8 +63,8 @@ int
 main(int argc, char *argv[])
 {
 	bool pflag = false;
+	int ret    = 0;
 	int opt;
-	int ret = 0;
 
 	while ((opt = getopt(argc, argv, "p")) != -1) {
 		switch (opt) {
@@ -87,7 +87,7 @@ main(int argc, char *argv[])
 			if (rmdir_path(*argv))
 				ret = 1;
 		} else if (rmdir(*argv)) {
-			warn("rmdir: cannot remove '%s':", *argv);
+			warn("rmdir: rmdir '%s':", *argv);
 			ret = 1;
 		}
 	}

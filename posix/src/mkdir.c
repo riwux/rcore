@@ -24,7 +24,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  *
- * mkdir - create directoies
+ * mkdir - create directories
  * ref: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/mkdir.html
  */
 #include <errno.h>
@@ -42,7 +42,7 @@ usage(void)
 }
 
 static int
-mkpath(char *path, mode_t mode)
+mkpath(char *const path, mode_t const mode)
 {
 	int ret = 0;
 	char *p = (path[0] == '/') ? path + 1 : path; /* Skip root directory. */
@@ -91,8 +91,8 @@ int
 main(int argc, char *argv[])
 {
 	bool pflag  = false;
-	int opt;
 	int ret     = 0;
+	int opt;
 	mode_t mode = ((S_IRWXU | S_IRWXG | S_IRWXO) & ~get_umask()) & 0777;
 
 	while ((opt = getopt(argc, argv, "pm:")) != -1) {
