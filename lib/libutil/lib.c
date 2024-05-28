@@ -1,4 +1,33 @@
-/* See LICENSE file for copyright and license details. */
+/*
+ * Copyright 2023-2024 Tom Schwindl <schwindl@posteo.de>
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS
+ * IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ * This file implements general utility functions that are commonly used
+ * thoughout the entire codebase to simplify complex, but often occuring
+ * situations which don't really fit in a more concrete category.
+ */
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
@@ -6,7 +35,7 @@
 #include "util.h"
 
 static mode_t
-apply_mode(char op, mode_t old, mode_t who, mode_t perm)
+apply_mode(char const op, mode_t old, mode_t const who, mode_t const perm)
 {
 	switch (op) {
 	case '+':
@@ -21,43 +50,59 @@ apply_mode(char op, mode_t old, mode_t who, mode_t perm)
 	default:
 		break;
 	}
+
 	return old;
 }
 
-char
-unescape(char const *arg)
-{
-	char *p;
-	char const *const escape = "a\ab\bf\fn\nr\rt\tv\v\\\\";
-
-	p = strchr(escape, *arg);
-	return (!p ? *arg : p[1]);
-}
-
 mode_t
-x_parsemode(char const *mode, mode_t init)
+x_parsemode(char const *mode, mode_t const init)
 {
-	char op = 0;
-	mode_t m, who;
+	char op     = 0;
 	mode_t perm = 0;
 	mode_t ret  = init;
-	long oct;
-	char *end;
+	mode_t m, who;
+	long oct_mode;
+	char *inval;
 
-	/* 'mode' might already be an octal integer. */
-	oct = strtol(mode, &end, OCT);
-	if (*end == '\0') {
-		if (oct > 07777 || oct < 0)
-			die(1, "parse_mode: invalid mode '%s'", mode);
-		return oct;
+	/* 'mode' might already be a valid octal integer. */
+	oct_mode = strtol(mode, &inval, OCT);
+	if (!*inval) {
+		if (oct_mode > 07777 || oct_mode < 0)
+			die(1, "parsemode: invalid mode '%s'", mode);
+		return oct_mode;
 	}
 
+	/*
+	 * Take the mode 'o+r' with a default value of zero as an example.
+	 *
+	 * By setting all bits of the specified wholist ('[o]ther' in this case)
+	 * to one, the corresponding who's are selected for modification.
+	 *
+	 *        0000 0000 0000 0000  |  S_IRWXO (0007)
+	 *        0000 0000 0000 0111
+	 *
+	 * Now the actual permissions ('[r]ead' in this case) are applied to
+	 * the previously calculated bitmask by doing an AND operation with *all*
+	 * possible who's. Only the bits of the selected wholist are considered
+	 * (since only those are one and have a chance to "survive" the AND),
+	 * and only those that actually match the specified permissions stay one.
+	 *
+	 *        0000 0000 0000 0111     (bitmask [0007])
+	 *        0000 0001 0010 0100     (S_IRUSR | S_IRGRP | S_IROTH [0444])
+	 *     &  ___________________
+	 *        0000 0000 0000 0100
+	 *
+	 * This yields a bit pattern that has all bits at the right place.
+	 * Depending on the operator ('+' in this case), additional calculations
+	 * might be necessary to receive a correct mode (apply_mode() for details).
+	 */
 	do {
 		/* Each clause of a symbolic mode can have an optional wholist. */
 		for (who = 0; *mode && !strchr("+-=", *mode); ++mode) {
 			switch (*mode) {
 			case 'a':
-				who |= S_IRWXU | S_IRWXG | S_IRWXO | S_ISUID | S_ISGID | S_ISVTX;
+				who |= S_IRWXU | S_IRWXG | S_IRWXO | S_ISUID | S_ISGID \
+				    | S_ISVTX;
 				break;
 			case 'u':
 				who |= S_IRWXU | S_ISUID;
@@ -66,33 +111,31 @@ x_parsemode(char const *mode, mode_t init)
 				who |= S_IRWXG | S_ISGID;
 				break;
 			case 'o':
-				who |= S_IRWXO;
+				who |= S_IRWXO | S_ISVTX;
 				break;
 			default:
-				die(1, "parse_mode: invalid who symbol '%c'", *mode);
+				die(1, "parsemode: invalid who symbol '%c'", *mode);
 				break;
 			}
 		}
 		if (!*mode)
-			die(1, "parse_mode: missing operator");
-
-		/* No wholist is equivalent to a wholist of 'a'.*/
+			die(1, "parsemode: missing operator");
 		if (!who)
 			who = S_IRWXU | S_IRWXG | S_IRWXO | S_ISUID | S_ISGID | S_ISVTX;
 
 		/*
-		 * Either of the following sequences/actionlists is allowed
-		 * and can be repeated (as well as interchanged) indefinitely.
-		 * op            | +-=
-		 * op permlist   | +-=rwxXst
-		 * op permcopy   | +-=ugo
+		 * Either of the following actionlists is allowed and can be
+		 * repeated, as well as interchanged, indefinitely.
+		 *
+		 * op            ->   +-=
+		 * op permlist   ->   +-=rwxXst
+		 * op permcopy   ->   +-=ugo
 		 */
 		for (; *mode && *mode != ','; ++mode) {
 			switch (*mode) {
 			case '+':
 			case '-':
 			case '=':
-				/* No permission symbols are given. */
 				if (op) {
 					ret  = apply_mode(op, ret, who, perm);
 					perm = 0;
@@ -109,12 +152,8 @@ x_parsemode(char const *mode, mode_t init)
 				perm |= S_IXUSR | S_IXGRP | S_IXOTH;
 				break;
 			case 'X':
-				/*
-				 * Only set the execute bit if the file to be modified is a
-				 * directory or if the already present permissions have at
-				 * last one execute bit set (XUSR|XGRP|XOTH). This will
-				 * require at least one more argument to parse_mode().
-				 */
+				if (ret & (S_IXUSR | S_IXGRP | S_IXOTH))
+					ret |= S_IXUSR | S_IXGRP | S_IXOTH;
 				break;
 			case 's':
 				if (who & S_ISGID)
@@ -153,7 +192,7 @@ x_parsemode(char const *mode, mode_t init)
 					perm |= m;
 				break;
 			default:
-				die(1, "parse_mode: invalid permission symbol '%c'", *mode);
+				die(1, "parsemode: invalid permission symbol '%c'", *mode);
 				break;
 			}
 		}
@@ -162,14 +201,23 @@ x_parsemode(char const *mode, mode_t init)
 		op   = 0;
 	} while (*mode == ',' && *++mode);
 
-	/* Make sure only necessary bits are returned. */
-	return (ret & ~S_IFMT);
+	return ret;
 }
 
 mode_t
 get_umask(void)
 {
-	mode_t ret = umask(0);
+	mode_t const ret = umask(0);
 	umask(ret);
 	return ret;
+}
+
+char
+unescape(char const *const arg)
+{
+	char const *p;
+	char const *const escape = "a\ab\bf\fn\nr\rt\tv\v\\\\";
+
+	p = strchr(escape, *arg);
+	return (!p ? *arg : p[1]);
 }
