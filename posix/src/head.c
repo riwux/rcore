@@ -43,14 +43,14 @@ usage(void)
 }
 
 static int
-head(char const *file, FILE *fp, int64_t num)
+head(char const *const file, FILE *const fp, int64_t const num)
 {
 	ssize_t n;
 	size_t len = 0;
 	char *line = NULL;
 
 	for (int64_t i = 0; i < num && (n = getline(&line, &len, fp)) != -1; ++i)
-		fwrite(line, n, 1, stdout);
+		fwrite(line, sizeof (char), n, stdout);
 	free(line);
 
 	if (ferror(fp)) {
@@ -79,7 +79,7 @@ main(int argc, char *argv[])
 			break;
 		case 'n':
 			if ((num = x_to_num(optarg, DEC)) < 0)
-				die(1, "head: '%lld': argument is negative", num);
+				die(1, "head: '%lld': argument must be positive", num);
 			bsdopt = 0;
 			break;
 		default:
@@ -101,11 +101,8 @@ main(int argc, char *argv[])
 			ret = 1;
 			continue;
 		}
-		if (argc > 1) {
-			if (i > 1)
-				fputc('\n', stdout);
-			printf("==> %s <==\n", (fp == stdin) ? "stdin" : argv[i]);
-		}
+		if (argc > 1)
+			printf("%s==> %s <==\n", (i > 1) ? "\n" : "", argv[i]);
 		if (head(argv[i], fp, num))
 			ret = 1;
 		if (fp != stdin)
