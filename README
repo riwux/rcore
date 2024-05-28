@@ -24,14 +24,9 @@ linux/ -- non-portable Linux specific utilities
   Build
 +=======+
 
-Supported compilers:
-  - clang (out of the box)
-  - gcc   (out of the box)
-  - tcc   (out of the box)
-  - nwcc  (out of the box)
-  - pcc   (remove -s from $(LDFLAGS))
-  - lacc  (remove -s from $(LDFLAGS))
-
+rcore requires a compiler that impements ISO C99, a libc that conforms to
+POSIX.1-2008 and ISO C99 as well as a make(1) implementation that is
+POSIX.1-2008 compliant and supports <slash>'es in target names.
 To build rcore, follow these instructions:
 
     $ make            # build the whole project
@@ -47,10 +42,22 @@ To build rcore, follow these instructions:
 
     $ make lib           # only build libraries (in lib/)
     $ make posix/src/cat # only build utility specified by the path (i.e. cat).
-                         # it might be necessary to build lib/ first
+                         # It might be necessary to build lib/ first
 
 In case you want to customize your build process, change the corresponding
 values in config.mak or directly on the commandline.
+
+Supported compilers:
+   clang
+    $ make CC=clang
+   gcc
+    $ make CC=gcc
+   tcc
+    $ make CC=tcc
+   cproc
+    $ make CC=cproc
+   pcc
+    $ make LDFLAGS='-L lib/libutil -lutil' CC=pcc
 
 
   Conventions
@@ -63,12 +70,10 @@ possible to look at an error message and immediately know what happened.
 The format is specified as follows:
 
 
-   <utility>: [<function>] '[argument]'[:] [message]\n
+   <utility>: [<function>] ['<argument>'] [: <message>]\n
 
 
 utility  : The name of the program.
 function : The function that reports the error.
-argument : In case the function operates on an argument this argument is also
-           provided for context (e.g. fopen(3) takes a filename as input).
-message  : If there is useful information to report (e.g. errno) it's
-           printed after a colon.
+argument : The argument the function operates on (if any)
+message  : Additional, useful information (e.g. errno-string)
