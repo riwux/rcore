@@ -24,7 +24,7 @@ linux/ -- non-portable Linux specific utilities
   Build
 +=======+
 
-rcore requires a compiler that impements ISO C99, a libc that conforms to
+rcore requires a compiler that implements ISO C99, a libc that conforms to
 POSIX.1-2008 and ISO C99 as well as a make(1) implementation that is
 POSIX.1-2008 compliant and supports <slash>'es in target names.
 To build rcore, follow these instructions:
@@ -63,17 +63,27 @@ Supported compilers:
   Conventions
 +=============+
 
-It's important that error messages are consistent across all utilities
-since they form the base of a system and should feel coherent.
-The format is simple but does not hide any information. It should be
-possible to look at an error message and immediately know what happened.
-The format is specified as follows:
+* Error messages:
+
+  It's important that error messages are consistent across all utilities
+  since they form the base of a system and should feel coherent.
+  The format is simple but does not hide any information. It should be
+  possible to look at an error message and immediately know what happened.
+  The format is specified as follows:
 
 
-   <utility>: [<function>] ['<argument>'] [: <message>]\n
+     <utility> [: <function> ['<argument>']] [: <message>]\n
 
 
-utility  : The name of the program.
-function : The function that reports the error.
-argument : The argument the function operates on (if any)
-message  : Additional, useful information (e.g. errno-string)
+  utility  : The name of the program.
+  function : The function that reports the error.
+  argument : The argument the function operates on (if any)
+  message  : optional useful information (e.g. errno-string)
+
+
+
+* Function names:
+
+  Function names that are part of a library (i.e shared accross all tools)
+  and have the potential to exit(3) the program are prefixed with 'x_'.
+  Those functions local to a utility don't (have to) follow this convention.
