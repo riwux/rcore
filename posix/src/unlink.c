@@ -43,6 +43,7 @@ main(int argc, char *argv[])
 {
 	int opt;
 
+	setup("unlink", argv);
 	while ((opt = getopt(argc, argv, "")) != -1) {
 		switch (opt) {
 		default:
@@ -57,5 +58,5 @@ main(int argc, char *argv[])
 		usage();
 
 	if (unlink(*argv))
-		die(1, "unlink: unlink '%s':", *argv);
+		die(1, "%s: unlink '%s':", _prog, *argv);
 }

@@ -16,6 +16,7 @@ main(int argc, char *argv[])
 	int opt;
 	char const *tname;
 
+	setup("tty", argv);
 	while ((opt = getopt(argc, argv, "")) != -1) {
 		switch (opt) {
 		default:

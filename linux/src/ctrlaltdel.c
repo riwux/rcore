@@ -53,6 +53,7 @@ main(int argc, char *argv[])
 	uint64_t cmd = 0;
 	FILE *fp;
 
+	setup("ctrlaltdel", argv);
 	while ((opt = getopt(argc, argv, "")) != -1) {
 		switch (opt) {
 		default:
@@ -76,10 +77,10 @@ main(int argc, char *argv[])
 		else if (!strcmp(*argv, "hard"))
 			cmd = LINUX_REBOOT_CMD_CAD_ON;
 		else
-			die(1, "ctrlaltdel: invalid argument '%s'", *argv);
+			die(1, "%s: invalid argument '%s'", _prog, *argv);
 		if (syscall(SYS_reboot, LINUX_REBOOT_MAGIC1, LINUX_REBOOT_MAGIC2, \
 		    cmd, NULL))
-			die(1, "ctrlaltdel: reboot:");
+			die(1, "%s: reboot:", _prog);
 		break;
 	default:
 		usage();

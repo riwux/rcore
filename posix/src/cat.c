@@ -45,6 +45,7 @@ main(int argc, char *argv[])
 	int opt;
 	FILE *fp;
 
+	setup("cat", argv);
 	while ((opt = getopt(argc, argv, "u")) != -1) {
 		switch (opt) {
 		case 'u':
@@ -62,12 +63,12 @@ main(int argc, char *argv[])
 		*--argv = "-";
 	for (; *argv; ++argv) {
 		if (!(fp = !strcmp(*argv, "-") ? stdin : fopen(*argv, "r"))) {
-			warn("cat: fopen '%s':", *argv);
+			warn("fopen '%s':", *argv);
 			continue;
 		}
 		if (fcopy(stdout, fp))
-			die(1, "cat: fcopy '%s':", *argv);
+			die(1, "%s: fcopy '%s':", _prog, *argv);
 		if (fp != stdin)
-			x_fclose(fp);
+			fclose(fp);
 	}
 }

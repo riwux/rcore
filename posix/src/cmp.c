@@ -57,7 +57,7 @@ compare_files(char const *const fn[static 2], FILE *const fp[static 2])
 		n[0] = fread(b1, sizeof (char), BUFSIZ, fp[0]);
 		n[1] = fread(b2, sizeof (char), BUFSIZ, fp[1]);
 		if (ferror(fp[0]) || ferror(fp[1])) {
-			warn("cmp: fread '%s':", ferror(fp[0]) ? fn[0] : fn[1]);
+			warn("fread '%s':", ferror(fp[0]) ? fn[0] : fn[1]);
 			break;
 		}
 
@@ -78,7 +78,7 @@ compare_files(char const *const fn[static 2], FILE *const fp[static 2])
 		}
 
 		if (n[0] != n[1]) {
-			warn("cmp: EOF on %s after byte %zu", \
+			warn("EOF on %s after byte %zu", \
 			    (n[0] < n[1]) ? fn[0] : fn[1], bytes - 1);
 			break;
 		}
@@ -95,6 +95,7 @@ main(int argc, char *argv[])
 	char const *fn[2];
 	FILE *fp[2];
 
+	setup("cmp", argv);
 	while ((opt = getopt(argc, argv, "ls")) != -1) {
 		switch (opt) {
 		case 'l':

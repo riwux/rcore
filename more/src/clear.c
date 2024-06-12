@@ -42,6 +42,7 @@ main(int argc, char *argv[])
 {
 	int opt;
 
+	setup("clear", argv);
 	while ((opt = getopt(argc, argv, "")) != -1) {
 		switch (opt) {
 		default:

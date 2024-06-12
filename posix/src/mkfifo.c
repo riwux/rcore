@@ -50,12 +50,14 @@ main(int argc, char *argv[])
 	int ret = 0;
 	mode_t mode = (S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH);
 
+	setup("mkfifo", argv);
 	while ((opt = getopt(argc, argv, "m:")) != -1) {
 		switch (opt) {
 		case 'm':
 			umask(0);
 			if ((mode = x_parsemode(optarg, mode)) > 0777)
-				die(1, "mkfifo: mode must only contain file permission bits");
+				die(1, "%s: mode must only contain file permission bits", \
+				    _prog);
 			break;
 		default:
 			usage();
@@ -70,7 +72,7 @@ main(int argc, char *argv[])
 
 	for (; *argv; ++argv) {
 		if (mkfifo(*argv, mode)) {
-			warn("mkfifo: mkfifo '%s':", *argv);
+			warn("mkfifo '%s':", *argv);
 			ret = 1;
 		}
 	}

@@ -54,7 +54,7 @@ head(char const *const file, FILE *const fp, int64_t const num)
 	free(line);
 
 	if (ferror(fp)) {
-		warn("head: getline '%s':", file);
+		warn("getline '%s':", file);
 		return -1;
 	}
 
@@ -70,6 +70,7 @@ main(int argc, char *argv[])
 	int64_t num = 10;
 	FILE *fp;
 
+	setup("head", argv);
 	while ((opt = getopt(argc, argv, "n:0123456789")) != -1) {
 		switch (opt) {
 		/* Support legacy BSD style -num options. */
@@ -79,7 +80,7 @@ main(int argc, char *argv[])
 			break;
 		case 'n':
 			if ((num = x_to_num(optarg, DEC)) < 0)
-				die(1, "head: '%lld': argument must be positive", num);
+				die(1, "%s: '%lld': argument must be positive", _prog, num);
 			bsdopt = 0;
 			break;
 		default:
@@ -97,7 +98,7 @@ main(int argc, char *argv[])
 
 	for (int i = 0; i < argc; ++i) {
 		if (!(fp = !strcmp(argv[i], "-") ? stdin : fopen(argv[i], "r"))) {
-			warn("head: fopen '%s':", argv[i]);
+			warn("fopen '%s':", argv[i]);
 			ret = 1;
 			continue;
 		}

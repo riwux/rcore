@@ -51,6 +51,7 @@ main(int argc, char *argv[])
 	char *buf;
 	FILE **fps;
 
+	setup("tee", argv);
 	while ((opt = getopt(argc, argv, "ai")) != -1) {
 		switch (opt) {
 		case 'a':
@@ -58,7 +59,7 @@ main(int argc, char *argv[])
 			break;
 		case 'i':
 			if (signal(SIGINT, SIG_IGN) == SIG_ERR)
-				die(1, "tee: signal:");
+				die(1, "%s: signal:", _prog);
 			break;
 		default:
 			usage();
@@ -73,7 +74,7 @@ main(int argc, char *argv[])
 	for (int i = 0; i < argc; ++i) {
 		if (!(fps[i] = fopen(argv[i], flags))) {
 			ret = 1;
-			perror(argv[i]);
+			warn("fopen '%s':", argv[i]);
 		}
 	}
 	fps[argc]  = stdout;
@@ -86,7 +87,7 @@ main(int argc, char *argv[])
 				if (ferror(fps[i])) {
 					ret = 1;
 					fps[i] = NULL;
-					perror(argv[i]);
+					warn("fwrite '%s':", argv[i]);
 				}
 			}
 		}

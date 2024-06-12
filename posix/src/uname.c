@@ -64,6 +64,7 @@ main(int argc, char *argv[])
 	int opt;
 	struct utsname uts;
 
+	setup("uname", argv);
 	while ((opt = getopt(argc, argv, "amnrsv")) != -1) {
 		switch (opt) {
 		case 'a':
@@ -95,7 +96,7 @@ main(int argc, char *argv[])
 	if (!(mflag || nflag || rflag || sflag || vflag))
 		sflag = true;
 	if (uname(&uts))
-		die(1, "uname:");
+		die(1, "%s: uname:", _prog);
 
 	print_info(uts.sysname,  sflag);
 	print_info(uts.nodename, nflag);

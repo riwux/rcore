@@ -84,6 +84,7 @@ main(int argc, char *argv[])
 	bool eflag = false;
 	char const *arg;
 
+	setup("echo", argv);
 	while ((arg = *++argv) && *arg == '-') {
 		while (*++arg) {
 			switch (*arg) {

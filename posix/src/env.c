@@ -48,6 +48,7 @@ main(int argc, char *argv[])
 {
 	int opt;
 
+	setup("env", argv);
 	while ((opt = getopt(argc, argv, "i")) != -1) {
 		switch (opt) {
 		case 'i':
@@ -71,7 +72,7 @@ main(int argc, char *argv[])
 	/* Manipulate the environment. */
 	for (; *argv && strchr(*argv, '='); ++argv) {
 		if (putenv(*argv))
-			die(1, "env: putenv '%s':");
+			die(1, "%s: putenv '%s':", _prog, *argv);
 	}
 
 	/* No utility was specified, display current environment. */
@@ -80,6 +81,6 @@ main(int argc, char *argv[])
 			puts(*e);
 	} else {
 		execvp(*argv, argv);
-		die((errno == ENOENT) ? 127 : 126, "env: execvp '%s':", *argv);
+		die((errno == ENOENT) ? 127 : 126, "%s: execvp '%s':", _prog, *argv);
 	}
 }

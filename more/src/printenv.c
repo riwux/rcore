@@ -47,6 +47,7 @@ main(int argc, char *argv[])
 	int ret = 0;
 	char const *var;
 
+	setup("printenv", argv);
 	while ((opt = getopt(argc, argv, "")) != -1) {
 		switch (opt) {
 		default:

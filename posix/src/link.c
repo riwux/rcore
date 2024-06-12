@@ -42,6 +42,7 @@ main(int argc, char *argv[])
 {
 	int opt;
 
+	setup("link", argv);
 	while ((opt = getopt(argc, argv, "")) != -1) {
 		switch (opt) {
 		default:
@@ -56,5 +57,5 @@ main(int argc, char *argv[])
 		usage();
 
 	if (link(argv[0], argv[1]))
-		die(1, "link: cannot create link '%s' to '%s':", argv[1], argv[0]);
+		die(1, "%s: cannot create link '%s' to '%s':", _prog, argv[1], argv[0]);
 }

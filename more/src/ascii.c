@@ -81,6 +81,7 @@ main(int argc, char *argv[])
 	char base = 'x';
 	int opt;
 
+	setup("ascii", argv);
 	while ((opt = getopt(argc, argv, "xdo")) != -1) {
 		switch (opt) {
 		case 'x':

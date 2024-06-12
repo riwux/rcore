@@ -44,6 +44,7 @@ main(int argc, char *argv[])
 	int opt;
 	char *name;
 
+	setup("logname", argv);
 	while ((opt = getopt(argc, argv, "")) != -1) {
 		switch (opt) {
 		default:
@@ -58,6 +59,6 @@ main(int argc, char *argv[])
 		usage();
 
 	if (!(name = getlogin()))
-		die(1, "logname: getlogin:");
+		die(1, "%s: getlogin:", _prog);
 	puts(name);
 }

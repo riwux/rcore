@@ -50,7 +50,7 @@ rmdir_path(char *path)
 
 	do {
 		if (rmdir(path)) {
-			warn("rmdir: rmdir '%s':", path);
+			warn("rmdir '%s':", path);
 			ret = -1;
 		}
 		path = dirname(path);
@@ -66,6 +66,7 @@ main(int argc, char *argv[])
 	int ret    = 0;
 	int opt;
 
+	setup("rmdir", argv);
 	while ((opt = getopt(argc, argv, "p")) != -1) {
 		switch (opt) {
 		case 'p':
@@ -87,7 +88,7 @@ main(int argc, char *argv[])
 			if (rmdir_path(*argv))
 				ret = 1;
 		} else if (rmdir(*argv)) {
-			warn("rmdir: rmdir '%s':", *argv);
+			warn("rmdir '%s':", *argv);
 			ret = 1;
 		}
 	}

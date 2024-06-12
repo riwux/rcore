@@ -65,7 +65,8 @@ LIBUTIL_SRC =\
              $(LIBUTIL_DIR)/io.c\
              $(LIBUTIL_DIR)/lib.c\
              $(LIBUTIL_DIR)/mem.c\
-             $(LIBUTIL_DIR)/num.c
+             $(LIBUTIL_DIR)/num.c\
+             $(LIBUTIL_DIR)/setup.c
 
 POSIX_BIN   = $(POSIX_SRC:.c=)
 LINUX_BIN   = $(LINUX_SRC:.c=)

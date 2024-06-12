@@ -47,6 +47,7 @@ main(int argc, char *argv[])
 	int opt;
 	char hostname[HOST_NAME_MAX + 1];
 
+	setup("hostname", argv);
 	while ((opt = getopt(argc, argv, "")) != -1) {
 		switch (opt) {
 		default:
@@ -60,12 +61,12 @@ main(int argc, char *argv[])
 	switch (argc) {
 	case 0:
 		if (gethostname(hostname, HOST_NAME_MAX))
-			die(1, "gethostname:");
+			die(1, "%s: gethostname:", _prog);
 		puts(hostname);
 		break;
 	case 1:
 		if (sethostname(*argv, strlen(*argv)))
-			die(1, "sethostname '%s':", *argv);
+			die(1, "%s: sethostname '%s':", _prog, *argv);
 		break;
 	default:
 		usage();

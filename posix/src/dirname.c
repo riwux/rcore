@@ -44,6 +44,7 @@ main(int argc, char *argv[])
 {
 	int opt;
 
+	setup("dirname", argv);
 	while ((opt = getopt(argc, argv, "")) != -1) {
 		switch (opt) {
 		default:

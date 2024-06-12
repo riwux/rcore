@@ -42,7 +42,7 @@ vwarn(char const *const fmt, va_list args)
 		return;
 
 	vfprintf(stderr, fmt, args);
-	if (fmt[0] && fmt[strlen(fmt)-1] == ':') {
+	if (fmt[0] && fmt[strlen(fmt) - 1] == ':') {
 		fputc(' ', stderr);
 		perror(NULL);
 	} else {
@@ -53,6 +53,7 @@ vwarn(char const *const fmt, va_list args)
 void
 warn(char const *const fmt, ...)
 {
+	fprintf(stderr, "%s: ", _prog);
 	va_list args;
 	va_start(args, fmt);
 	vwarn(fmt, args);
@@ -105,7 +106,7 @@ x_fopen(char const *const path, char const *const mode)
 	FILE *fp;
 
 	if (!(fp = fopen(path, mode)))
-		die(1, "fopen '%s':", path);
+		die(1, "%s: fopen '%s':", _prog, path);
 
 	return fp;
 }
@@ -114,5 +115,5 @@ void
 x_fclose(FILE *const fp)
 {
 	if (fp != NULL && fclose(fp) == EOF)
-		die(1, "fclose:");
+		die(1, "%s: fclose:", _prog);
 }

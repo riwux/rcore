@@ -41,7 +41,7 @@ x_to_num(char const *const str, int const base)
 	errno = 0;
 	ret = strtoll(str, NULL, base);
 	if (errno)
-		die(1, "strtoll:");
+		die(1, "%s: strtoll:", _prog);
 
 	return ret;
 }
@@ -54,7 +54,7 @@ x_to_unum(char const *const str, int const base)
 	errno = 0;
 	ret = strtoull(str, NULL, base);
 	if (errno)
-		die(1, "strtoull:");
+		die(1, "%s: strtoull:", _prog);
 
 	return ret;
 }

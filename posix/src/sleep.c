@@ -81,6 +81,7 @@ main(int argc, char *argv[])
 	int opt;
 	struct timespec time;
 
+	setup("sleep", argv);
 	while ((opt = getopt(argc, argv, "")) != -1) {
 		switch (opt) {
 		default:
@@ -95,7 +96,7 @@ main(int argc, char *argv[])
 		usage();
 
 	if (parse_time(&time, *argv))
-		die(2, "sleep: invalid number format");
+		die(2, "%s: invalid number format", _prog);
 
 	return !!nanosleep(&time, NULL);
 }

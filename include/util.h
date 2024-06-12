@@ -12,6 +12,11 @@
 
 typedef unsigned char uchar;
 
+/* setup.c */
+extern char const *_prog;
+
+extern void setup(char const *, char **);
+
 /* io.c */
 extern void warn(char const *, ...);
 extern void die(int, char const *, ...);

@@ -28,9 +28,13 @@
  */
 #include <stdio.h>
 
+#include "util.h"
+
 int
 main(int argc, char *argv[])
 {
+	setup("yes", argv);
+
 	if (argc < 2) {
 		for (;;)
 			puts("y");

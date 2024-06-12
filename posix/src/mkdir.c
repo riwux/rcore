@@ -60,15 +60,15 @@ mkpath(char *const path, mode_t const mode)
 		*p = '\0';
 		errno = 0;
 		if (mkdir(path, 0) && errno != EEXIST) {
-			warn("mkdir: mkdir '%s':", path);
+			warn("mkdir '%s':", path);
 			ret = -1;
 		/* Already existing pathname components keep their mode. */
 		} else if (errno != EEXIST &&
 		    chmod(path, (S_IWUSR | S_IXUSR | ~get_umask()) & 0777)) {
-			warn("mkdir: chmod '%s':", path);
+			warn("chmod '%s':", path);
 			ret = -1;
 		} else if (!stat(path, &st) && !S_ISDIR(st.st_mode)) {
-			warn("mkdir: mkdir '%s': File exists but is not a directory", path);
+			warn("mkdir '%s': File exists but is not a directory", path);
 			ret = -1;
 		}
 		*p = '/';
@@ -80,7 +80,7 @@ mkpath(char *const path, mode_t const mode)
 	 * of zero and subsequent adjustments with chmod(2) wouldn't be compliant.
 	 */
 	 if (ret != -1 && mkdir(path, mode) && errno != EEXIST) {
-		warn("mkdir: mkdir '%s':", path);
+		warn("mkdir '%s':", path);
 		ret = -1;
 	}
 
@@ -95,6 +95,7 @@ main(int argc, char *argv[])
 	int opt;
 	mode_t mode = ((S_IRWXU | S_IRWXG | S_IRWXO) & ~get_umask()) & 0777;
 
+	setup("mkdir", argv);
 	while ((opt = getopt(argc, argv, "pm:")) != -1) {
 		switch (opt) {
 		case 'p':
@@ -121,7 +122,7 @@ main(int argc, char *argv[])
 				continue;
 			}
 		} else if (mkdir(*argv, mode)) {
-			warn("mkdir: mkdir '%s':", *argv);
+			warn("mkdir '%s':", *argv);
 			ret = 1;
 			continue;
 		}
@@ -131,7 +132,7 @@ main(int argc, char *argv[])
 		 * Calling chmod(2) guarantees that all bits are applied correctly.
 		 */
 		if (errno != EEXIST && chmod(*argv, mode))
-			warn("mkdir: chmod '%s':", *argv);
+			warn("chmod '%s':", *argv);
 	}
 
 	return ret;

@@ -39,11 +39,11 @@ x_malloc(size_t const nmemb, size_t const size)
 
 	if (overflow_mul(nmemb, size)) {
 		errno = ENOMEM;
-		die(1, "malloc:");
+		die(1, "%s: malloc:", _prog);
 	}
 
 	if (!(p = malloc(size * nmemb)))
-		die(1, "malloc:");
+		die(1, "%s: malloc:", _prog);
 
 	return p;
 }
@@ -53,11 +53,11 @@ x_realloc(void *p, size_t const nmemb, size_t const size)
 {
 	if (overflow_mul(nmemb, size)) {
 		errno = ENOMEM;
-		die(1, "realloc:");
+		die(1, "%s: realloc:", _prog);
 	}
 
 	if (!(p = realloc(p, nmemb * size)))
-		die(1, "realloc:");
+		die(1, "%s: realloc:", _prog);
 
 	return p;
 }

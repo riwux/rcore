@@ -53,6 +53,7 @@ main(int argc, char *argv[])
 	                          "abcdefghijklmnopqrstuvwxyz"
 	                          "0123456789+/";
 
+	setup("base64", argv);
 	while ((opt = getopt(argc, argv, "d")) != -1) {
 		switch (opt) {
 		case 'd':

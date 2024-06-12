@@ -60,11 +60,11 @@ check_path(char *const path)
 	struct stat st;
 
 	if (Pflag && plen == 0) {
-		warn("pathchk: pathname is empty");
+		warn("pathname is empty");
 		return -1;
 	} else if (plen > maxpath) {
-		warn("pathchk: limit '%zu' exceeded by length " \
-		    "'%zu' of pathname '%s'", maxpath, plen, path);
+		warn("limit '%zu' exceeded by length '%zu' of pathname '%s'", \
+		    maxpath, plen, path);
 		return -1;
 	}
 
@@ -79,7 +79,7 @@ check_path(char *const path)
 		clen  = p - start;
 		errno = 0;
 		if (clen > maxname) {
-			warn("pathchk: limit '%zu' exceeded by length '%zu' " \
+			warn("limit '%zu' exceeded by length '%zu' " \
 			    "of pathname component '%s'", maxname, clen, start);
 			ret = -1;
 		/*
@@ -89,17 +89,16 @@ check_path(char *const path)
 		 * Only existing files are considered.
 		 */
 		} else if (lstat(start, &st) && errno != ENOENT) {
-			warn("pathchk: pathname component doesn't have search " \
-			    "permissions: '%s'", start);
+			warn("pathname component doesn't have search permissions: '%s'", \
+			    start);
 			ret = -1;
 		} else if (Pflag && (start[0] == '-')) {
-			warn("pathchk: pathname component starts with <hyphen-minus>: " \
-			    "'%s'", start);
+			warn("pathname component starts with <hyphen-minus>: '%s'", start);
 			ret = -1;
 		} else if (pflag) {
 			for (char const *np = start; np < p; ++np) {
 				if (!strchr(CHARSET, *np)) {
-					warn("pathchk: pathname component contains " \
+					warn("pathname component contains " \
 					    "non-portable character '%c': '%s'", *np, start);
 					ret = -1;
 					break;
@@ -119,6 +118,7 @@ main(int argc, char *argv[])
 	int ret = 0;
 	int opt;
 
+	setup("pathchk", argv);
 	while ((opt = getopt(argc, argv, "pP")) != -1) {
 		switch (opt) {
 		case 'p':

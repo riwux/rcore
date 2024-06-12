@@ -47,6 +47,7 @@ main(int argc, char *argv[])
 	char const *tty;
 	struct stat st;
 
+	setup("mesg", argv);
 	while ((opt = getopt(argc, argv, "")) != -1) {
 		switch (opt) {
 		default:
@@ -59,9 +60,9 @@ main(int argc, char *argv[])
 
 	tty = ttyname(STDERR_FILENO);
 	if (!tty)
-		die(2, "mesg: ttyname 'STDERR_FILENO':");
+		die(2, "%s: ttyname 'STDERR_FILENO':", _prog);
 	if (stat(tty, &st))
-		die(2, "mesg: stat '%s':", tty);
+		die(2, "%s: stat '%s':", _prog, tty);
 
 	switch (argc) {
 	case 0:
@@ -73,9 +74,9 @@ main(int argc, char *argv[])
 		else if (**argv == 'n')
 			mode = st.st_mode & ~S_IWGRP;
 		else
-			die(2, "mesg: invalid argument '%c'", **argv);
+			die(2, "%s: invalid argument '%c'", _prog, **argv);
 		if (chmod(tty, mode))
-			die(2, "mesg: chmod:");
+			die(2, "%s: chmod '%s':", _prog, tty);
 		break;
 	default:
 		usage();
