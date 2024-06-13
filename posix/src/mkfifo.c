@@ -25,9 +25,6 @@
  *
  * ref: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/mkfifo.html
  */
-#include <errno.h>
-#include <stdio.h>
-#include <string.h>
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
