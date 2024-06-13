@@ -69,7 +69,7 @@ asa(char const *const file, FILE *const fp)
 				putchar('\n');
 			break;
 		}
-		fwrite(line + 1, sizeof (char), n, stdout);
+		fwrite(line + 1, sizeof (char), (n > 1) ? n : 0, stdout);
 		first = false;
 	}
 	putchar('\n');
