@@ -87,3 +87,24 @@ Supported compilers:
   Function names that are part of a library (i.e shared accross all tools)
   and have the potential to exit(3) the program are prefixed with 'x_'.
   Those functions local to a utility don't (have to) follow this convention.
+
+
+
+* Options:
+
+  Mutually exclusive options (e.g. [-a | -b]) can be specified together
+  without resulting in an error. The last option specified is used/active
+  while the options prior are ignored and have no effect.
+
+    util -a -b -a -b -a -c
+
+  In this example '-a' will be used by the program since it is the last
+  out of the mutually exclusive options 'a' and 'b'. The normal option 'c'
+  will be active regardless since it has no relationship with the other
+  options.
+
+
+  Long options are not implemented since they are non-standard and don't
+  provide much value. Most of the time they just provide another, longer
+  name for an already existing option. They complicate and confuse a program
+  without adding functionality or anything useful.
