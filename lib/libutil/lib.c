@@ -68,36 +68,37 @@ x_parsemode(char const *mode, mode_t const init)
 	oct_mode = strtol(mode, &inval, OCT);
 	if (!*inval) {
 		if (oct_mode > 07777 || oct_mode < 0)
-			die(1, "%s: parsemode: invalid mode '%s'", _prog, mode);
+			die(1, "%s: parsemode '%s': invalid mode", _prog, mode);
 		return oct_mode;
 	}
 
 	/*
 	 * Take the mode 'o+r' with a default value of zero as an example.
 	 *
-	 * By setting all bits of the specified wholist ('[o]ther' in this case)
-	 * to one, the corresponding who's are selected for modification.
+	 * By setting all bits of the specified who's ([o]ther in this case)
+	 * to one, they are selected for modification.
 	 *
 	 *        0000 0000 0000 0000  |  S_IRWXO (0007)
 	 *        0000 0000 0000 0111
 	 *
-	 * Now the actual permissions ('[r]ead' in this case) are applied to
-	 * the previously calculated bitmask by doing an AND operation with *all*
-	 * possible who's. Only the bits of the selected wholist are considered
-	 * (since only those are one and have a chance to "survive" the AND),
-	 * and only those that actually match the specified permissions stay one.
+	 * Now the actual permissions ([r]ead in this case) are applied to
+	 * the previously calculated bitmask by blindly ANDing them to all (ugo)
+	 * who's. Since only the previously selected who's have a value of one,
+	 * the bits of all the others become zero immediately. Then all the bits
+	 * of the selected who's that do not represent a specified permission
+	 * turn zero too.
 	 *
 	 *        0000 0000 0000 0111     (bitmask [0007])
 	 *        0000 0001 0010 0100     (S_IRUSR | S_IRGRP | S_IROTH [0444])
 	 *     &  ___________________
 	 *        0000 0000 0000 0100
 	 *
-	 * This yields a bit pattern that has all bits at the right place.
-	 * Depending on the operator ('+' in this case), additional calculations
-	 * might be necessary to receive a correct mode (apply_mode() for details).
+	 * This yields a pattern that has all bits at the right place.
+	 * Depending on the operator, additional calculations might be necessary
+	 * to receive a correct mode (see apply_mode() for details).
 	 */
 	do {
-		/* Each clause of a symbolic mode can have an optional wholist. */
+		/* A list of who's can be provided for each clause. */
 		for (who = 0; *mode && !strchr("+-=", *mode); ++mode) {
 			switch (*mode) {
 			case 'a':
@@ -124,7 +125,7 @@ x_parsemode(char const *mode, mode_t const init)
 			who = S_IRWXU | S_IRWXG | S_IRWXO | S_ISUID | S_ISGID | S_ISVTX;
 
 		/*
-		 * Either of the following actionlists is allowed and can be
+		 * The following actionlists are valid and can be
 		 * repeated, as well as interchanged, indefinitely.
 		 *
 		 * op            ->   +-=
@@ -153,43 +154,25 @@ x_parsemode(char const *mode, mode_t const init)
 				break;
 			case 'X':
 				if (ret & (S_IXUSR | S_IXGRP | S_IXOTH))
-					ret |= S_IXUSR | S_IXGRP | S_IXOTH;
+					perm |= S_IXUSR | S_IXGRP | S_IXOTH;
 				break;
 			case 's':
-				if (who & S_ISGID)
-					perm |= S_ISGID;
-				if (who & S_ISUID)
-					perm |= S_ISUID;
+				perm |= S_ISUID | S_ISGID;
 				break;
 			case 't':
 				perm |= S_ISVTX;
 				break;
 			case 'u':
 				m = (ret & S_IRWXU);
-				if (who & S_IRWXU)
-					perm |= m;
-				if (who & S_IRWXG)
-					perm |= m >> 3;
-				if (who & S_IRWXO)
-					perm |= m >> 6;
+				perm |= (m >> 3) | (m >> 6) | m;
 				break;
 			case 'g':
 				m = (ret & S_IRWXG);
-				if (who & S_IRWXU)
-					perm |= m << 3;
-				if (who & S_IRWXG)
-					perm |= m;
-				if (who & S_IRWXO)
-					perm |= m >> 3;
+				perm |= (m << 3) | (m >> 3) | m;
 				break;
 			case 'o':
 				m = (ret & S_IRWXO);
-				if (who & S_IRWXU)
-					perm |= m << 6;
-				if (who & S_IRWXG)
-					perm |= m << 3;
-				if (who & S_IRWXO)
-					perm |= m;
+				perm |= (m << 6) | (m << 3) | m;
 				break;
 			default:
 				die(1, "%s: parsemode: invalid permission symbol '%c'", _prog, \
