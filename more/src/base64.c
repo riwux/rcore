@@ -23,8 +23,6 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- *
- * base64 - encode/decode input with base64 and print it to stdout
  * ref: https://datatracker.ietf.org/doc/html/rfc4648
  */
 #include <stdbool.h>

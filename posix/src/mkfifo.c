@@ -23,11 +23,8 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- *
- * mkfifo - create named pipes (FIFOs)
  * ref: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/mkfifo.html
  */
-
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>

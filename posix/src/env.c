@@ -23,8 +23,6 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- *
- * env - invoke a command in a modified environment
  * ref: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/env.html
  */
 #include <errno.h>

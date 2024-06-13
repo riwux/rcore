@@ -23,8 +23,6 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- *
- * false - do nothing and return with a non-zero exit code
  * ref: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/false.html
  */
 int

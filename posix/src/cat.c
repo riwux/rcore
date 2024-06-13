@@ -23,8 +23,6 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- *
- * cat - print content of input files to stdout
  * ref: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/cat.html
  */
 #include <stdio.h>

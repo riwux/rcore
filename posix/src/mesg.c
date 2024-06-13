@@ -23,8 +23,6 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- *
- * mesg - permit or deny messages from other users to the current terminal
  * ref: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/mesg.html
  */
 #include <stdio.h>

@@ -23,8 +23,6 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- *
- * sleep - suspend execution for a specified amount of time
  * ref: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/sleep.html
  */
 #include <limits.h>

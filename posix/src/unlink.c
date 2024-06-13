@@ -23,8 +23,6 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- *
- * unlink - remove a file by calling unlink(2)
  * ref: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/unlink.html
  */
 #include <stdio.h>

@@ -23,8 +23,9 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- *
- * sync - synchronize cached writes to storage by calling sync(2)
+ * ref:
+ *   https://refspecs.linuxfoundation.org/LSB_5.0.0/LSB-Core-generic/
+ *   LSB-Core-generic.html#SYNC
  */
 #include <unistd.h>
 

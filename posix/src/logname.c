@@ -23,8 +23,6 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- *
- * logname - print login name of the current user
  * ref: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/logname.html
  */
 #include <stdio.h>

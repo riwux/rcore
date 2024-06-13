@@ -23,8 +23,7 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- *
- * errno - print list of errnos or lookup errno names, codes and descriptions
+ * ref: https://joeyh.name/code/moreutils
  */
 #include <errno.h>
 #include <stdio.h>
@@ -175,12 +174,13 @@ static struct {
 	{.name = "EHWPOISON",       .code = EHWPOISON      }
 };
 
+static unsigned const table_len = NELEM(errno_table);
+
 static void
 usage(void)
 {
 	die(1, "usage: errno name-or-code...\n"
-	       "       errno -s word...\n"
-	       "       errno -l");
+	       "       errno [-l | -s word...]");
 }
 
 static void
@@ -193,25 +193,25 @@ print_errno(int const i)
 static void
 list_errno(void)
 {
-	for (unsigned i = 0; i < NELEM(errno_table); ++i)
+	for (unsigned i = 0; i < table_len; ++i)
 		print_errno(i);
 }
 
 static int
 find_errno(char const *const noc)
 {
-	unsigned idx;
+	unsigned code;
 
 	/* A code is provided. */
-	if ((idx = strtol(noc, NULL, DEC)) < NELEM(errno_table) && idx >= 1) {
-		for (unsigned i = 0; i < NELEM(errno_table); ++i) {
-			if (errno_table[i].code == idx) {
+	if ((code = strtol(noc, NULL, DEC)) < table_len && code >= 1) {
+		for (unsigned i = 0; i < table_len; ++i) {
+			if (errno_table[i].code == code) {
 				print_errno(i);
 				return 0;
 			}
 		}
 	} else { /* A name is provided. */
-		for (unsigned i = 0; i < NELEM(errno_table); ++i) {
+		for (unsigned i = 0; i < table_len; ++i) {
 			if (!strcasecmp(errno_table[i].name, noc)) {
 				print_errno(i);
 				return 0;
@@ -227,7 +227,7 @@ match_errno_desc(char *keys[])
 {
 	bool found = false;
 
-	for (unsigned i = 0; i < NELEM(errno_table); ++i) {
+	for (unsigned i = 0; i < table_len; ++i) {
 		for (char **k = keys; *k; ++k) {
 			if (strstr(strerror(errno_table[i].code), *k)) {
 				found = true;
