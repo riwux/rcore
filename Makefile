@@ -25,6 +25,7 @@ HDR =\
      $(INCLUDE_DIR)/util.h
 
 POSIX_SRC =\
+           $(POSIX_SRC_DIR)/asa.c\
            $(POSIX_SRC_DIR)/basename.c\
            $(POSIX_SRC_DIR)/cat.c\
            $(POSIX_SRC_DIR)/cmp.c\
