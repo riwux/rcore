@@ -48,8 +48,8 @@ asa(char const *const file, FILE *const fp)
 	size_t len = 0;
 	char *line = NULL;
 
-	while ((n = getline(&line, &len, fp)) != -1) {
-		if (n > 0 && line[--n] == '\n')
+	while ((n = getline(&line, &len, fp)) > 0) {
+		if (line[--n] == '\n')
 			line[n] = '\0';
 		switch (line[0]) {
 		case '0':
@@ -69,7 +69,7 @@ asa(char const *const file, FILE *const fp)
 				putchar('\n');
 			break;
 		}
-		fwrite(line + 1, sizeof (char), (n > 1) ? n : 0, stdout);
+		fwrite(line + 1, sizeof (char), n, stdout);
 		first = false;
 	}
 	putchar('\n');
