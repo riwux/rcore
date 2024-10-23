@@ -93,7 +93,7 @@ main(int argc, char *argv[])
 	int opt;
 	mode_t mode = ((S_IRWXU | S_IRWXG | S_IRWXO) & ~get_umask()) & 0777;
 
-	setup("mkdir", argv);
+	x_setup("mkdir", argv);
 	while ((opt = getopt(argc, argv, "pm:")) != -1) {
 		switch (opt) {
 		case 'p':

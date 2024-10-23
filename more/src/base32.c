@@ -49,7 +49,7 @@ main(int argc, char *argv[])
 	char const *const table = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
 	FILE *fp;
 
-	setup("base32", argv);
+	x_setup("base32", argv);
 	while ((opt = getopt(argc, argv, "d")) != -1) {
 		switch(opt) {
 		case 'd':

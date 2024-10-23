@@ -48,7 +48,7 @@ main(int argc, char *argv[])
 	int opt;
 	char hostname[HOST_NAME_MAX + 1];
 
-	setup("hostname", argv);
+	x_setup("hostname", argv);
 	while ((opt = getopt(argc, argv, "")) != -1) {
 		switch (opt) {
 		default:

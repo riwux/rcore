@@ -42,7 +42,7 @@ main(int argc, char *argv[])
 {
 	int opt;
 
-	setup("sync", argv);
+	x_setup("sync", argv);
 	while ((opt = getopt(argc, argv, "")) != -1) {
 		switch (opt) {
 		default:

@@ -93,7 +93,7 @@ main(int argc, char *argv[])
 	char const *fn[2];
 	FILE *fp[2];
 
-	setup("cmp", argv);
+	x_setup("cmp", argv);
 	while ((opt = getopt(argc, argv, "ls")) != -1) {
 		switch (opt) {
 		case 'l':

@@ -44,7 +44,7 @@ main(int argc, char *argv[])
 	int opt;
 	char *base, *suffix;
 
-	setup("basename", argv);
+	x_setup("basename", argv);
 	while ((opt = getopt(argc, argv, "")) != -1) {
 		switch (opt) {
 		default:

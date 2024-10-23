@@ -79,7 +79,7 @@ main(int argc, char *argv[])
 	int opt;
 	struct timespec time;
 
-	setup("sleep", argv);
+	x_setup("sleep", argv);
 	while ((opt = getopt(argc, argv, "")) != -1) {
 		switch (opt) {
 		default:

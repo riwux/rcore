@@ -44,7 +44,7 @@ main(int argc, char *argv[])
 	int ret = 0;
 	mode_t mode = (S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH);
 
-	setup("mkfifo", argv);
+	x_setup("mkfifo", argv);
 	while ((opt = getopt(argc, argv, "m:")) != -1) {
 		switch (opt) {
 		case 'm':

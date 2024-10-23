@@ -42,7 +42,7 @@ main(int argc, char *argv[])
 	int opt;
 	char *name;
 
-	setup("logname", argv);
+	x_setup("logname", argv);
 	while ((opt = getopt(argc, argv, "")) != -1) {
 		switch (opt) {
 		default:

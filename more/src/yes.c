@@ -30,7 +30,7 @@
 int
 main(int argc, char *argv[])
 {
-	setup("yes", argv);
+	x_setup("yes", argv);
 
 	if (argc < 2) {
 		for (;;)

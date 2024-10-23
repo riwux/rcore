@@ -116,7 +116,7 @@ main(int argc, char *argv[])
 	int ret = 0;
 	int opt;
 
-	setup("pathchk", argv);
+	x_setup("pathchk", argv);
 	while ((opt = getopt(argc, argv, "pP")) != -1) {
 		switch (opt) {
 		case 'p':

@@ -50,7 +50,7 @@ main(int argc, char *argv[])
 	uint64_t cmd = 0;
 	FILE *fp;
 
-	setup("ctrlaltdel", argv);
+	x_setup("ctrlaltdel", argv);
 	while ((opt = getopt(argc, argv, "")) != -1) {
 		switch (opt) {
 		default:

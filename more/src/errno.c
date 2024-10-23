@@ -251,7 +251,7 @@ main(int argc, char *argv[])
 	int ret    = 0;
 	int opt;
 
-	setup("errno", argv);
+	x_setup("errno", argv);
 	while ((opt = getopt(argc, argv, "ls:")) != -1) {
 		switch (opt) {
 		case 'l':

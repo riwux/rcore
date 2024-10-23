@@ -64,7 +64,7 @@ main(int argc, char *argv[])
 	int ret    = 0;
 	int opt;
 
-	setup("rmdir", argv);
+	x_setup("rmdir", argv);
 	while ((opt = getopt(argc, argv, "p")) != -1) {
 		switch (opt) {
 		case 'p':

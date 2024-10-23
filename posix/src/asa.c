@@ -90,7 +90,7 @@ main(int argc, char *argv[])
 	int ret = 0;
 	FILE *fp;
 
-	setup("asa", argv);
+	x_setup("asa", argv);
 	while ((opt = getopt(argc, argv, "")) != -1) {
 		switch (opt) {
 		default:

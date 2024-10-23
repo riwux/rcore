@@ -45,7 +45,7 @@ main(int argc, char *argv[])
 	char const *tty;
 	struct stat st;
 
-	setup("mesg", argv);
+	x_setup("mesg", argv);
 	while ((opt = getopt(argc, argv, "")) != -1) {
 		switch (opt) {
 		default:

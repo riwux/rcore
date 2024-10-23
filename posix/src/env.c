@@ -46,7 +46,7 @@ main(int argc, char *argv[])
 {
 	int opt;
 
-	setup("env", argv);
+	x_setup("env", argv);
 	while ((opt = getopt(argc, argv, "i")) != -1) {
 		switch (opt) {
 		case 'i':

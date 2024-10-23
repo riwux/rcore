@@ -40,7 +40,7 @@ main(int argc, char *argv[])
 {
 	int opt;
 
-	setup("link", argv);
+	x_setup("link", argv);
 	while ((opt = getopt(argc, argv, "")) != -1) {
 		switch (opt) {
 		default:

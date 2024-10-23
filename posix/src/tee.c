@@ -49,7 +49,7 @@ main(int argc, char *argv[])
 	char *buf;
 	FILE **fps;
 
-	setup("tee", argv);
+	x_setup("tee", argv);
 	while ((opt = getopt(argc, argv, "ai")) != -1) {
 		switch (opt) {
 		case 'a':

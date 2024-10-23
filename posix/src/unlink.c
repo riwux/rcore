@@ -41,7 +41,7 @@ main(int argc, char *argv[])
 {
 	int opt;
 
-	setup("unlink", argv);
+	x_setup("unlink", argv);
 	while ((opt = getopt(argc, argv, "")) != -1) {
 		switch (opt) {
 		default:

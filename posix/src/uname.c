@@ -62,7 +62,7 @@ main(int argc, char *argv[])
 	int opt;
 	struct utsname uts;
 
-	setup("uname", argv);
+	x_setup("uname", argv);
 	while ((opt = getopt(argc, argv, "amnrsv")) != -1) {
 		switch (opt) {
 		case 'a':

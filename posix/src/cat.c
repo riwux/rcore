@@ -43,7 +43,7 @@ main(int argc, char *argv[])
 	int opt;
 	FILE *fp;
 
-	setup("cat", argv);
+	x_setup("cat", argv);
 	while ((opt = getopt(argc, argv, "u")) != -1) {
 		switch (opt) {
 		case 'u':

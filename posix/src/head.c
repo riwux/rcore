@@ -68,7 +68,7 @@ main(int argc, char *argv[])
 	int64_t num = 10;
 	FILE *fp;
 
-	setup("head", argv);
+	x_setup("head", argv);
 	while ((opt = getopt(argc, argv, "n:0123456789")) != -1) {
 		switch (opt) {
 		/* Support legacy BSD style -num options. */
