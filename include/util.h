@@ -15,7 +15,7 @@ typedef unsigned char uchar;
 /* setup.c */
 extern char const *prog_;
 
-extern void setup(char const *, char **);
+extern void x_setup(char const *, char **);
 
 /* io.c */
 extern void warn(char const *, ...);

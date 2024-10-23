@@ -36,7 +36,7 @@
 char const *prog_;
 
 void
-setup(char const *const progname, char *argv[])
+x_setup(char const *const progname, char *argv[])
 {
 	if (!argv[0])
 		die(1, "A NULL argv[0] was passed to the program");
