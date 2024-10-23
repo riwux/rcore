@@ -64,13 +64,13 @@ compare_files(char const *const fn[static 2], FILE *const fp[static 2])
 				++ln;
 			if (b1[i] != b2[i]) {
 				if (sflag) {
-					goto leave;
+					return 1;
 				} else if (lflag) {
 					printf("%zu %o %o\n", bytes, b1[i], b2[i]);
 				} else {
 					printf("%s %s differ: byte %zu, line %zu\n", \
 					        fn[0], fn[1], bytes, ln);
-					goto leave;
+					return 1;
 				}
 			}
 		}
@@ -82,7 +82,6 @@ compare_files(char const *const fn[static 2], FILE *const fp[static 2])
 		}
 	}
 
-leave:
 	return (b1[i] != b2[i]);
 }
 
