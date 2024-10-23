@@ -70,7 +70,7 @@ main(int argc, char *argv[])
 	/* Manipulate the environment. */
 	for (; *argv && strchr(*argv, '='); ++argv) {
 		if (putenv(*argv))
-			die(1, "%s: putenv '%s':", _prog, *argv);
+			die(1, "%s: putenv '%s':", prog_, *argv);
 	}
 
 	/* No utility was specified, display current environment. */
@@ -79,6 +79,6 @@ main(int argc, char *argv[])
 			puts(*e);
 	} else {
 		execvp(*argv, argv);
-		die((errno == ENOENT) ? 127 : 126, "%s: execvp '%s':", _prog, *argv);
+		die((errno == ENOENT) ? 127 : 126, "%s: execvp '%s':", prog_, *argv);
 	}
 }

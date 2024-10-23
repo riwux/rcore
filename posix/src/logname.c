@@ -57,6 +57,6 @@ main(int argc, char *argv[])
 		usage();
 
 	if (!(name = getlogin()))
-		die(1, "%s: getlogin:", _prog);
+		die(1, "%s: getlogin:", prog_);
 	puts(name);
 }

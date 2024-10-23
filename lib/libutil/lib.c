@@ -68,7 +68,7 @@ x_parsemode(char const *mode, mode_t const init)
 	oct_mode = strtol(mode, &inval, OCT);
 	if (!*inval) {
 		if (oct_mode > 07777 || oct_mode < 0)
-			die(1, "%s: parsemode '%s': invalid mode", _prog, mode);
+			die(1, "%s: parsemode '%s': invalid mode", prog_, mode);
 		return oct_mode;
 	}
 
@@ -115,12 +115,12 @@ x_parsemode(char const *mode, mode_t const init)
 				who |= S_IRWXO | S_ISVTX;
 				break;
 			default:
-				die(1, "%s: parsemode: invalid who symbol '%c'", _prog, *mode);
+				die(1, "%s: parsemode: invalid who symbol '%c'", prog_, *mode);
 				break;
 			}
 		}
 		if (!*mode)
-			die(1, "%s: parsemode: missing operator", _prog);
+			die(1, "%s: parsemode: missing operator", prog_);
 		if (!who)
 			who = S_IRWXU | S_IRWXG | S_IRWXO | S_ISUID | S_ISGID | S_ISVTX;
 
@@ -175,7 +175,7 @@ x_parsemode(char const *mode, mode_t const init)
 				perm |= (m << 6) | (m << 3) | m;
 				break;
 			default:
-				die(1, "%s: parsemode: invalid permission symbol '%c'", _prog, \
+				die(1, "%s: parsemode: invalid permission symbol '%c'", prog_, \
 				    *mode);
 				break;
 			}

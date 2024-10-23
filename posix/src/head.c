@@ -78,7 +78,7 @@ main(int argc, char *argv[])
 			break;
 		case 'n':
 			if ((num = x_to_num(optarg, DEC)) < 0)
-				die(1, "%s: '%lld': argument must be positive", _prog, num);
+				die(1, "%s: '%lld': argument must be positive", prog_, num);
 			bsdopt = 0;
 			break;
 		default:

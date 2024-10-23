@@ -31,10 +31,9 @@
 
 /*
  * Store the name of the program globally. Thus, functions that are not part
- * of a specific utility can access the name of it anyway. This makes it
- * possible to prefix error/warning messages with the name to stay consistent.
+ * of a specific utility can access the name of it anyway.
  */
-char const *_prog;
+char const *prog_;
 
 void
 setup(char const *const progname, char *argv[])
@@ -42,5 +41,5 @@ setup(char const *const progname, char *argv[])
 	if (!argv[0])
 		die(1, "A NULL argv[0] was passed to the program");
 	else
-		_prog = progname;
+		prog_ = progname;
 }

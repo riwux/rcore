@@ -57,7 +57,7 @@ main(int argc, char *argv[])
 			break;
 		case 'i':
 			if (signal(SIGINT, SIG_IGN) == SIG_ERR)
-				die(1, "%s: signal:", _prog);
+				die(1, "%s: signal:", prog_);
 			break;
 		default:
 			usage();

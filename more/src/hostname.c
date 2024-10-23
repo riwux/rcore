@@ -62,12 +62,12 @@ main(int argc, char *argv[])
 	switch (argc) {
 	case 0:
 		if (gethostname(hostname, HOST_NAME_MAX))
-			die(1, "%s: gethostname:", _prog);
+			die(1, "%s: gethostname:", prog_);
 		puts(hostname);
 		break;
 	case 1:
 		if (sethostname(*argv, strlen(*argv)))
-			die(1, "%s: sethostname '%s':", _prog, *argv);
+			die(1, "%s: sethostname '%s':", prog_, *argv);
 		break;
 	default:
 		usage();

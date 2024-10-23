@@ -13,7 +13,7 @@
 typedef unsigned char uchar;
 
 /* setup.c */
-extern char const *_prog;
+extern char const *prog_;
 
 extern void setup(char const *, char **);
 

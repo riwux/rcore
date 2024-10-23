@@ -94,7 +94,7 @@ main(int argc, char *argv[])
 		usage();
 
 	if (parse_time(&time, *argv))
-		die(2, "%s: invalid number format", _prog);
+		die(2, "%s: invalid number format", prog_);
 
 	return !!nanosleep(&time, NULL);
 }

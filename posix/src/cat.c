@@ -65,7 +65,7 @@ main(int argc, char *argv[])
 			continue;
 		}
 		if (fcopy(stdout, fp))
-			die(1, "%s: fcopy '%s':", _prog, *argv);
+			die(1, "%s: fcopy '%s':", prog_, *argv);
 		if (fp != stdin)
 			fclose(fp);
 	}

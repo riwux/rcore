@@ -51,7 +51,7 @@ main(int argc, char *argv[])
 			umask(0);
 			if ((mode = x_parsemode(optarg, mode)) > 0777)
 				die(1, "%s: mode must only contain file permission bits", \
-				    _prog);
+				    prog_);
 			break;
 		default:
 			usage();

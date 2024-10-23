@@ -55,5 +55,5 @@ main(int argc, char *argv[])
 		usage();
 
 	if (link(argv[0], argv[1]))
-		die(1, "%s: cannot create link '%s' to '%s':", _prog, argv[1], argv[0]);
+		die(1, "%s: cannot create link '%s' to '%s':", prog_, argv[1], argv[0]);
 }

@@ -58,9 +58,9 @@ main(int argc, char *argv[])
 
 	tty = ttyname(STDERR_FILENO);
 	if (!tty)
-		die(2, "%s: ttyname 'STDERR_FILENO':", _prog);
+		die(2, "%s: ttyname 'STDERR_FILENO':", prog_);
 	if (stat(tty, &st))
-		die(2, "%s: stat '%s':", _prog, tty);
+		die(2, "%s: stat '%s':", prog_, tty);
 
 	switch (argc) {
 	case 0:
@@ -72,9 +72,9 @@ main(int argc, char *argv[])
 		else if (**argv == 'n')
 			mode = st.st_mode & ~S_IWGRP;
 		else
-			die(2, "%s: invalid argument '%c'", _prog, **argv);
+			die(2, "%s: invalid argument '%c'", prog_, **argv);
 		if (chmod(tty, mode))
-			die(2, "%s: chmod '%s':", _prog, tty);
+			die(2, "%s: chmod '%s':", prog_, tty);
 		break;
 	default:
 		usage();

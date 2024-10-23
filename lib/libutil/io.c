@@ -53,7 +53,7 @@ vwarn(char const *const fmt, va_list args)
 void
 warn(char const *const fmt, ...)
 {
-	fprintf(stderr, "%s: ", _prog);
+	fprintf(stderr, "%s: ", prog_);
 	va_list args;
 	va_start(args, fmt);
 	vwarn(fmt, args);
@@ -106,7 +106,7 @@ x_fopen(char const *const path, char const *const mode)
 	FILE *fp;
 
 	if (!(fp = fopen(path, mode)))
-		die(1, "%s: fopen '%s':", _prog, path);
+		die(1, "%s: fopen '%s':", prog_, path);
 
 	return fp;
 }
@@ -115,5 +115,5 @@ void
 x_fclose(FILE *const fp)
 {
 	if (fp != NULL && fclose(fp) == EOF)
-		die(1, "%s: fclose:", _prog);
+		die(1, "%s: fclose:", prog_);
 }

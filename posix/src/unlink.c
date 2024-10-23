@@ -56,5 +56,5 @@ main(int argc, char *argv[])
 		usage();
 
 	if (unlink(*argv))
-		die(1, "%s: unlink '%s':", _prog, *argv);
+		die(1, "%s: unlink '%s':", prog_, *argv);
 }
